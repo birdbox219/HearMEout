@@ -2,10 +2,10 @@
 
 MainComponent::MainComponent()
 {
-    formatManager.registerBasicFormats();
+   
 
     // Add buttons
-    for (auto* btn : { &loadButton, &restartButton , &stopButton })
+    for (auto* btn : { &loadButton, &playButton , &stopButton  })
     {
         btn->addListener(this);
         addAndMakeVisible(btn);
@@ -25,21 +25,23 @@ MainComponent::~MainComponent()
 {
     shutdownAudio();
 }
-
+//----------------------------------------------------------------
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
-    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    player.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    transportSource.getNextAudioBlock(bufferToFill);
+    player.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
 {
-    transportSource.releaseResources();
+    player.releaseResources();
 }
+//----------------------------------------------------------------
+
 
 void MainComponent::paint(juce::Graphics& g)
 {
@@ -50,7 +52,7 @@ void MainComponent::resized()
 {
     int y = 20;
     loadButton.setBounds(20, y, 100, 40);
-    restartButton.setBounds(140, y, 80, 40);
+    playButton.setBounds(140, y, 80, 40);
     stopButton.setBounds(240, y, 80, 40);
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
@@ -62,52 +64,25 @@ void MainComponent::buttonClicked(juce::Button* button)
 {
     if (button == &loadButton)
     {
-        juce::FileChooser chooser("Select audio files...",
-            juce::File{},
-            "*.wav;*.mp3");
-
         fileChooser = std::make_unique<juce::FileChooser>(
-            "Select an audio file...",
-            juce::File{},
-            "*.wav;*.mp3");
+            "Select an audio file...", juce::File{}, "*.wav;*.mp3");
 
         fileChooser->launchAsync(
             juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
             [this](const juce::FileChooser& fc)
             {
                 auto file = fc.getResult();
-                if (file.existsAsFile())
-                {
-                    if (auto* reader = formatManager.createReaderFor(file))
-                    {
-                        // 🔑 Disconnect old source first
-                        transportSource.stop();
-                        transportSource.setSource(nullptr);
-                        readerSource.reset();
-
-                        // Create new reader source
-                        readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-
-                        // Attach safely
-                        transportSource.setSource(readerSource.get(),
-                            0,
-                            nullptr,
-                            reader->sampleRate);
-                        transportSource.start();
-                    }
-                }
+                player.loadFile(file);
             });
     }
 
-    if (button == &restartButton)
+    else if (button == &playButton)
     {
-        transportSource.start();
+        player.Start();
     }
-
-    if (button == &stopButton)
+    else if (button == &stopButton)
     {
-        transportSource.stop();
-        transportSource.setPosition(0.0);
+        player.Stop();
     }
 
 }
@@ -115,5 +90,5 @@ void MainComponent::buttonClicked(juce::Button* button)
 void MainComponent::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &volumeSlider)
-        transportSource.setGain((float)slider->getValue());
+        player.setGain((float)slider->getValue());
 }

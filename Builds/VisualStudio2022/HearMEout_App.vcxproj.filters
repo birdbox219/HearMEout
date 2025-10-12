@@ -658,6 +658,12 @@
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>HearMEout\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\PlayerAudio.cpp">
+      <Filter>HearMEout\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PlayerGUI.cpp">
+      <Filter>HearMEout\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\AudioDev\JUCE\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClCompile>
@@ -3520,6 +3526,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h">
+      <Filter>HearMEout\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PlayerAudio.h">
+      <Filter>HearMEout\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PlayerGUI.h">
       <Filter>HearMEout\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\AudioDev\JUCE\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

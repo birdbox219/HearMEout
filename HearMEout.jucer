@@ -8,6 +8,10 @@
       <FILE id="jkwpup" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="bzgaQZ" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="kt2X8a" name="PlayerAudio.cpp" compile="1" resource="0" file="Source/PlayerAudio.cpp"/>
+      <FILE id="hT37kd" name="PlayerAudio.h" compile="0" resource="0" file="Source/PlayerAudio.h"/>
+      <FILE id="nXnG5R" name="PlayerGUI.cpp" compile="1" resource="0" file="Source/PlayerGUI.cpp"/>
+      <FILE id="kllc15" name="PlayerGUI.h" compile="0" resource="0" file="Source/PlayerGUI.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

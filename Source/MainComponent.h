@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include <vector>
+#include "PlayerAudio.h"
 
 class MainComponent : public juce::AudioAppComponent,
     public juce::Button::Listener,
@@ -26,18 +27,19 @@ public:
 
 private:
     // Audio
-    juce::AudioFormatManager formatManager;
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-    juce::AudioTransportSource transportSource;
+	PlayerAudio player;
 
     // GUI Controls
     juce::TextButton loadButton{ "Load Files" };
-    juce::TextButton restartButton{ "Restart" };
+    //juce::TextButton restartButton{ "Restart" };
+	juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
     juce::Slider volumeSlider;
 
     //void loadTrack(const juce::File& file);
     std::unique_ptr<juce::FileChooser> fileChooser;
+
+    
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

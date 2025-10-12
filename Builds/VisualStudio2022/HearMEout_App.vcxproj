@@ -148,6 +148,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
+    <ClCompile Include="..\..\Source\PlayerAudio.cpp"/>
+    <ClCompile Include="..\..\Source\PlayerGUI.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\..\AudioDev\JUCE\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2842,6 +2844,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
+    <ClInclude Include="..\..\Source\PlayerAudio.h"/>
+    <ClInclude Include="..\..\Source\PlayerGUI.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\AudioDev\JUCE\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\AudioDev\JUCE\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\AudioDev\JUCE\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
