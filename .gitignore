@@ -364,4 +364,4 @@ FodyWeavers.xsd
 
 
 # === Custom Ignores ===
-builds/
+Builds/
