@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/cmake_install.cmake",
+		"D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/cmake_install.cmake",
+		"D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/modules/cmake_install.cmake",
+		"D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/extras/Build/cmake_install.cmake",
+		"D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/extras/Build/juceaide/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

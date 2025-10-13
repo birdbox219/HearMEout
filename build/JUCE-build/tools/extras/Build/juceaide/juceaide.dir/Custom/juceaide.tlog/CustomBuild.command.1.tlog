@@ -1,0 +1,10 @@
+^D:\PROGRAMMING\MSYS2_SETUP\HOME\AMRAT\JUCE\EXTRAS\BUILD\JUCEAIDE\CMAKELISTS.TXT
+setlocal
+D:\programming\MSYS2_SETUP\mingw64\bin\cmake.exe -SD:/programming/MSYS2_SETUP/home/amrat/JUCE -BD:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools --check-stamp-file D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/extras/Build/juceaide/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

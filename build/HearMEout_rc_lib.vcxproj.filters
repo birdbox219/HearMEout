@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\CMakeFiles\42184d4902ad24b7f54aa800bbad3a00\HearMEout_resources.rc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\HearMEout_artefacts\JuceLibraryCode\HearMEout_resources.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B1B825FB-373D-3DE0-AA9A-98059B8A324C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{28A4551F-7AA7-32A7-BD67-60906130AA16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

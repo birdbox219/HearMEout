@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\JUCE-build\tools\x64\Custom\ZERO_CHECK</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\JUCE-build\tools\extras\Build\juceaide\juceaide_artefacts\Custom\juceaide.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

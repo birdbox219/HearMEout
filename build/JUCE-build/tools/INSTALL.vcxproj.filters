@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\JUCE-build\tools\CMakeFiles\2e1445b4ade0dc556af267e0c9af4929\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B23545E5-F7A0-3F28-901B-7F454FB75408}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
