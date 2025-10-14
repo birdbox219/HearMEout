@@ -66,6 +66,22 @@ void PlayerAudio::setLooping(bool shouldLoop)
     }
 }
 
+void PlayerAudio::toggleMute()
+{
+    if (isMuted)
+    {
+        // Unmute: restore previous volume
+        transportSource.setGain(lastGain);
+        isMuted = false;
+    }
+    else
+    {
+        // Mute: save current volume and set to 0
+        lastGain = transportSource.getGain();
+        transportSource.setGain(0.0f);
+        isMuted = true;
+    }
+}
 
 
 //----------------------------------------------------------------//

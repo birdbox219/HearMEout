@@ -1,13 +1,6 @@
 ﻿#pragma once
 # include "JuceHeader.h"
 
-
-
-
-
-
-
-
 class PlayerGUI : public juce::Component
 
 {
@@ -22,12 +15,13 @@ public:
     //void sliderValueChanged(juce::Slider* slider) override;
     juce::TextButton loadButton{ "Load Files" };
     //juce::TextButton restartButton{ "Restart" };
-    //juce::TextButton playButton{ "Play" };
+    juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
     juce::TextButton goStartButton{ "Go to start" };
     juce::TextButton goEndButton{ "Go to end" };
     juce::TextButton loopButton{ "Loop" };
     juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };
+    juce::TextButton muteButton{"Mute"};
 
     juce::Image stopImageIcon;
     juce::Image stopImageOverIcon;
@@ -43,7 +37,7 @@ public:
     
     
 
-   
+
 
 
 private:

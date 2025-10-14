@@ -18,7 +18,11 @@ public:
 	void setGain(float gain);
 	void goStart();
 	void goEnd();
-	
+	void toggleMute();
+
+	bool isMuted = false;     // to remember if sound is muted
+	float lastGain = 0.5f;    // to remember the old volume
+
 
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
 	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
