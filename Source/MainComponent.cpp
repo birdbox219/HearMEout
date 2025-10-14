@@ -11,13 +11,20 @@ MainComponent::MainComponent()
 
     playerGUI.loadButton.addListener(this);
     playerGUI.stopButton.addListener(this);
-    playerGUI.playButton.addListener(this);
+    //playerGUI.playButton.addListener(this);
+    playerGUI.startIcon.addListener(this);
     playerGUI.loopButton.addListener(this);
+
+
+    playerGUI.startIcon.addListener(this);
+
     playerGUI.volumeSlider.addListener(this);
 
     playerGUI.stopButton.setVisible(false);
-    playerGUI.playButton.setVisible(true);
+    //playerGUI.playButton.setVisible(true);
     playerGUI.loopButton.setVisible(true);
+
+    playerGUI.startIcon.setVisible(true);
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -101,17 +108,17 @@ void MainComponent::buttonClicked(juce::Button* button)
     
 
 
-    else if (button == &playerGUI.playButton)
+    else if (button == &playerGUI.startIcon)
     {
         player.Start();
-		HideButtons(playerGUI.playButton);
+		HideButtons(playerGUI.startIcon);
 		ShowButtons(playerGUI.stopButton);
     }
     else if (button == &playerGUI.stopButton)
     {
         player.Stop();
 		HideButtons(playerGUI.stopButton);
-		ShowButtons(playerGUI.playButton);
+		ShowButtons(playerGUI.startIcon);
     }
 
     else if (button == &playerGUI.loopButton)

@@ -365,3 +365,5 @@ FodyWeavers.xsd
 
 # === Custom Ignores ===
 Builds/
+
+JuceLibraryCode/
