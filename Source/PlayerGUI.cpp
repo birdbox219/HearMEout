@@ -21,12 +21,23 @@ PlayerGUI::PlayerGUI()
 
     loopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
 
-    stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop.png"));
+    /*stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("D:/FCAI_SecondLevel/OOP/A_2/HearMEouT/HearMEout/Assetes/paused.png"));*/
+    stopImageIcon = juce::ImageCache::getFromMemory(
+        BinaryData::paused_png,
+        BinaryData::paused_pngSize
+    );
+    
+
+
     stopImageOverIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_hover.png"));
     stopImageDownIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_pressed.png"));
 
+    
+    
     if (stopImageIcon.isValid())
     {
+        
+
         stopButtonIcon.setImages(true , true ,true, 
             
             stopImageIcon, 1.0f, juce::Colours::transparentBlack,
@@ -71,7 +82,7 @@ void PlayerGUI::resized()
     loopButton.setBounds(240, y, 80, 40);
 
     startIcon.setBounds(450, 500, 60, 60);
-    stopButtonIcon.setBounds(450,500, 60, 60);
+    stopButtonIcon.setBounds(300,500, 60, 60);
 
     
 

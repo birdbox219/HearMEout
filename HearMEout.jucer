@@ -3,6 +3,9 @@
 <JUCERPROJECT id="G87jUw" name="HearMEout" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="lyqpY0" name="HearMEout">
+    <GROUP id="{E1ECB79E-1B0B-FF38-B5E6-131670820705}" name="Assets">
+      <FILE id="OhCfum" name="paused.png" compile="0" resource="1" file="paused.png"/>
+    </GROUP>
     <GROUP id="{7E558E29-4397-038A-F1C6-354E61356884}" name="Source">
       <FILE id="XBGN7u" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="jkwpup" name="MainComponent.cpp" compile="1" resource="0"

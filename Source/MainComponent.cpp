@@ -17,6 +17,7 @@ MainComponent::MainComponent()
 
 
     playerGUI.startIcon.addListener(this);
+    playerGUI.stopButtonIcon.addListener(this);
 
     playerGUI.volumeSlider.addListener(this);
 
@@ -25,6 +26,7 @@ MainComponent::MainComponent()
     playerGUI.loopButton.setVisible(true);
 
     playerGUI.startIcon.setVisible(true);
+    playerGUI.stopButtonIcon.setVisible(true);
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
