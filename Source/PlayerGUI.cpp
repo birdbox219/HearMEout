@@ -1,21 +1,43 @@
 ﻿#include "PlayerGUI.h"
 
+
 PlayerGUI::PlayerGUI()
 {
-    //for (auto* btn : { &loadButton, &playButton , &stopButton })
-    //{
-    //    //btn->addListener(this);
-    //    addAndMakeVisible(btn);
-    //}
+    
 
 
 
     addAndMakeVisible(loadButton);
-    addAndMakeVisible(playButton);
+    //addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(goStartButton);
     addAndMakeVisible(goEndButton);
     addAndMakeVisible(title);
+    addAndMakeVisible(stopButtonIcon);
+    
+    addAndMakeVisible(loopButton);
+    addAndMakeVisible(startIcon);
+
+
+    
+    
+
+    loopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+
+    stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop.png"));
+    stopImageOverIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_hover.png"));
+    stopImageDownIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_pressed.png"));
+
+    if (stopImageIcon.isValid())
+    {
+        stopButtonIcon.setImages(true , true ,true, 
+            
+            stopImageIcon, 1.0f, juce::Colours::transparentBlack,
+            stopImageOverIcon, 1.0f, juce::Colours::transparentBlack,
+            stopImageDownIcon, 1.0f, juce::Colours::transparentBlack);
+            
+            
+    }
     
 
 
@@ -49,6 +71,19 @@ void PlayerGUI::resized()
     goStartButton.setBounds(20,80,100,40);
     goEndButton.setBounds(140, 80, 100, 40);
     title.setBounds(340, 80, 100, 40);
+
+    //playButton.setBounds(140, y, 80, 40);
+
+    stopButton.setBounds(450, 500, 40, 40);
+
+    loopButton.setBounds(240, y, 80, 40);
+
+    startIcon.setBounds(450, 500, 60, 60);
+    stopButtonIcon.setBounds(450,500, 60, 60);
+
+    
+
+
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
 

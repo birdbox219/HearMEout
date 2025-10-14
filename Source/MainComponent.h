@@ -2,6 +2,8 @@
 
 #include <JuceHeader.h>
 #include <vector>
+
+
 #include "PlayerAudio.h"
 #include "PlayerGUI.h"
 
@@ -25,6 +27,9 @@ public:
     // Event handlers
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
+
+    void ShowButtons(juce::Button &button);
+    void HideButtons(juce::Button &button);
 
 private:
     // Audio

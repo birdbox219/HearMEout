@@ -4,12 +4,14 @@ PlayerAudio::PlayerAudio()
 
 {
 	formatManager.registerBasicFormats();
+    transportSource.addChangeListener(this);
 
 	
 }
 
 PlayerAudio::~PlayerAudio()
 {
+    transportSource.removeChangeListener(this);
     transportSource.setSource(nullptr);
 }
 
@@ -54,6 +56,16 @@ void PlayerAudio::goEnd() {
  }
 
 
+void PlayerAudio::setLooping(bool shouldLoop)
+{
+    isLoopingEnabled = shouldLoop;
+
+    if (readerSource)
+    {
+        readerSource->setLooping(shouldLoop);
+    }
+}
+
 
 
 //----------------------------------------------------------------//
@@ -72,3 +84,17 @@ void PlayerAudio::releaseResources()
 {
 	transportSource.releaseResources();
 }
+
+void PlayerAudio::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    if (source == &transportSource)
+    {
+        if (transportSource.hasStreamFinished() && isLoopingEnabled)
+        {
+            transportSource.setPosition(0.0);
+            transportSource.start();
+        }
+    }
+}
+
+

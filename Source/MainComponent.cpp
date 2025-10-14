@@ -11,11 +11,23 @@ MainComponent::MainComponent()
 
     playerGUI.loadButton.addListener(this);
     playerGUI.stopButton.addListener(this);
-    playerGUI.playButton.addListener(this);
+    //playerGUI.playButton.addListener(this);
+    playerGUI.startIcon.addListener(this);
+    playerGUI.loopButton.addListener(this);
+
+
+    playerGUI.startIcon.addListener(this);
+
     playerGUI.volumeSlider.addListener(this);
     playerGUI.goStartButton.addListener(this);
     playerGUI.goEndButton.addListener(this);
 
+
+    playerGUI.stopButton.setVisible(false);
+    //playerGUI.playButton.setVisible(true);
+    playerGUI.loopButton.setVisible(true);
+
+    playerGUI.startIcon.setVisible(true);
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -80,6 +92,7 @@ void MainComponent::resized()
 
 void MainComponent::buttonClicked(juce::Button* button)
 {
+    
     if (button == &playerGUI.loadButton)
     {
         fileChooser = std::make_unique<juce::FileChooser>(
@@ -101,13 +114,21 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     }
 
-    else if (button == &playerGUI.playButton)
+
+    
+
+
+    else if (button == &playerGUI.startIcon)
     {
         player.Start();
+		HideButtons(playerGUI.startIcon);
+		ShowButtons(playerGUI.stopButton);
     }
     else if (button == &playerGUI.stopButton)
     {
         player.Stop();
+		HideButtons(playerGUI.stopButton);
+		ShowButtons(playerGUI.startIcon);
     }
     else if (button == &playerGUI.goStartButton) {
         player.goStart();
@@ -116,10 +137,37 @@ void MainComponent::buttonClicked(juce::Button* button)
         player.goEnd();
     }
 
+    else if (button == &playerGUI.loopButton)
+    {
+        bool currentlyLooping = player.isLooping();
+        player.setLooping(!currentlyLooping);
+
+        playerGUI.loopButton.setColour(
+            juce::TextButton::buttonColourId,
+            player.isLooping() ? juce::Colours::orangered : juce::Colours::darkgrey
+        );
+            
+        
+    }
+
+
+
+    //the rest
+
+
 }
 
 void MainComponent::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &playerGUI.volumeSlider)
         player.setGain((float)slider->getValue());
+}
+
+void MainComponent::ShowButtons(juce::Button& button)
+{
+	button.setVisible(true);
+}
+void MainComponent::HideButtons(juce::Button& button)
+{
+    button.setVisible(false);
 }
