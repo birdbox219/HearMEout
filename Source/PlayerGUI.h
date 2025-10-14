@@ -18,6 +18,8 @@ public:
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
     juce::TextButton muteButton{"Mute"};
+    juce::TextButton loopButton{ "Loop" };
+
     juce::Slider volumeSlider;
 
 
