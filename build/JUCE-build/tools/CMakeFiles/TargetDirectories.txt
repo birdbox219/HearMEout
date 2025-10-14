@@ -1,7 +1,0 @@
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/CMakeFiles/INSTALL.dir
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/CMakeFiles/ALL_BUILD.dir
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/CMakeFiles/ZERO_CHECK.dir
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/modules/CMakeFiles/INSTALL.dir
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/extras/Build/CMakeFiles/INSTALL.dir
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/extras/Build/juceaide/CMakeFiles/juceaide.dir
-D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/build/JUCE-build/tools/extras/Build/juceaide/CMakeFiles/INSTALL.dir
