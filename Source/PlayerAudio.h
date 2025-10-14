@@ -19,7 +19,7 @@ public:
 	void goStart();
 	void goEnd();
 	void toggleMute();
-
+	void setSpeed(double precent);
 	bool isMuted = false;     // to remember if sound is muted
 	float lastGain = 0.5f;    // to remember the old volume
 
@@ -34,6 +34,8 @@ private:
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 	juce::AudioTransportSource transportSource;
+	juce::ResamplingAudioSource respeeder { &transportSource, false, 2 };//for speed.
+
 
 	bool isLoopingEnabled = false;
 

@@ -30,6 +30,7 @@ public:
     juce::ImageButton stopButtonIcon;
 
     juce::Slider volumeSlider;
+    juce::Slider speedSlider;
     juce::Label title;
 
     void metaData(juce::String& fileName);

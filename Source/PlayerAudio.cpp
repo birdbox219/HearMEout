@@ -5,7 +5,7 @@ PlayerAudio::PlayerAudio()
 {
 	formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
-
+    
 	
 }
 
@@ -66,6 +66,12 @@ void PlayerAudio::setLooping(bool shouldLoop)
     }
 }
 
+void PlayerAudio::setSpeed(double ratio)
+{
+    respeeder.setResamplingRatio(ratio);
+}
+
+
 void PlayerAudio::toggleMute()
 {
     if (isMuted)
@@ -85,20 +91,22 @@ void PlayerAudio::toggleMute()
 
 
 //----------------------------------------------------------------//
-
+// i need to edit this later to fix speed bug ~amr.
 void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    respeeder.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	transportSource.getNextAudioBlock(bufferToFill);
+	respeeder.getNextAudioBlock(bufferToFill);
 }
 
 void PlayerAudio::releaseResources()
 {
 	transportSource.releaseResources();
+    respeeder.releaseResources();
 }
 
 void PlayerAudio::changeListenerCallback(juce::ChangeBroadcaster* source)

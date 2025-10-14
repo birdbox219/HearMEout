@@ -23,6 +23,7 @@ MainComponent::MainComponent()
     playerGUI.volumeSlider.addListener(this);
     playerGUI.goStartButton.addListener(this);
     playerGUI.goEndButton.addListener(this);
+    playerGUI.speedSlider.addListener(this);
 
 
     //playerGUI.stopButton.setVisible(false);
@@ -31,7 +32,7 @@ MainComponent::MainComponent()
 
     playerGUI.startIcon.setVisible(true);
     playerGUI.stopButtonIcon.setVisible(false);
-
+    
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
     {
@@ -175,6 +176,11 @@ void MainComponent::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &playerGUI.volumeSlider)
         player.setGain((float)slider->getValue());
+    
+    if (slider == &playerGUI.speedSlider)
+    {
+        player.setSpeed(slider->getValue());
+    }
 }
 
 void MainComponent::ShowButtons(juce::Button& button)

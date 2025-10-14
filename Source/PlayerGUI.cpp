@@ -18,6 +18,11 @@ PlayerGUI::PlayerGUI()
 
     addAndMakeVisible(loopButton);
     addAndMakeVisible(startIcon);
+    addAndMakeVisible(speedSlider);
+    speedSlider.setRange(0.1, 3.0, 0.01);
+    speedSlider.setValue(1.0);              
+    speedSlider.setTextValueSuffix("x");
+    speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 20);
 
 
     
@@ -26,10 +31,11 @@ PlayerGUI::PlayerGUI()
     loopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
 
     /*stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("D:/FCAI_SecondLevel/OOP/A_2/HearMEouT/HearMEout/Assetes/paused.png"));*/
-    stopImageIcon = juce::ImageCache::getFromMemory(
-        BinaryData::pasueBlue_png,
-        BinaryData::pasueBlue_pngSize
-    );
+    //i have an error here i don't have  BinaryData...? but i didn't touch the logic just uncomment it.
+    // stopImageIcon = juce::ImageCache::getFromMemory(
+    //     BinaryData::pasueBlue_png, 
+    //     BinaryData::pasueBlue_pngSize
+    // );
     
 
 
@@ -84,6 +90,8 @@ void PlayerGUI::resized()
     goEndButton.setBounds(550, 500, 100, 40);
     title.setBounds(340, 80, 100, 40);
     muteButton.setBounds(100, 500, 100, 40);
+    speedSlider.setBounds(20, 250, getWidth() - 40, 30);//audio speed length and width.
+
 
 
     //playButton.setBounds(140, y, 80, 40);
