@@ -14,7 +14,8 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(goEndButton);
     addAndMakeVisible(title);
     addAndMakeVisible(stopButtonIcon);
-    
+    addAndMakeVisible(muteButton);
+
     addAndMakeVisible(loopButton);
     addAndMakeVisible(startIcon);
 
@@ -66,11 +67,13 @@ void PlayerGUI::resized()
 {
     int y = 20;
     loadButton.setBounds(20, y, 100, 40);
-    playButton.setBounds(140, y, 80, 40);
+    playButton.setBounds(140, y, 80, 40);// it was like this i don't know if you need it or no -amr.
     stopButton.setBounds(240, y, 80, 40);
     goStartButton.setBounds(20,80,100,40);
     goEndButton.setBounds(140, 80, 100, 40);
     title.setBounds(340, 80, 100, 40);
+    muteButton.setBounds(260, 150, 100, 40);
+
 
     //playButton.setBounds(140, y, 80, 40);
 

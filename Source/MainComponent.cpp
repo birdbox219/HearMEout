@@ -14,6 +14,7 @@ MainComponent::MainComponent()
     //playerGUI.playButton.addListener(this);
     playerGUI.startIcon.addListener(this);
     playerGUI.loopButton.addListener(this);
+    playerGUI.muteButton.addListener(this);
 
 
     playerGUI.startIcon.addListener(this);
@@ -149,6 +150,17 @@ void MainComponent::buttonClicked(juce::Button* button)
             
         
     }
+    else if (button == &playerGUI.muteButton)
+{
+    player.toggleMute();  // tell PlayerAudio to toggle mute state
+
+    // Change the button text to show current state
+    if (player.isMuted)
+        playerGUI.muteButton.setButtonText("Unmute");
+    else
+        playerGUI.muteButton.setButtonText("Mute");
+}
+
 
 
 
