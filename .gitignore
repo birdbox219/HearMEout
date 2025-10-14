@@ -1,9 +1,0 @@
-# Ignore everything by default
-/*
-
-# But do not ignore the Source/ directory and its contents
-!/Source/
-!/Source/**
-
-# Keep the .gitignore file itself under source control normally
-# (we'll show how to protect your local copy below)
