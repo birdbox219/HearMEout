@@ -17,6 +17,8 @@ public:
     //juce::TextButton restartButton{ "Restart" };
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
+    juce::TextButton loopButton{ "Loop" };
+
     juce::Slider volumeSlider;
 
    
