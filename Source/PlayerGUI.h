@@ -2,12 +2,6 @@
 # include "JuceHeader.h"
 
 
-
-
-
-
-
-
 class PlayerGUI : public juce::Component
 
 {
