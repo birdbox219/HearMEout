@@ -24,6 +24,8 @@ public:
     //juce::TextButton restartButton{ "Restart" };
     //juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
+    juce::TextButton goStartButton{ "Go to start" };
+    juce::TextButton goEndButton{ "Go to end" };
     juce::TextButton loopButton{ "Loop" };
     juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };
 
@@ -34,6 +36,9 @@ public:
     juce::ImageButton stopButtonIcon;
 
     juce::Slider volumeSlider;
+    juce::Label title;
+
+    void metaData(juce::String& fileName);
 
     
     

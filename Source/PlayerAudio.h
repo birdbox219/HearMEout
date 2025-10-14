@@ -16,6 +16,9 @@ public:
 	bool isLooping() const { return isLoopingEnabled; }
 
 	void setGain(float gain);
+	void goStart();
+	void goEnd();
+	
 
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
 	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
