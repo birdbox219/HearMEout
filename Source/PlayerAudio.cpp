@@ -46,6 +46,21 @@ void PlayerAudio::Stop()
 	transportSource.stop();
 }
 
+void PlayerAudio::toggleMute()
+{
+    if (isMuted)
+    {
+        transportSource.setGain(lastGain);
+        isMuted = false;
+    }
+    else
+    {
+        lastGain = transportSource.getGain();
+        transportSource.setGain(0.0f);
+        isMuted = true;
+    }
+}
+
 
 
 //----------------------------------------------------------------//

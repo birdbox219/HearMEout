@@ -13,6 +13,7 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(loadButton);
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
+    addAndMakeVisible(muteButton);
     
 
 
@@ -43,6 +44,8 @@ void PlayerGUI::resized()
     loadButton.setBounds(20, y, 100, 40);
     playButton.setBounds(140, y, 80, 40);
     stopButton.setBounds(240, y, 80, 40);
+    muteButton.setBounds(350, 20, 80, 40);
+
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
 

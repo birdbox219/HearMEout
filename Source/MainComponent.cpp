@@ -13,6 +13,7 @@ MainComponent::MainComponent()
     playerGUI.stopButton.addListener(this);
     playerGUI.playButton.addListener(this);
     playerGUI.volumeSlider.addListener(this);
+    playerGUI.muteButton.addListener(this);
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -98,6 +99,14 @@ void MainComponent::buttonClicked(juce::Button* button)
     else if (button == &playerGUI.stopButton)
     {
         player.Stop();
+    }
+    else if (button == &playerGUI.muteButton)
+    {
+        player.toggleMute();
+        if (player.isMuted)
+            playerGUI.muteButton.setButtonText("Unmute");
+        else
+            playerGUI.muteButton.setButtonText("Mute");
     }
 
 }
