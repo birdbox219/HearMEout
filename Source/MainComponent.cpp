@@ -1,4 +1,4 @@
-#include "MainComponent.h"
+﻿#include "MainComponent.h"
 /*
 Keep working on this project structure dont change witout permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -10,25 +10,27 @@ MainComponent::MainComponent()
     addAndMakeVisible(playerGUI);
 
     playerGUI.loadButton.addListener(this);
-    playerGUI.stopButton.addListener(this);
+    //playerGUI.stopButton.addListener(this);
     //playerGUI.playButton.addListener(this);
-    playerGUI.startIcon.addListener(this);
+    
     playerGUI.loopButton.addListener(this);
     playerGUI.muteButton.addListener(this);
 
 
     playerGUI.startIcon.addListener(this);
+    playerGUI.stopButtonIcon.addListener(this);
 
     playerGUI.volumeSlider.addListener(this);
     playerGUI.goStartButton.addListener(this);
     playerGUI.goEndButton.addListener(this);
 
 
-    playerGUI.stopButton.setVisible(false);
+    //playerGUI.stopButton.setVisible(false);
     //playerGUI.playButton.setVisible(true);
     playerGUI.loopButton.setVisible(true);
 
     playerGUI.startIcon.setVisible(true);
+    playerGUI.stopButtonIcon.setVisible(false);
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -123,12 +125,12 @@ void MainComponent::buttonClicked(juce::Button* button)
     {
         player.Start();
 		HideButtons(playerGUI.startIcon);
-		ShowButtons(playerGUI.stopButton);
+		ShowButtons(playerGUI.stopButtonIcon);
     }
-    else if (button == &playerGUI.stopButton)
+    else if (button == &playerGUI.stopButtonIcon)
     {
         player.Stop();
-		HideButtons(playerGUI.stopButton);
+		HideButtons(playerGUI.stopButtonIcon);
 		ShowButtons(playerGUI.startIcon);
     }
     else if (button == &playerGUI.goStartButton) {
