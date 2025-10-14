@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "name": "Win64",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/JuceLibraryCode",
+        "${workspaceFolder}/build",
+        "${workspaceFolder}/build/HearMEout_artefacts",
+        "${workspaceFolder}/build/HearMEout_artefacts/JuceLibraryCode",
+        "D:/programming/MSYS2_SETUP/home/amrat/JUCE/modules"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE",
+        "JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
+        "JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
+        "JUCE_MODULE_AVAILABLE_juce_audio_formats=1",
+        "JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
+        "JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
+        "JUCE_MODULE_AVAILABLE_juce_gui_extra=1",
+        "JUCE_MODULE_AVAILABLE_juce_audio_processors=1"
+      ],
+      "windowsSdkVersion": "10.0.22621.0",
+      "compilerPath": "D:/programming/VSC2022/p1/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "windows-msvc-x64",
+      "configurationProvider": "ms-vscode.cmake-tools"
+    }
+  ],
+  "version": 4
+}

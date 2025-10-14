@@ -7,6 +7,7 @@ set(OLD_GLOB
   "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/Main.cpp"
   "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/MainComponent.cpp"
   "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/PlayerAudio.cpp"
+  "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/PlayerGUI.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -18,6 +19,7 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "D:/programming/MSYS2_SETUP/ho
 set(OLD_GLOB
   "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/MainComponent.h"
   "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/PlayerAudio.h"
+  "D:/programming/MSYS2_SETUP/home/amrat/JUCE/projects/HearMEout/Source/PlayerGUI.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

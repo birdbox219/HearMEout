@@ -10,6 +10,9 @@
     <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\Source\PlayerAudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\Source\PlayerGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\modules\juce_core\juce_core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,6 +43,9 @@
     <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\modules\juce_audio_utils\juce_audio_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,19 +61,25 @@
     <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\HearMEout_artefacts\JuceLibraryCode\JuceHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\Source\MainComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\Source\PlayerAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\Source\PlayerGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\build\CMakeFiles\42184d4902ad24b7f54aa800bbad3a00\JuceHeader.h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
     <CustomBuild Include="D:\programming\MSYS2_SETUP\home\amrat\JUCE\projects\HearMEout\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +88,9 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B1B825FB-373D-3DE0-AA9A-98059B8A324C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{4F56E857-B17D-394C-8987-148B117E342D}</UniqueIdentifier>
     </Filter>

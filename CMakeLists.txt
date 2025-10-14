@@ -26,16 +26,7 @@ file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
 # Define the app
 juce_add_gui_app(HearMEout PRODUCT_NAME "HearMEout")
 
-target_sources(HearMEout PRIVATE ${PROJECT_SOURCES})
-
-# 👇 Add this so compiler can find JuceHeader.h
-target_include_directories(HearMEout
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode
-        ${JUCE_DIR}/modules
-)
-
-# Link JUCE modules
+# Link JUCE modules first (so JUCE CMake target machinery can set up includes, compile definitions, etc.)
 target_link_libraries(HearMEout PRIVATE
     juce::juce_core
     juce::juce_data_structures
@@ -44,6 +35,19 @@ target_link_libraries(HearMEout PRIVATE
     juce::juce_gui_basics
     juce::juce_gui_extra
     juce::juce_audio_basics
+    juce::juce_audio_devices
     juce::juce_audio_utils
     juce::juce_audio_processors
+)
+
+# Generate JuceHeader.h for this target (this makes <JuceHeader.h> available)
+juce_generate_juce_header(HearMEout)
+
+# Then add source files to the target
+target_sources(HearMEout PRIVATE ${PROJECT_SOURCES})
+# Make sure the compiler can find JuceHeader.h
+target_include_directories(HearMEout PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/JuceLibraryCode
+    ${CMAKE_CURRENT_BINARY_DIR}/HearMEout_artefacts/JuceLibraryCode
+    ${JUCE_DIR}/modules
 )
