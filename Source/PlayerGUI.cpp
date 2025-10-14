@@ -77,7 +77,7 @@ void PlayerGUI::resized()
 {
     int y = 20;
     loadButton.setBounds(20, y, 100, 40);
-    playButton.setBounds(140, y, 80, 40);
+    //playButton.setBounds(140, y, 80, 40);
     stopButton.setBounds(240, y, 80, 40);
     goStartButton.setBounds(20,80,100,40);
     goEndButton.setBounds(140, 80, 100, 40);
