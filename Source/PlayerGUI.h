@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 # include "JuceHeader.h"
 
 class PlayerGUI : public juce::Component
@@ -17,9 +17,12 @@ public:
     //juce::TextButton restartButton{ "Restart" };
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
+    juce::TextButton loopButton{ "Loop" };
+
+    juce::TextButton muteButton{"Mute"};
     juce::Slider volumeSlider;
 
-   
+
 
 
 private:

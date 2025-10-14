@@ -12,7 +12,13 @@ MainComponent::MainComponent()
     playerGUI.loadButton.addListener(this);
     playerGUI.stopButton.addListener(this);
     playerGUI.playButton.addListener(this);
+    playerGUI.loopButton.addListener(this);
     playerGUI.volumeSlider.addListener(this);
+    playerGUI.muteButton.addListener(this);
+
+    playerGUI.stopButton.setVisible(false);
+    playerGUI.playButton.setVisible(true);
+    playerGUI.loopButton.setVisible(true);
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -77,6 +83,7 @@ void MainComponent::resized()
 
 void MainComponent::buttonClicked(juce::Button* button)
 {
+    
     if (button == &playerGUI.loadButton)
     {
         fileChooser = std::make_unique<juce::FileChooser>(
@@ -91,14 +98,48 @@ void MainComponent::buttonClicked(juce::Button* button)
             });
     }
 
+
+    
+
+
     else if (button == &playerGUI.playButton)
     {
         player.Start();
+		HideButtons(playerGUI.playButton);
+		ShowButtons(playerGUI.stopButton);
     }
     else if (button == &playerGUI.stopButton)
     {
         player.Stop();
+		HideButtons(playerGUI.stopButton);
+		ShowButtons(playerGUI.playButton);
     }
+    else if (button == &playerGUI.muteButton)
+    {
+        player.toggleMute();
+        if (player.isMuted)
+            playerGUI.muteButton.setButtonText("Unmute");
+        else
+            playerGUI.muteButton.setButtonText("Mute");
+    }
+
+    else if (button == &playerGUI.loopButton)
+    {
+        bool currentlyLooping = player.isLooping();
+        player.setLooping(!currentlyLooping);
+
+        playerGUI.loopButton.setColour(
+            juce::TextButton::buttonColourId,
+            player.isLooping() ? juce::Colours::orangered : juce::Colours::darkgrey
+        );
+            
+        
+    }
+
+
+
+    //the rest
+
 
 }
 
@@ -106,4 +147,13 @@ void MainComponent::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &playerGUI.volumeSlider)
         player.setGain((float)slider->getValue());
+}
+
+void MainComponent::ShowButtons(juce::Button& button)
+{
+	button.setVisible(true);
+}
+void MainComponent::HideButtons(juce::Button& button)
+{
+    button.setVisible(false);
 }
