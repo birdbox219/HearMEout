@@ -9,7 +9,7 @@ PlayerGUI::PlayerGUI()
 
     addAndMakeVisible(loadButton);
     //addAndMakeVisible(playButton);
-    addAndMakeVisible(stopButton);
+    //addAndMakeVisible(stopButton);
     addAndMakeVisible(goStartButton);
     addAndMakeVisible(goEndButton);
     addAndMakeVisible(title);
@@ -26,8 +26,8 @@ PlayerGUI::PlayerGUI()
 
     /*stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("D:/FCAI_SecondLevel/OOP/A_2/HearMEouT/HearMEout/Assetes/paused.png"));*/
     stopImageIcon = juce::ImageCache::getFromMemory(
-        BinaryData::paused_png,
-        BinaryData::paused_pngSize
+        BinaryData::pasueBlue_png,
+        BinaryData::pasueBlue_pngSize
     );
     
 
@@ -78,19 +78,19 @@ void PlayerGUI::resized()
     int y = 20;
     loadButton.setBounds(20, y, 100, 40);
     //playButton.setBounds(140, y, 80, 40);
-    stopButton.setBounds(240, y, 80, 40);
-    goStartButton.setBounds(20,80,100,40);
-    goEndButton.setBounds(140, 80, 100, 40);
+    //stopButton.setBounds(240, y, 80, 40);
+    goStartButton.setBounds(280,500,100,40);
+    goEndButton.setBounds(550, 500, 100, 40);
     title.setBounds(340, 80, 100, 40);
 
     //playButton.setBounds(140, y, 80, 40);
 
-    stopButton.setBounds(450, 500, 40, 40);
+    //stopButton.setBounds(450, 500, 40, 40);
 
-    loopButton.setBounds(240, y, 80, 40);
+    loopButton.setBounds(800, 500, 80, 40);
 
     startIcon.setBounds(450, 500, 60, 60);
-    stopButtonIcon.setBounds(300,500, 60, 60);
+    stopButtonIcon.setBounds(450,500, 60, 60);
 
     
 
