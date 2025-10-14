@@ -13,6 +13,9 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(loadButton);
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
+    addAndMakeVisible(goStartButton);
+    addAndMakeVisible(goEndButton);
+    addAndMakeVisible(title);
     
 
 
@@ -43,9 +46,15 @@ void PlayerGUI::resized()
     loadButton.setBounds(20, y, 100, 40);
     playButton.setBounds(140, y, 80, 40);
     stopButton.setBounds(240, y, 80, 40);
+    goStartButton.setBounds(20,80,100,40);
+    goEndButton.setBounds(140, 80, 100, 40);
+    title.setBounds(340, 80, 100, 40);
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
 
-    volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
+    volumeSlider.setBounds(20, 200, getWidth() - 40, 30);
+}
+void PlayerGUI :: metaData(juce::String& fileName) {
+    title.setText("Title: " + fileName, juce::dontSendNotification);
 }
 

@@ -1,4 +1,4 @@
-﻿#include "MainComponent.h"
+#include "MainComponent.h"
 /*
 Keep working on this project structure dont change witout permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -13,6 +13,9 @@ MainComponent::MainComponent()
     playerGUI.stopButton.addListener(this);
     playerGUI.playButton.addListener(this);
     playerGUI.volumeSlider.addListener(this);
+    playerGUI.goStartButton.addListener(this);
+    playerGUI.goEndButton.addListener(this);
+
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -88,7 +91,14 @@ void MainComponent::buttonClicked(juce::Button* button)
             {
                 auto file = fc.getResult();
                 player.loadFile(file);
+                juce::String fileName = file.getFileNameWithoutExtension();
+            
+                playerGUI.metaData(fileName);
+              
             });
+
+       
+
     }
 
     else if (button == &playerGUI.playButton)
@@ -98,6 +108,12 @@ void MainComponent::buttonClicked(juce::Button* button)
     else if (button == &playerGUI.stopButton)
     {
         player.Stop();
+    }
+    else if (button == &playerGUI.goStartButton) {
+        player.goStart();
+    }
+    else if (button == &playerGUI.goEndButton) {
+        player.goEnd();
     }
 
 }

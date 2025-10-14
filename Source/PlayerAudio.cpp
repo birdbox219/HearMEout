@@ -45,6 +45,14 @@ void PlayerAudio::Stop()
 {
 	transportSource.stop();
 }
+void PlayerAudio::goStart() {
+    transportSource.setPosition(0.0);
+}
+void PlayerAudio::goEnd() {
+  transportSource.setPosition(transportSource.getLengthInSeconds());
+  
+ }
+
 
 
 

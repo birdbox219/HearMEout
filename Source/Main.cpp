@@ -1,4 +1,4 @@
-﻿#include <JuceHeader.h>
+#include <JuceHeader.h>
 #include "MainComponent.h"
 
 /*
@@ -44,7 +44,7 @@ private:
         {
             setUsingNativeTitleBar(true);
             setContentOwned(new MainComponent(), true); // MainComponent = our UI + logic
-            centreWithSize(400, 200);
+           /* centreWithSize(400, 200);*/ centreWithSize(500, 500);
             setVisible(true);
         }
 
