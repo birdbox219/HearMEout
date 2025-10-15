@@ -25,8 +25,8 @@ public:
 
     // Text Buttons
     juce::TextButton loadButton{ "Load Files" };
-    juce::TextButton goStartButton{ "Go to start" };
-    juce::TextButton goEndButton{ "Go to end" };
+    //juce::TextButton goStartButton{ "Go to start" };
+    //juce::TextButton goEndButton{ "Go to end" };
     juce::TextButton loopButton{ "Loop" };
 
     juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };

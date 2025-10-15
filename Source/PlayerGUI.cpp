@@ -27,34 +27,21 @@ PlayerGUI::PlayerGUI()
     
     
     //Icon Manager
-    /*stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("D:/FCAI_SecondLevel/OOP/A_2/HearMEouT/HearMEout/Assetes/paused.png"));*/
-    stopImageIcon = juce::ImageCache::getFromMemory(
-        BinaryData::pasueBlue_png,
-        BinaryData::pasueBlue_pngSize
-        
-    );
- goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
- goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
+    
+
+     
+    stopImageIcon = juce::ImageFileFormat::loadFrom(BinaryData::pauseyellow_png, BinaryData::pauseyellow_pngSize);
+
+    goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
+    goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
     
 
 
-    stopImageOverIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_hover.png"));
-    stopImageDownIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_pressed.png"));
+    
    
 
     
-    if (stopImageIcon.isValid())
-    {
-        
-
-        stopButtonIcon.setImages(true , true ,true, 
-            
-            stopImageIcon, 1.0f, juce::Colours::transparentBlack,
-            stopImageOverIcon, 1.0f, juce::Colours::transparentBlack,
-            stopImageDownIcon, 1.0f, juce::Colours::transparentBlack);
-            
-            
-    }
+    
     //------------------------------------------//
 
 
@@ -139,7 +126,18 @@ void PlayerGUI::resized()
 
     
 
-    
+    if (stopImageIcon.isValid())
+    {
+
+
+        stopButtonIcon.setImages(false, true, true,
+
+            stopImageIcon, 1.0f, juce::Colours::transparentBlack,
+            stopImageOverIcon, 0.8f, juce::Colours::transparentWhite,
+            stopImageDownIcon, 1.0f, juce::Colours::yellow);
+
+
+    }
 
     
     
