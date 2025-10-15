@@ -16,6 +16,10 @@ public:
     //void sliderValueChanged(juce::Slider* slider) override;
     
     //juce::TextButton restartButton{ "Restart" };
+    juce::TextButton playButton{ "Play" };
+    juce::TextButton stopButton{ "Stop" };
+    juce::ImageButton goStartButton;
+    juce::ImageButton goEndButton;
     
 
 
@@ -36,8 +40,11 @@ public:
     juce::Image stopImageIcon;
     juce::Image stopImageOverIcon;
     juce::Image stopImageDownIcon;
-
+    juce::Image goEnd;
+    juce::Image goStart;
     juce::ImageButton stopButtonIcon;
+  
+
 
 
 
