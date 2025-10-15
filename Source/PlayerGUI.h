@@ -10,19 +10,33 @@ public:
 
     void paint(juce::Graphics& g) override;
     void resized() override;
+    void metaData(juce::String& fileName);
 
     //void buttonClicked(juce::Button* button) override;
     //void sliderValueChanged(juce::Slider* slider) override;
-    juce::TextButton loadButton{ "Load Files" };
+    
     //juce::TextButton restartButton{ "Restart" };
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
     juce::ImageButton goStartButton;
     juce::ImageButton goEndButton;
-    juce::TextButton loopButton{ "Loop" };
-    juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };
-    juce::TextButton muteButton{"Mute"};
+    
 
+
+    // Text Buttons
+    juce::TextButton loadButton{ "Load Files" };
+    juce::TextButton goStartButton{ "Go to start" };
+    juce::TextButton goEndButton{ "Go to end" };
+    juce::TextButton loopButton{ "Loop" };
+
+    juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };
+    //juce::TextButton stopButton{ "Stop" };
+
+
+    juce::TextButton muteButton{"Mute"};
+    
+
+    //Icon Buttons
     juce::Image stopImageIcon;
     juce::Image stopImageOverIcon;
     juce::Image stopImageDownIcon;
@@ -32,10 +46,25 @@ public:
   
 
 
+
+
+    //Sliders
     juce::Slider volumeSlider;
+    juce::Slider progressSlider;
+
+
+
+
+
+
+    // Lebels
     juce::Label title;
 
-    void metaData(juce::String& fileName);
+    juce::Label currentTimeLabel;
+    juce::Label TotalTimeLabel;
+
+
+    
 
     
     

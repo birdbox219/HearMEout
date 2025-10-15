@@ -83,6 +83,28 @@ void PlayerAudio::toggleMute()
     }
 }
 
+//Get postion and total lenght of Audio 
+
+float PlayerAudio::getPreviousGain() const
+{
+    return lastGain;
+}
+
+double PlayerAudio::getCurrentPosition() const
+{
+    return transportSource.getCurrentPosition();
+}
+
+double PlayerAudio::getTotalLength() const
+{
+    return transportSource.getLengthInSeconds();
+}
+
+void PlayerAudio::setPosition(double newPositon)
+{
+    transportSource.setPosition(newPositon);
+}
+
 
 //----------------------------------------------------------------//
 
@@ -100,6 +122,20 @@ void PlayerAudio::releaseResources()
 {
 	transportSource.releaseResources();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void PlayerAudio::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
