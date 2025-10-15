@@ -29,12 +29,16 @@ PlayerGUI::PlayerGUI()
     stopImageIcon = juce::ImageCache::getFromMemory(
         BinaryData::pasueBlue_png,
         BinaryData::pasueBlue_pngSize
+        
     );
+ goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
+ goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
     
 
 
     stopImageOverIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_hover.png"));
     stopImageDownIcon = juce::ImageFileFormat::loadFrom(juce::File("Assets/stop_pressed.png"));
+   
 
     
     
@@ -96,7 +100,23 @@ void PlayerGUI::resized()
     stopButtonIcon.setBounds(450,500, 60, 60);
 
     
-
+    goEndButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        goEnd, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        goEnd, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        goEnd, 1.0f, juce::Colours::yellow  //Pressed
+     
+    );
+    goStartButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        goStart, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        goStart, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        goStart, 1.0f, juce::Colours::yellow  //Pressed
+    );
 
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/

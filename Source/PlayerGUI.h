@@ -17,8 +17,8 @@ public:
     //juce::TextButton restartButton{ "Restart" };
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
-    juce::TextButton goStartButton{ "Go to start" };
-    juce::TextButton goEndButton{ "Go to end" };
+    juce::ImageButton goStartButton;
+    juce::ImageButton goEndButton;
     juce::TextButton loopButton{ "Loop" };
     juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };
     juce::TextButton muteButton{"Mute"};
@@ -26,8 +26,11 @@ public:
     juce::Image stopImageIcon;
     juce::Image stopImageOverIcon;
     juce::Image stopImageDownIcon;
-
+    juce::Image goEnd;
+    juce::Image goStart;
     juce::ImageButton stopButtonIcon;
+  
+
 
     juce::Slider volumeSlider;
     juce::Label title;
