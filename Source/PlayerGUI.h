@@ -11,7 +11,7 @@ public:
 
     void paint(juce::Graphics& g) override;
     void resized() override;
-    void metaData(juce::String& fileName);
+    void metaData(juce::String& fileName,double&totalTime);
 
     //void buttonClicked(juce::Button* button) override;
     //void sliderValueChanged(juce::Slider* slider) override;
@@ -60,6 +60,7 @@ public:
 
     // Lebels
     juce::Label title;
+    juce::Label time;
 
     juce::Label currentTimeLabel;
     juce::Label TotalTimeLabel;

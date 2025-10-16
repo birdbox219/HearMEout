@@ -1,4 +1,4 @@
-#include "MainComponent.h"
+﻿#include "MainComponent.h"
 /*
 Keep working on this project structure dont change without permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -102,16 +102,15 @@ void MainComponent::buttonClicked(juce::Button* button)
             {
                 auto file = fc.getResult();
                 player.loadFile(file);
-                juce::String fileName = file.getFileNameWithoutExtension();
-            
-                playerGUI.metaData(fileName);
-
                 double totalTime = player.getTotalLength();
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
-              
+                juce::String fileName = file.getFileNameWithoutExtension();
+                playerGUI.metaData(fileName,totalTime);
+
+               
+       
             });
 
-       
 
     }
 
