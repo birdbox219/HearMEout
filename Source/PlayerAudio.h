@@ -42,7 +42,7 @@ public:
 
 private:
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override;
-
+ 
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 	juce::AudioTransportSource transportSource;

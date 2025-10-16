@@ -17,7 +17,7 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(startIcon);
     addAndMakeVisible(stopButtonIcon);
     
-
+ 
     addAndMakeVisible(loopButton);
     
 
@@ -118,7 +118,7 @@ PlayerGUI::PlayerGUI()
 
 PlayerGUI::~PlayerGUI() {}
 
-
+ 
 void PlayerGUI::paint(juce::Graphics& g)
 {
     g.fillAll(juce::Colours::blueviolet);

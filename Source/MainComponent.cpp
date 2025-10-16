@@ -8,7 +8,7 @@ MainComponent::MainComponent()
 {
    
     addAndMakeVisible(playerGUI);
-
+ 
     playerGUI.loadButton.addListener(this);
     
     
