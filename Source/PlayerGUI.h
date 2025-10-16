@@ -26,7 +26,7 @@ public:
     juce::TextButton skipBackButton { "⏪ 10s" };
     juce::TextButton skipForwardButton { "10s ⏩" };
 
-
+ 
     // Text Buttons
     juce::TextButton loadButton{ "Load Files" };
     //juce::TextButton goStartButton{ "Go to start" };

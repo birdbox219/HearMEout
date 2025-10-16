@@ -78,7 +78,7 @@ void PlayerAudio::skipForward(double seconds)
     if (newPos < transportSource.getLengthInSeconds())
         transportSource.setPosition(newPos);
 }
-
+ 
 void PlayerAudio::skipBackward(double seconds)
 {
     double newPos = transportSource.getCurrentPosition() - seconds;

@@ -54,7 +54,7 @@ private:
 	// GUI
     PlayerGUI playerGUI;
 
-
+ 
     std::unique_ptr<juce::FileChooser> fileChooser;
 
     juce::String formatTime(double seconds);
