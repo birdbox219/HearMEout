@@ -1,4 +1,5 @@
 ﻿#include "PlayerGUI.h"
+#include "BinaryData.h"
 
 
 PlayerGUI::PlayerGUI()
@@ -16,11 +17,20 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(startIcon);
     addAndMakeVisible(stopButtonIcon);
     
-
+ 
     addAndMakeVisible(loopButton);
     
 
     addAndMakeVisible(muteButton);
+    addAndMakeVisible(startIcon);
+    addAndMakeVisible(speedSlider);
+    addAndMakeVisible(skipBackButton);
+    addAndMakeVisible(skipForwardButton);
+    speedSlider.setRange(0.1, 2.0, 0.01);
+    speedSlider.setValue(1.0);
+    speedSlider.setTextValueSuffix("x");
+    speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 20);
+
 
 
     
@@ -31,6 +41,14 @@ PlayerGUI::PlayerGUI()
 
      
     stopImageIcon = juce::ImageFileFormat::loadFrom(BinaryData::pauseyellow_png, BinaryData::pauseyellow_pngSize);
+    /*stopImageIcon = juce::ImageFileFormat::loadFrom(juce::File("D:/FCAI_SecondLevel/OOP/A_2/HearMEouT/HearMEout/Assetes/paused.png"));*/
+    //i have an error here i don't have  BinaryData...? but i didn't touch the logic just uncomment it.
+    // stopImageIcon = juce::ImageCache::getFromMemory(
+    //     BinaryData::pasueBlue_png, 
+    //     BinaryData::pasueBlue_pngSize
+    // );
+    
+
 
     goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
     goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
@@ -100,7 +118,7 @@ PlayerGUI::PlayerGUI()
 
 PlayerGUI::~PlayerGUI() {}
 
-
+ 
 void PlayerGUI::paint(juce::Graphics& g)
 {
     g.fillAll(juce::Colours::blueviolet);
@@ -111,18 +129,28 @@ void PlayerGUI::resized()
     int y = 20;
     loadButton.setBounds(20, y, 100, 40);
     
+     // Side buttons
+    goStartButton.setBounds(200, 500, 100, 40);
+    goEndButton.setBounds(660, 500, 100, 40);
+
+    // Central control icons
     startIcon.setBounds(450, 500, 60, 60);
     stopButtonIcon.setBounds(450, 500, 60, 60);
-    
 
-    goStartButton.setBounds(300,500,100,40);
-    goEndButton.setBounds(550, 500, 100, 40);
+    // New skip buttons
+    skipBackButton.setBounds(370, 510, 60, 40);
+    skipForwardButton.setBounds(530, 510, 60, 40);
+
     title.setBounds(340, 80, 100, 40);
     time.setBounds(340, 100, 100, 40);
 
     loopButton.setBounds(800, 500, 80, 40);
 
-    muteButton.setBounds(100, 500, 100, 40);
+    //mute button
+    muteButton.setBounds(50, 500, 100, 40);
+    //speed slider
+    speedSlider.setBounds(20, progressSlider.getY() - 30, getWidth() - 40, 20);//audio speed length and width.
+
 
 
     

@@ -2,13 +2,13 @@
 /*
 Keep working on this project structure dont change without permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-
+ 
 */
 MainComponent::MainComponent()
 {
    
     addAndMakeVisible(playerGUI);
-
+ 
     playerGUI.loadButton.addListener(this);
     
     
@@ -24,11 +24,15 @@ MainComponent::MainComponent()
     
     playerGUI.goStartButton.addListener(this);
     playerGUI.goEndButton.addListener(this);
+    playerGUI.speedSlider.addListener(this);
 
 
     playerGUI.volumeSlider.addListener(this);
     playerGUI.progressSlider.addListener(this);
     playerGUI.progressSlider.addMouseListener(this, false);
+    //NOTE: I FIGURED WE CAN DO THIS MUCH COOLER THAN IF ELSE DOWN ~amr.
+    playerGUI.skipBackButton.onClick = [this] { player.skipBackward(10.0); };
+    playerGUI.skipForwardButton.onClick = [this] { player.skipForward(10.0); }; 
 
 
     
@@ -36,6 +40,9 @@ MainComponent::MainComponent()
 
     playerGUI.startIcon.setVisible(true);
     playerGUI.stopButtonIcon.setVisible(false);
+    playerGUI.skipBackButton.setVisible(true);
+    playerGUI.skipForwardButton.setVisible(true);
+    
 
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
@@ -60,6 +67,7 @@ MainComponent::~MainComponent()
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     player.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
@@ -87,6 +95,10 @@ void MainComponent::resized()
 
     playerGUI.setBounds(getLocalBounds());
 }
+
+
+
+
 
 void MainComponent::buttonClicked(juce::Button* button)
 {
@@ -157,7 +169,6 @@ void MainComponent::buttonClicked(juce::Button* button)
     {
         player.toggleMute();// tell PlayerAudio to toggle mute state
         playerGUI.volumeSlider.setValue(0.0); // update UI - mahmoud 
-       
 
     // Change the button text to show current state
         if (player.isMuted)
@@ -182,16 +193,21 @@ void MainComponent::buttonClicked(juce::Button* button)
 
 }
 
+
+
 void MainComponent::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &playerGUI.volumeSlider)
     {
         player.setGain((float)slider->getValue());
     }
-       
-
-
-    else if (slider == &playerGUI.progressSlider && isDraggingSlider)
+        
+    if (slider == &playerGUI.speedSlider)
+    {
+        player.setSpeed(slider->getValue());
+    }
+    
+    if (slider == &playerGUI.progressSlider && isDraggingSlider)
     {
         double totalLength = player.getTotalLength();
         double newPosition = slider->getValue() * totalLength;

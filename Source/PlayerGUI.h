@@ -22,8 +22,11 @@ public:
     juce::ImageButton goStartButton;
     juce::ImageButton goEndButton;
     
+    //skip buttons:
+    juce::TextButton skipBackButton { "⏪ 10s" };
+    juce::TextButton skipForwardButton { "10s ⏩" };
 
-
+ 
     // Text Buttons
     juce::TextButton loadButton{ "Load Files" };
     //juce::TextButton goStartButton{ "Go to start" };
@@ -59,6 +62,7 @@ public:
 
 
     // Lebels
+    juce::Slider speedSlider;
     juce::Label title;
     juce::Label time;
 

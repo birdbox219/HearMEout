@@ -5,7 +5,7 @@ PlayerAudio::PlayerAudio()
 {
 	formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
-
+    
 	
 }
 
@@ -66,6 +66,28 @@ void PlayerAudio::setLooping(bool shouldLoop)
     }
 }
 
+void PlayerAudio::setSpeed(double ratio)
+{
+    respeeder.setResamplingRatio(ratio);
+}
+
+// skip 10sec and rewind 10 sec:
+void PlayerAudio::skipForward(double seconds)
+{
+    double newPos = transportSource.getCurrentPosition() + seconds;
+    if (newPos < transportSource.getLengthInSeconds())
+        transportSource.setPosition(newPos);
+}
+  
+void PlayerAudio::skipBackward(double seconds)
+{
+    double newPos = transportSource.getCurrentPosition() - seconds;
+    if (newPos < 0) newPos = 0;
+    transportSource.setPosition(newPos);
+}
+
+
+
 void PlayerAudio::toggleMute()
 {
     if (isMuted)
@@ -107,20 +129,23 @@ void PlayerAudio::setPosition(double newPositon)
 
 
 //----------------------------------------------------------------//
-
+// i need to edit this later to fix speed bug ~amr.
 void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
 	transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    respeeder.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	transportSource.getNextAudioBlock(bufferToFill);
+	respeeder.getNextAudioBlock(bufferToFill);
 }
 
 void PlayerAudio::releaseResources()
 {
+    respeeder.releaseResources();
 	transportSource.releaseResources();
+    
 }
 
 

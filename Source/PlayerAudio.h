@@ -20,12 +20,14 @@ public:
 	void goEnd();
 	void toggleMute();
 
-	bool isMuted = false;     // to remember if sound is muted 
+	void setSpeed(double ratio);
+	bool isMuted = false;     // to remember if sound is muted
 	float lastGain = 0.5f;    // to remember the old volume
 
 	float getPreviousGain() const;
 
-
+	void skipForward(double seconds);
+	void skipBackward(double seconds);
 
 	double getCurrentPosition() const;
 	
@@ -40,13 +42,15 @@ public:
 
 private:
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override;
-
+ 
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 	juce::AudioTransportSource transportSource;
+	juce::ResamplingAudioSource respeeder { &transportSource, false, 2 };//for speed.
+
 
 	bool isLoopingEnabled = false;
-
+ 
 	
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 
