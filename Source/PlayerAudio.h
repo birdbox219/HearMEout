@@ -19,10 +19,22 @@ public:
 	void goStart();
 	void goEnd();
 	void toggleMute();
-	void setSpeed(double precent);
+
+	void setSpeed(double ratio);
 	bool isMuted = false;     // to remember if sound is muted
 	float lastGain = 0.5f;    // to remember the old volume
 
+	float getPreviousGain() const;
+
+	void skipForward(double seconds);
+	void skipBackward(double seconds);
+
+	double getCurrentPosition() const;
+	
+	double getTotalLength() const;
+
+
+	void setPosition(double newPositon);
 
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
 	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;

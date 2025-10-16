@@ -71,6 +71,22 @@ void PlayerAudio::setSpeed(double ratio)
     respeeder.setResamplingRatio(ratio);
 }
 
+// skip 10sec and rewind 10 sec:
+void PlayerAudio::skipForward(double seconds)
+{
+    double newPos = transportSource.getCurrentPosition() + seconds;
+    if (newPos < transportSource.getLengthInSeconds())
+        transportSource.setPosition(newPos);
+}
+
+void PlayerAudio::skipBackward(double seconds)
+{
+    double newPos = transportSource.getCurrentPosition() - seconds;
+    if (newPos < 0) newPos = 0;
+    transportSource.setPosition(newPos);
+}
+
+
 
 void PlayerAudio::toggleMute()
 {
@@ -89,6 +105,28 @@ void PlayerAudio::toggleMute()
     }
 }
 
+//Get postion and total lenght of Audio 
+
+float PlayerAudio::getPreviousGain() const
+{
+    return lastGain;
+}
+
+double PlayerAudio::getCurrentPosition() const
+{
+    return transportSource.getCurrentPosition();
+}
+
+double PlayerAudio::getTotalLength() const
+{
+    return transportSource.getLengthInSeconds();
+}
+
+void PlayerAudio::setPosition(double newPositon)
+{
+    transportSource.setPosition(newPositon);
+}
+
 
 //----------------------------------------------------------------//
 // i need to edit this later to fix speed bug ~amr.
@@ -105,9 +143,24 @@ void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 
 void PlayerAudio::releaseResources()
 {
-	transportSource.releaseResources();
     respeeder.releaseResources();
+	transportSource.releaseResources();
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void PlayerAudio::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
