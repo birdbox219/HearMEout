@@ -13,7 +13,7 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(goStartButton);
     addAndMakeVisible(goEndButton);
     addAndMakeVisible(title);
-
+    addAndMakeVisible(time);
     addAndMakeVisible(startIcon);
     addAndMakeVisible(stopButtonIcon);
     
@@ -142,6 +142,7 @@ void PlayerGUI::resized()
     skipForwardButton.setBounds(530, 510, 60, 40);
 
     title.setBounds(340, 80, 100, 40);
+    time.setBounds(340, 100, 100, 40);
 
     loopButton.setBounds(800, 500, 80, 40);
 
@@ -211,7 +212,24 @@ void PlayerGUI::resized()
 
 
 
-void PlayerGUI :: metaData(juce::String& fileName) {
+void PlayerGUI :: metaData(juce::String& fileName,double &totalTime) {
     title.setText("Title: " + fileName, juce::dontSendNotification);
+    int h = 0; 
+    int m = 0;
+    int s = 0;
+    m = totalTime / 60; 
+    s = int(totalTime) % 60; 
+    if (m >= 60) { h= m / 60; m = m % 60; 
+    time.setText("duration: " + juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s), juce::dontSendNotification);
+    }
+    //added if file less than 60min to will dispaly only mins
+    else
+    {
+        time.setText("duration: " + juce::String(m) + ":" + juce::String(s).paddedLeft('0', 2), juce::dontSendNotification);
+    }
+    
+
+   
+
 }
 
