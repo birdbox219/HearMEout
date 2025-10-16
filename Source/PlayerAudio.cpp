@@ -47,6 +47,14 @@ void PlayerAudio::Stop()
 {
 	transportSource.stop();
 }
+void PlayerAudio::goStart() {
+    transportSource.setPosition(0.0);
+}
+void PlayerAudio::goEnd() {
+  transportSource.setPosition(transportSource.getLengthInSeconds());
+  
+ }
+
 
 void PlayerAudio::setLooping(bool shouldLoop)
 {
@@ -58,6 +66,44 @@ void PlayerAudio::setLooping(bool shouldLoop)
     }
 }
 
+void PlayerAudio::toggleMute()
+{
+    if (isMuted)
+    {
+        // Unmute: restore previous volume
+        transportSource.setGain(lastGain);
+        isMuted = false;
+    }
+    else
+    {
+        // Mute: save current volume and set to 0
+        lastGain = transportSource.getGain();
+        transportSource.setGain(0.0f);
+        isMuted = true;
+    }
+}
+
+//Get postion and total lenght of Audio 
+
+float PlayerAudio::getPreviousGain() const
+{
+    return lastGain;
+}
+
+double PlayerAudio::getCurrentPosition() const
+{
+    return transportSource.getCurrentPosition();
+}
+
+double PlayerAudio::getTotalLength() const
+{
+    return transportSource.getLengthInSeconds();
+}
+
+void PlayerAudio::setPosition(double newPositon)
+{
+    transportSource.setPosition(newPositon);
+}
 
 
 //----------------------------------------------------------------//
@@ -76,6 +122,20 @@ void PlayerAudio::releaseResources()
 {
 	transportSource.releaseResources();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void PlayerAudio::changeListenerCallback(juce::ChangeBroadcaster* source)
 {

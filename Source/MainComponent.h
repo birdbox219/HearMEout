@@ -9,7 +9,9 @@
 
 class MainComponent : public juce::AudioAppComponent,
     public juce::Button::Listener,
-    public juce::Slider::Listener
+    public juce::Slider::Listener,
+    public juce::Timer,
+    public juce::MouseListener
 {
 public:
     MainComponent();
@@ -28,24 +30,36 @@ public:
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
 
+
+    void timerCallback() override;
+
+
+    // GUI MainWindow visuals 
+    /*
+    * Dont touch them ! All effects and visuals will be refactored to PlayerUIvisuls.cpp & PlayerUIvisuals.h -Mahmod
+    * 
+    */
+    void mouseDown(const juce::MouseEvent& event) override;
+    void mouseUp(const juce::MouseEvent& event) override;
+
+
+
     void ShowButtons(juce::Button &button);
     void HideButtons(juce::Button &button);
 
 private:
     // Audio
 	PlayerAudio player;
-	
+
+	// GUI
     PlayerGUI playerGUI;
 
- //   // GUI Controls
- //   juce::TextButton loadButton{ "Load Files" };
- //   //juce::TextButton restartButton{ "Restart" };
-	//juce::TextButton playButton{ "Play" };
- //   juce::TextButton stopButton{ "Stop" };
- //   juce::Slider volumeSlider;
 
-    //void loadTrack(const juce::File& file);
     std::unique_ptr<juce::FileChooser> fileChooser;
+
+    juce::String formatTime(double seconds);
+    bool isDraggingSlider = false;
+
 
     
 

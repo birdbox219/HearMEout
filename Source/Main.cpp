@@ -1,4 +1,4 @@
-﻿#include <JuceHeader.h>
+#include <JuceHeader.h>
 #include "MainComponent.h"
 
 /*
@@ -19,7 +19,7 @@ class SimpleAudioPlayer : public juce::JUCEApplication
 {
 public:
     const juce::String getApplicationName() override { return "HearMeOut"; }
-    const juce::String getApplicationVersion() override { return "0.1"; }
+    const juce::String getApplicationVersion() override { return "0.2"; }
 
     void initialise(const juce::String&) override
     {
