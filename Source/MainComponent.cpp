@@ -106,6 +106,8 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
                 juce::String fileName = file.getFileNameWithoutExtension();
                 playerGUI.metaData(fileName,totalTime);
+                HideButtons(playerGUI.stopButtonIcon);
+                ShowButtons(playerGUI.startIcon);
 
                
        

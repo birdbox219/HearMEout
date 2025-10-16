@@ -191,10 +191,17 @@ void PlayerGUI :: metaData(juce::String& fileName,double &totalTime) {
     int s = 0;
     m = totalTime / 60; 
     s = int(totalTime) % 60; 
-    if (m >= 60) { h= m / 60; m = m % 60; }
-    time.setText("duration: "+ juce::String(h) + ":"+ juce::String(m) + ":"+ juce::String(s),juce::dontSendNotification
-    );
+    if (m >= 60) { h= m / 60; m = m % 60; 
+    time.setText("duration: " + juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s), juce::dontSendNotification);
+    }
+    //added if file less than 60min to will dispaly only mins
+    else
+    {
+        time.setText("duration: " + juce::String(m) + ":" + juce::String(s).paddedLeft('0', 2), juce::dontSendNotification);
+    }
+    
 
+   
 
 }
 
