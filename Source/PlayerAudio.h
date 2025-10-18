@@ -9,7 +9,7 @@ public:
 	PlayerAudio();
 	~PlayerAudio() override;
 
-	void loadFile(const juce::File& file);
+	juce::String loadFile(const juce::File& file);
 	void Start();
 	void Stop();
 	void setLooping(bool shouldLoop);

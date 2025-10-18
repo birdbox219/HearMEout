@@ -14,6 +14,7 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(goEndButton);
     addAndMakeVisible(title);
     addAndMakeVisible(time);
+    addAndMakeVisible(author);
     addAndMakeVisible(startIcon);
     addAndMakeVisible(stopButtonIcon);
     
@@ -143,6 +144,8 @@ void PlayerGUI::resized()
 
     title.setBounds(340, 80, 100, 40);
     time.setBounds(340, 100, 100, 40);
+    author.setBounds(340, 120, 100, 40);
+    
 
     loopButton.setBounds(800, 500, 80, 40);
 
@@ -212,8 +215,11 @@ void PlayerGUI::resized()
 
 
 
-void PlayerGUI :: metaData(juce::String& fileName,double &totalTime) {
+void PlayerGUI :: metaData(juce::String& fileName,double &totalTime , juce::String & authorName)
+{
     title.setText("Title: " + fileName, juce::dontSendNotification);
+    author.setText("Auhtor: " + authorName, juce::dontSendNotification);
+
     int h = 0; 
     int m = 0;
     int s = 0;

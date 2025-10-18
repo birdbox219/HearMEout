@@ -20,15 +20,46 @@ void PlayerAudio::setGain(float newGain)
     transportSource.setGain(newGain);
 }
 
-void PlayerAudio::loadFile(const juce::File& file)
+juce::String PlayerAudio::loadFile(const juce::File& file)
 {
     if (auto* reader = formatManager.createReaderFor(file))
     {
         transportSource.stop();
         transportSource.setSource(nullptr);
+
+
+
+        juce::String authorName = "Unknown";
+        auto metadata = reader->metadataValues;
+
+        /*DBG("=== Metadata for file: " + file.getFileName() + " ===");
+        for (int i = 0; i < metadata.size(); ++i)
+        {
+            DBG("Key: " + metadata.getAllKeys()[i] + " = " + metadata.getAllValues()[i]);
+        }
+        DBG("=== End of metadata ===");*/
+
+        if (metadata.containsKey("IART"))
+            authorName = metadata["IART"];
+        else if (metadata.containsKey("Author"))
+            authorName = metadata["Author"];
+        else if (metadata.containsKey("ARTIST"))
+            authorName = metadata["ARTIST"];
+        
+
+
+
+
+
+
+
         readerSource.reset(new juce::AudioFormatReaderSource(reader, true));
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
+
+        return authorName;
     }
+
+    return  "Unknown";
 }
 
 

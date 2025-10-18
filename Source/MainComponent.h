@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <JuceHeader.h>
 #include <vector>
@@ -59,6 +59,8 @@ private:
 
     juce::String formatTime(double seconds);
     bool isDraggingSlider = false;
+
+    juce::String authorName = "Unknown";
 
 
     

@@ -113,14 +113,15 @@ void MainComponent::buttonClicked(juce::Button* button)
             [this](const juce::FileChooser& fc)
             {
                 auto file = fc.getResult();
-                player.loadFile(file);
+                //player.loadFile(file);
+                authorName = player.loadFile(file);
                 double totalTime = player.getTotalLength();
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
                 juce::String fileName = file.getFileNameWithoutExtension();
-                playerGUI.metaData(fileName,totalTime);
+                playerGUI.metaData(fileName,totalTime , authorName);
                 HideButtons(playerGUI.stopButtonIcon);
                 ShowButtons(playerGUI.startIcon);
-
+                 
                
        
             });
