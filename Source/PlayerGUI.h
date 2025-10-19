@@ -75,13 +75,18 @@ public:
     juce::TextButton resetButton{ "Clear" };
     juce::TextButton selectButton{ "Select" };
     juce::ListBox playList;
-    std::vector<juce::File> files;
+    struct fileInfo {
+        juce::File file;
+        int time;
+
+    };
+    std::vector<fileInfo> files;
     int getNumRows() override;
     void paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height, bool rowIsSelected) override;
-    void showFile(juce::File& file);
+    void showFile(juce::File& file,double time);
     void selectedRowsChanged(int lastRowSelected);
   
-\
+
     juce::File sendFile;
 
 

@@ -238,21 +238,48 @@ void PlayerGUI::resized()
 
 
 }
+void PlayerGUI::metaData(juce::String& fileName, double& totalTime, juce::String& authorName)
+{
+    title.setText("Title: " + fileName, juce::dontSendNotification);
+    author.setText("Auhtor: " + authorName, juce::dontSendNotification);
+
+    int h = 0;
+    int m = 0;
+    int s = 0;
+    m = totalTime / 60;
+    s = int(totalTime) % 60;
+    if (m >= 60) {
+        h = m / 60; m = m % 60;
+        time.setText("duration: " + juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s), juce::dontSendNotification);
+    }
+    //added if file less than 60min to will dispaly only mins
+    else
+    {
+        time.setText("duration: " + juce::String(m) + ":" + juce::String(s).paddedLeft('0', 2), juce::dontSendNotification);
+    }
 
 
-void PlayerGUI::showFile(juce::File& file) {
+
+
+}
+
+void PlayerGUI::showFile(juce::File& file,double time) {
  juce::File f;
     bool exist{};
     if (!files.empty()) {
         for (auto f : files) {
 
-            if (file.getFileNameWithoutExtension() == f.getFileNameWithoutExtension()) {
+            if (file.getFileNameWithoutExtension() == f.file.getFileNameWithoutExtension()) {
                 exist = 1;
             }
         }
     }
     if (!exist) {
-        files.push_back(file);
+        fileInfo info;
+        info.file = file;
+        info.time = time;
+        files.push_back(info);
+       
 
     }
     playList.updateContent();
@@ -276,8 +303,16 @@ void PlayerGUI::paintListBoxItem(int rowNumber, juce::Graphics& g,
         g.fillAll(rowIsSelected ? juce::Colours::blue.withAlpha(0.3f) : juce::Colours::transparentBlack);
 
         g.setColour(juce::Colours::white);
-        g.drawText(files[rowNumber].getFileNameWithoutExtension(),
+        g.drawText(files[rowNumber].file.getFileNameWithoutExtension(),
             5, 0, width - 10, height,
+            juce::Justification::centredLeft, true);
+        int h = 0;
+        int m = 0;
+        int s = 0;
+        m = files[rowNumber].time / 60;
+        s = files[rowNumber].time % 60;
+
+        g.drawText(juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s),190, 0, width - 10, height,
             juce::Justification::centredLeft, true);
     }
 }
@@ -289,34 +324,12 @@ void PlayerGUI::selectedRowsChanged(int lastRowSelected)
     {
         auto file = files[lastRowSelected];
        
-        sendFile = file;
+        sendFile = file.file;
 
     }                                                                                                                                                                    
 }
 
 
 
-void PlayerGUI :: metaData(juce::String& fileName,double &totalTime , juce::String & authorName)
-{
-    title.setText("Title: " + fileName, juce::dontSendNotification);
-    author.setText("Auhtor: " + authorName, juce::dontSendNotification);
 
-    int h = 0; 
-    int m = 0;
-    int s = 0;
-    m = totalTime / 60; 
-    s = int(totalTime) % 60; 
-    if (m >= 60) { h= m / 60; m = m % 60; 
-    time.setText("duration: " + juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s), juce::dontSendNotification);
-    }
-    //added if file less than 60min to will dispaly only mins
-    else
-    {
-        time.setText("duration: " + juce::String(m) + ":" + juce::String(s).paddedLeft('0', 2), juce::dontSendNotification);
-    }
-    
-
-   
-
-}
 
