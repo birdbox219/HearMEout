@@ -157,6 +157,22 @@ void PlayerAudio::setPosition(double newPositon)
 {
     transportSource.setPosition(newPositon);
 }
+// Playlist-related components
+void PlayerAudio::addToList(juce::File& file) {
+    bool exist{};
+    if (!files.empty()) {
+        for (auto f : files) {
+
+            if (file.getFileNameWithoutExtension() == f.getFileNameWithoutExtension()) {
+                exist = 1;
+            }
+        }
+    }
+    if (!exist) {
+        files.push_back(file);
+       
+    }
+}
 
 
 //----------------------------------------------------------------//
