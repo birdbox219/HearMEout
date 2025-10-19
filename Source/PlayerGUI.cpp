@@ -20,6 +20,9 @@ PlayerGUI::PlayerGUI()
     
  
     addAndMakeVisible(loopButton);
+    addAndMakeVisible(abLoopButton);
+    addAndMakeVisible(abStartButton);
+
     
 
     addAndMakeVisible(muteButton);
@@ -27,8 +30,12 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(skipBackButton);
     addAndMakeVisible(skipForwardButton);
+
+
     speedSlider.setRange(0.1, 2.0, 0.01);
     speedSlider.setValue(1.0);
+    speedSlider.setSliderStyle(juce::Slider::LinearVertical);
+
     speedSlider.setTextValueSuffix("x");
     speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 20);
 
@@ -89,6 +96,7 @@ PlayerGUI::PlayerGUI()
     progressSlider.setValue(0.0);
     progressSlider.setSliderStyle(juce::Slider::LinearHorizontal);  
     progressSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    
 
 
 
@@ -102,7 +110,35 @@ PlayerGUI::PlayerGUI()
     TotalTimeLabel.setText("0:00", juce::dontSendNotification);
     addAndMakeVisible(TotalTimeLabel);
 
+    abStartTimeLabel.setText("Start:", juce::dontSendNotification);
+    abStartTimeLabel.setJustificationType(juce::Justification::centredRight);
+    addAndMakeVisible(abStartTimeLabel);
 
+    abEndTimeLabel.setText("End:", juce::dontSendNotification);
+    abEndTimeLabel.setJustificationType(juce::Justification::centredRight);
+    addAndMakeVisible(abEndTimeLabel);
+
+
+    abStartLabel.setText("0:00", juce::dontSendNotification);
+    abStartLabel.setEditable(true);
+    abStartLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkgrey);
+    abStartLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
+    abStartLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(abStartLabel);
+
+    abEndLabel.setText("0:00", juce::dontSendNotification);
+    abEndLabel.setEditable(true);
+    abEndLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkgrey);
+    abEndLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
+    abEndLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(abEndLabel);
+
+
+    /*abStartTimeLabel.setVisible(false);
+    abEndTimeLabel.setVisible(false);
+    abStartLabel.setVisible(false);
+    abEndLabel.setVisible(false);
+    abStartButton.setVisible(false);*/
 
 
 
@@ -148,11 +184,15 @@ void PlayerGUI::resized()
     
 
     loopButton.setBounds(800, 500, 80, 40);
+    abLoopButton.setBounds(760, 330, 120, 30);
+
+
+    
+    
 
     //mute button
     muteButton.setBounds(50, 500, 100, 40);
-    //speed slider
-    speedSlider.setBounds(20, progressSlider.getY() - 30, getWidth() - 40, 20);//audio speed length and width.
+   
 
 
 
@@ -197,10 +237,12 @@ void PlayerGUI::resized()
     nextButton.setBounds(440, y, 80, 40);*/
     //Sliders Bounds
 
-    volumeSlider.setBounds(800, 100, 30 , getHeight() - 300 );
+    volumeSlider.setBounds(800, 30, 30 , getHeight() - 300 );
 
     int progressY = 420;
     progressSlider.setBounds(90, progressY, getWidth() - 180, 80);
+    //speed slider
+    speedSlider.setBounds(750, 30, 30, getHeight() - 300);//audio speed length and width.
 
 
 
@@ -211,6 +253,14 @@ void PlayerGUI::resized()
     //Lebels Bounds
     currentTimeLabel.setBounds(20, progressY, 60, 80);
     TotalTimeLabel.setBounds(getWidth() - 80, progressY, 60, 80);
+
+    //A-B Lebels
+
+    abStartTimeLabel.setBounds(700, 370, 50, 25);
+    abStartLabel.setBounds(760, 370, 80, 25);
+
+    abEndTimeLabel.setBounds(700, 405, 50, 25);
+    abEndLabel.setBounds(760, 405, 80, 25);
 }
 
 

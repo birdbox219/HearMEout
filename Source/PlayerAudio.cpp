@@ -32,12 +32,12 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
         juce::String authorName = "Unknown";
         auto metadata = reader->metadataValues;
 
-        /*DBG("=== Metadata for file: " + file.getFileName() + " ===");
+        DBG("=== Metadata for file: " + file.getFileName() + " ===");
         for (int i = 0; i < metadata.size(); ++i)
         {
             DBG("Key: " + metadata.getAllKeys()[i] + " = " + metadata.getAllValues()[i]);
         }
-        DBG("=== End of metadata ===");*/
+        DBG("=== End of metadata ===");
 
         if (metadata.containsKey("IART"))
             authorName = metadata["IART"];

@@ -19,6 +19,14 @@ public:
     //juce::TextButton restartButton{ "Restart" };
     juce::TextButton playButton{ "Play" };
     juce::TextButton stopButton{ "Stop" };
+
+
+    //A-B intinales  -Mahdmoud
+    juce::TextButton abLoopButton{ "Set A-B Loop" };
+    juce::TextButton abStartButton{ "Start A-B" };
+
+
+
     juce::ImageButton goStartButton;
     juce::ImageButton goEndButton;
     
@@ -69,6 +77,15 @@ public:
 
     juce::Label currentTimeLabel;
     juce::Label TotalTimeLabel;
+
+
+    juce::Label abStartLabel;
+    juce::Label abEndLabel;
+    juce::Label abStartTimeLabel;
+    juce::Label abEndTimeLabel;
+
+
+
 
 
     
