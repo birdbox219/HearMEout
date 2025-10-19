@@ -37,6 +37,15 @@ public:
 
 	void setPosition(double newPositon);
 
+	void setABLoop(bool enabled);
+	bool isABLoopEnabled() const { return abLoopEnabled; }
+	void setABPoints(double startPos, double endPos);
+	double getABStart() const { return abStartPosition; }
+	double getABEnd() const { return abEndPosition; }
+	void clearABPoints();
+
+
+
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
 	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
 	void releaseResources() override;
@@ -48,6 +57,7 @@ public:
 
 private:
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+	void checkABLoop();
  
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
@@ -56,6 +66,13 @@ private:
 
 
 	bool isLoopingEnabled = false;
+
+	//A-B checkes
+
+	bool abLoopEnabled = false;
+	double abStartPosition = 0.0; 
+	double abEndPosition = 0.0;
+
  
 	
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)

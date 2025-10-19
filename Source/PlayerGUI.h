@@ -106,6 +106,16 @@ public:
 
 
 
+
+
+
+    bool abLoopActive = false;
+    bool abControlsVisible = false;
+
+
+
+
+
     
 
     

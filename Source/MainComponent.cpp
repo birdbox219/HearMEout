@@ -42,6 +42,9 @@ MainComponent::MainComponent()
     
     playerGUI.loopButton.setVisible(true);
 
+    playerGUI.abLoopButton.addListener(this);
+    playerGUI.abStartButton.addListener(this);
+
     playerGUI.startIcon.setVisible(true);
     playerGUI.stopButtonIcon.setVisible(false);
     playerGUI.skipBackButton.setVisible(true);
@@ -124,6 +127,20 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
                 juce::String fileName = file.getFileNameWithoutExtension();
                 playerGUI.metaData(fileName,totalTime , authorName);
+
+
+                //reset A-B
+                playerGUI.abLoopActive = false;
+                playerGUI.abControlsVisible = false;
+                playerGUI.abStartTimeLabel.setVisible(false);
+                playerGUI.abEndTimeLabel.setVisible(false);
+                playerGUI.abStartLabel.setVisible(false);
+                playerGUI.abEndLabel.setVisible(false);
+                playerGUI.abStartButton.setVisible(false);
+                playerGUI.abLoopButton.setButtonText("Set A-B Loop");
+                playerGUI.abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+
+
                 HideButtons(playerGUI.stopButtonIcon);
                 ShowButtons(playerGUI.startIcon);
                  
@@ -168,9 +185,117 @@ void MainComponent::buttonClicked(juce::Button* button)
             juce::TextButton::buttonColourId,
             player.isLooping() ? juce::Colours::orangered : juce::Colours::darkgrey
         );
+
+        if (player.isLooping() && playerGUI.abLoopActive)
+        {
+            playerGUI.abLoopActive = false;
+            player.setABLoop(false);
+            playerGUI.abStartButton.setButtonText("Start A-B");
+            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+        }
             
         
     }
+
+    else if (button == &playerGUI.abLoopButton)
+    {
+        
+        playerGUI.abControlsVisible = !playerGUI.abControlsVisible;
+
+        playerGUI.abStartTimeLabel.setVisible(playerGUI.abControlsVisible);
+        playerGUI.abEndTimeLabel.setVisible(playerGUI.abControlsVisible);
+        playerGUI.abStartLabel.setVisible(playerGUI.abControlsVisible);
+        playerGUI.abEndLabel.setVisible(playerGUI.abControlsVisible);
+        playerGUI.abStartButton.setVisible(playerGUI.abControlsVisible);
+
+        if (playerGUI.abControlsVisible)
+        {
+            
+            double totalTime = player.getTotalLength();
+            playerGUI.abStartLabel.setText("0:00", juce::dontSendNotification);
+            playerGUI.abEndLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+            playerGUI.abLoopButton.setButtonText("Hide A-B");
+        }
+        else
+        {
+            playerGUI.abLoopButton.setButtonText("Set A-B Loop");
+
+            
+            if (playerGUI.abLoopActive)
+            {
+                playerGUI.abLoopActive = false;
+                player.setABLoop(false);
+                playerGUI.abStartButton.setButtonText("Start A-B");
+                playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+            }
+        }
+    }
+
+
+    else if (button == &playerGUI.abStartButton)
+    {
+        // Parse time strings and start A-B loop
+        juce::String startTimeStr = playerGUI.abStartLabel.getText();
+        juce::String endTimeStr = playerGUI.abEndLabel.getText();
+
+        double startTime = parseTimeString(startTimeStr);
+        double endTime = parseTimeString(endTimeStr);
+        double totalTime = player.getTotalLength();
+
+        
+        if (startTime < 0) startTime = 0;
+        if (endTime > totalTime) endTime = totalTime;
+        if (startTime >= endTime)
+        {
+            // Show error 
+            playerGUI.abStartButton.setButtonText("Invalid Times!");
+            juce::Timer::callAfterDelay(2000, [this]() {
+                playerGUI.abStartButton.setButtonText(playerGUI.abLoopActive ? "Stop A-B" : "Start A-B");
+                });
+            return;
+        }
+
+        
+        playerGUI.abLoopActive = !playerGUI.abLoopActive;
+
+        if (playerGUI.abLoopActive)
+        {
+            // Enable A-B loop
+            player.setABPoints(startTime, endTime);
+            player.setABLoop(true);
+
+            // Disable regular loop if A-B loop is enabled
+            if (player.isLooping())
+            {
+                player.setLooping(false);
+                playerGUI.loopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+            }
+
+            playerGUI.abStartButton.setButtonText("Stop A-B");
+            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
+
+            
+            player.setPosition(startTime);
+        }
+        else
+        {
+            // Disable A-B loop
+            player.setABLoop(false);
+            playerGUI.abStartButton.setButtonText("Start A-B");
+            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     else if (button == &playerGUI.muteButton)
     {
         player.toggleMute();// tell PlayerAudio to toggle mute state
@@ -281,6 +406,27 @@ juce::String MainComponent::formatTime(double seconds)
     int mins = (int)seconds / 60;
     int secs = (int)seconds % 60;
     return juce::String(mins) + ":" + juce::String(secs).paddedLeft('0', 2);
+}
+
+
+double MainComponent::parseTimeString(const juce::String& timeStr)
+{
+    
+    int colonPos = timeStr.indexOfChar(':');
+
+    if (colonPos == -1)
+    {
+        
+        return timeStr.getDoubleValue();
+    }
+
+    juce::String minsStr = timeStr.substring(0, colonPos);
+    juce::String secsStr = timeStr.substring(colonPos + 1);
+
+    int mins = minsStr.getIntValue();
+    int secs = secsStr.getIntValue();
+
+    return (double)(mins * 60 + secs);
 }
 
 

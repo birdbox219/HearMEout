@@ -140,11 +140,11 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(abEndLabel);
 
 
-    /*abStartTimeLabel.setVisible(false);
+    abStartTimeLabel.setVisible(false);
     abEndTimeLabel.setVisible(false);
     abStartLabel.setVisible(false);
     abEndLabel.setVisible(false);
-    abStartButton.setVisible(false);*/
+    abStartButton.setVisible(false);
 
 
 
@@ -191,6 +191,7 @@ void PlayerGUI::resized()
 
     loopButton.setBounds(800, 500, 80, 40);
     abLoopButton.setBounds(760, 330, 120, 30);
+    abStartButton.setBounds(760, 433, 120, 20);
 
 
     
