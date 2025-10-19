@@ -1,5 +1,6 @@
 ﻿#pragma once 
 #include <JuceHeader.h>	
+#include<vector>
 
 class PlayerAudio : public juce::AudioAppComponent,
 	private juce::ChangeListener
@@ -39,6 +40,11 @@ public:
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
 	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
 	void releaseResources() override;
+
+	// Playlist-related components
+	std::vector <juce::File> files;
+	void addToList(juce::File& file);
+	
 
 private:
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override;

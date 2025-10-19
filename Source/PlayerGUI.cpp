@@ -27,6 +27,14 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(skipBackButton);
     addAndMakeVisible(skipForwardButton);
+
+    // Playlist-related components
+    addAndMakeVisible(addToListButton);
+    addAndMakeVisible(resetButton);
+    addAndMakeVisible(playList);
+    playList.setModel(this);
+    
+    addAndMakeVisible(selectButton);
     speedSlider.setRange(0.1, 2.0, 0.01);
     speedSlider.setValue(1.0);
     speedSlider.setTextValueSuffix("x");
@@ -142,9 +150,9 @@ void PlayerGUI::resized()
     skipBackButton.setBounds(370, 510, 60, 40);
     skipForwardButton.setBounds(530, 510, 60, 40);
 
-    title.setBounds(340, 80, 100, 40);
-    time.setBounds(340, 100, 100, 40);
-    author.setBounds(340, 120, 100, 40);
+    title.setBounds(600, 90, 100, 40);
+    time.setBounds(600, 110, 100, 40);
+    author.setBounds(600, 130, 100, 40);
     
 
     loopButton.setBounds(800, 500, 80, 40);
@@ -211,31 +219,117 @@ void PlayerGUI::resized()
     //Lebels Bounds
     currentTimeLabel.setBounds(20, progressY, 60, 80);
     TotalTimeLabel.setBounds(getWidth() - 80, progressY, 60, 80);
+
+    // Playlist-related components
+    addToListButton.setBounds(200, 10, 40, 40);
+    addToListButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue);
+    resetButton.setBounds(250, 10, 60, 40);
+    resetButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumvioletred);
+    playList.setBounds(200, 60, 300, 300);
+    playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::mediumpurple);  
+    playList.setColour(juce::ListBox::textColourId, juce::Colours::white);    
+    selectButton.setBounds(600, 60, 60, 40);
+   selectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+
+ 
+
+
+  
+
+
 }
-
-
-
-void PlayerGUI :: metaData(juce::String& fileName,double &totalTime , juce::String & authorName)
+void PlayerGUI::metaData(juce::String& fileName, double& totalTime, juce::String& authorName)
 {
     title.setText("Title: " + fileName, juce::dontSendNotification);
     author.setText("Auhtor: " + authorName, juce::dontSendNotification);
 
-    int h = 0; 
+    int h = 0;
     int m = 0;
     int s = 0;
-    m = totalTime / 60; 
-    s = int(totalTime) % 60; 
-    if (m >= 60) { h= m / 60; m = m % 60; 
-    time.setText("duration: " + juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s), juce::dontSendNotification);
+    m = totalTime / 60;
+    s = int(totalTime) % 60;
+    if (m >= 60) {
+        h = m / 60; m = m % 60;
+        time.setText("duration: " + juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s), juce::dontSendNotification);
     }
     //added if file less than 60min to will dispaly only mins
     else
     {
         time.setText("duration: " + juce::String(m) + ":" + juce::String(s).paddedLeft('0', 2), juce::dontSendNotification);
     }
-    
 
-   
+
+
 
 }
+
+void PlayerGUI::showFile(juce::File& file,double time) {
+ juce::File f;
+    bool exist{};
+    if (!files.empty()) {
+        for (auto f : files) {
+
+            if (file.getFileNameWithoutExtension() == f.file.getFileNameWithoutExtension()) {
+                exist = 1;
+            }
+        }
+    }
+    if (!exist) {
+        fileInfo info;
+        info.file = file;
+        info.time = time;
+        files.push_back(info);
+       
+
+    }
+    playList.updateContent();
+    playList.repaint();
+}
+int PlayerGUI::getNumRows()
+{
+    return files.size();
+ 
+
+}
+
+
+void PlayerGUI::paintListBoxItem(int rowNumber, juce::Graphics& g,
+    int width, int height, bool rowIsSelected)
+{
+;
+    if (rowNumber < files.size())
+    {
+
+        g.fillAll(rowIsSelected ? juce::Colours::blue.withAlpha(0.3f) : juce::Colours::transparentBlack);
+
+        g.setColour(juce::Colours::white);
+        g.drawText(files[rowNumber].file.getFileNameWithoutExtension(),
+            5, 0, width - 10, height,
+            juce::Justification::centredLeft, true);
+        int h = 0;
+        int m = 0;
+        int s = 0;
+        m = files[rowNumber].time / 60;
+        s = files[rowNumber].time % 60;
+
+        g.drawText(juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s),190, 0, width - 10, height,
+            juce::Justification::centredLeft, true);
+    }
+}
+ 
+
+void PlayerGUI::selectedRowsChanged(int lastRowSelected)
+{
+    if (lastRowSelected >= 0)
+    {
+        auto file = files[lastRowSelected];
+       
+        sendFile = file.file;
+
+    }                                                                                                                                                                    
+}
+
+
+
+
 
