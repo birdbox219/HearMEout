@@ -6,12 +6,14 @@ BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 */
 MainComponent::MainComponent()
 {
+    
    
     addAndMakeVisible(playerGUI);
  
     playerGUI.loadButton.addListener(this);
     
     
+        playerGUI.selectButton.addListener(this);
     playerGUI.loopButton.addListener(this);
 
 
@@ -24,6 +26,8 @@ MainComponent::MainComponent()
     
     playerGUI.goStartButton.addListener(this);
     playerGUI.goEndButton.addListener(this);
+    playerGUI.addToListButton.addListener(this);
+    playerGUI.resetButton.addListener(this);
     playerGUI.speedSlider.addListener(this);
 
 
@@ -42,6 +46,7 @@ MainComponent::MainComponent()
     playerGUI.stopButtonIcon.setVisible(false);
     playerGUI.skipBackButton.setVisible(true);
     playerGUI.skipForwardButton.setVisible(true);
+
     
 
     // Add buttons
@@ -185,12 +190,39 @@ void MainComponent::buttonClicked(juce::Button* button)
         }
         
     }
+    
+    // Playlist-related components
+    else if (button == &playerGUI.addToListButton) {
+        fileChooser = std::make_unique<juce::FileChooser>(
+            "Select an audio file...", juce::File{}, "*.wav;*.mp3");
+
+        fileChooser->launchAsync(
+            juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
+            [this](const juce::FileChooser& fc)
+            {
+                auto file = fc.getResult();
+                player.addToList(file);
+                playerGUI.showFile(file);
 
 
-
-
-    //the rest
-
+            });
+    }
+    else if (button == &playerGUI.resetButton) {
+        player.files.clear();
+        playerGUI.files.clear();
+        playerGUI.playList.updateContent();
+       
+    }
+    else if (button == &playerGUI.selectButton) {
+        player.loadFile(playerGUI.sendFile);
+        double totalTime = player.getTotalLength();
+        playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+        juce::String fileName = playerGUI.sendFile.getFileNameWithoutExtension();
+        playerGUI.metaData(fileName, totalTime, authorName);
+        HideButtons(playerGUI.stopButtonIcon);
+        ShowButtons(playerGUI.startIcon);
+    }
+   
 
 }
 

@@ -1,9 +1,8 @@
 ﻿#pragma once
 # include "JuceHeader.h"
+#include <vector>
 
-
-class PlayerGUI : public juce::Component
-
+class PlayerGUI : public juce::Component, public juce::ListBoxModel
 {
 public:
 	PlayerGUI();
@@ -71,7 +70,20 @@ public:
     juce::Label TotalTimeLabel;
 
 
-    
+    // Playlist-related components
+    juce::TextButton addToListButton{"+"}; 
+    juce::TextButton resetButton{ "Clear" };
+    juce::TextButton selectButton{ "Select" };
+    juce::ListBox playList;
+    std::vector<juce::File> files;
+    int getNumRows() override;
+    void paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height, bool rowIsSelected) override;
+    void showFile(juce::File& file);
+    void selectedRowsChanged(int lastRowSelected);
+  
+\
+    juce::File sendFile;
+
 
     
     

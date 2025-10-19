@@ -43,7 +43,7 @@ public:
     void mouseUp(const juce::MouseEvent& event) override;
 
 
-
+   
     void ShowButtons(juce::Button &button);
     void HideButtons(juce::Button &button);
 
@@ -62,7 +62,7 @@ private:
 
     juce::String authorName = "Unknown";
 
-
+    
     
  
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
