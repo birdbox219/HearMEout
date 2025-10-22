@@ -39,6 +39,9 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
         }
         DBG("=== End of metadata ===");
 
+
+        
+
         if (metadata.containsKey("IART"))
             authorName = metadata["IART"];
         else if (metadata.containsKey("Author"))
@@ -46,6 +49,7 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
         else if (metadata.containsKey("ARTIST"))
             authorName = metadata["ARTIST"];
         
+	
 
 
 

@@ -2,6 +2,7 @@
 #include <JuceHeader.h>	
 #include<vector>
 
+
 class PlayerAudio : public juce::AudioAppComponent,
 	private juce::ChangeListener
 

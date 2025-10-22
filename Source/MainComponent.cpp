@@ -93,7 +93,7 @@ void MainComponent::releaseResources()
 void MainComponent::paint(juce::Graphics& g)
 {
     
-    g.fillAll(juce::Colours::blueviolet);
+    //g.fillAll(juce::Colours::blueviolet);
 }
 
 
@@ -183,7 +183,7 @@ void MainComponent::buttonClicked(juce::Button* button)
 
         playerGUI.loopButton.setColour(
             juce::TextButton::buttonColourId,
-            player.isLooping() ? juce::Colours::orangered : juce::Colours::darkgrey
+            player.isLooping() ? juce::Colours::orangered : juce::Colours::darkgrey.withAlpha(0.2f)
         );
 
         if (player.isLooping() && playerGUI.abLoopActive)
@@ -191,7 +191,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             playerGUI.abLoopActive = false;
             player.setABLoop(false);
             playerGUI.abStartButton.setButtonText("Start A-B");
-            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey.withAlpha(0.2f));
         }
             
         
@@ -260,11 +260,11 @@ void MainComponent::buttonClicked(juce::Button* button)
 
         if (playerGUI.abLoopActive)
         {
-            // Enable A-B loop
+            
             player.setABPoints(startTime, endTime);
             player.setABLoop(true);
 
-            // Disable regular loop if A-B loop is enabled
+            
             if (player.isLooping())
             {
                 player.setLooping(false);

@@ -2,6 +2,7 @@
 # include "JuceHeader.h"
 #include <vector>
 
+
 class PlayerGUI : public juce::Component, public juce::ListBoxModel
 {
 public:
@@ -78,6 +79,15 @@ public:
     juce::Label TotalTimeLabel;
 
 
+
+
+	//Theme Bground Image
+	juce::Image backgroundImage;
+    juce::TextButton changeThemeButton{ "Theme" };
+    int currentThemeIndex = 0;
+
+
+
     // Playlist-related components
     juce::TextButton addToListButton{"+"}; 
     juce::TextButton resetButton{ "Clear" };
@@ -93,6 +103,7 @@ public:
     void paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height, bool rowIsSelected) override;
     void showFile(juce::File& file,double time);
     void selectedRowsChanged(int lastRowSelected);
+	void ChangeTheme();
   
 
     juce::File sendFile;
@@ -125,6 +136,8 @@ public:
 
 
 private:
+
+    
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
