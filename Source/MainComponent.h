@@ -61,6 +61,7 @@ private:
     std::unique_ptr<juce::FileChooser> fileChooser;
 
     juce::String formatTime(double seconds);
+    double parseTimeString(const juce::String& timeStr);
     bool isDraggingSlider = false;
 
     juce::String authorName = "Unknown";

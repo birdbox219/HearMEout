@@ -32,12 +32,15 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
         juce::String authorName = "Unknown";
         auto metadata = reader->metadataValues;
 
-        /*DBG("=== Metadata for file: " + file.getFileName() + " ===");
+        DBG("=== Metadata for file: " + file.getFileName() + " ===");
         for (int i = 0; i < metadata.size(); ++i)
         {
             DBG("Key: " + metadata.getAllKeys()[i] + " = " + metadata.getAllValues()[i]);
         }
-        DBG("=== End of metadata ===");*/
+        DBG("=== End of metadata ===");
+
+
+        
 
         if (metadata.containsKey("IART"))
             authorName = metadata["IART"];
@@ -46,6 +49,7 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
         else if (metadata.containsKey("ARTIST"))
             authorName = metadata["ARTIST"];
         
+	
 
 
 
@@ -55,6 +59,8 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
 
         readerSource.reset(new juce::AudioFormatReaderSource(reader, true));
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
+
+        clearABPoints();
 
         return authorName;
     }
@@ -157,6 +163,67 @@ void PlayerAudio::setPosition(double newPositon)
 {
     transportSource.setPosition(newPositon);
 }
+
+//A-B logic
+
+void PlayerAudio::setABLoop(bool enabled)
+{
+    abLoopEnabled = enabled;
+
+    // If enabling A-B loop, disable regular loop
+    if (enabled && isLoopingEnabled)
+    {
+        setLooping(false);
+    }
+}
+void PlayerAudio::setABPoints(double startPos, double endPos)
+{
+    
+    double totalLength = getTotalLength();
+
+    abStartPosition = juce::jlimit(0.0, totalLength, startPos);
+    abEndPosition = juce::jlimit(0.0, totalLength, endPos);
+
+    
+    if (abStartPosition >= abEndPosition)
+    {
+        abEndPosition = abStartPosition + 1.0; 
+        if (abEndPosition > totalLength)
+        {
+            abEndPosition = totalLength;
+            abStartPosition = totalLength - 1.0;
+            if (abStartPosition < 0) abStartPosition = 0;
+        }
+    }
+}
+
+void PlayerAudio::clearABPoints()
+{
+    abStartPosition = 0.0;
+    abEndPosition = getTotalLength();
+    abLoopEnabled = false;
+}
+
+
+void PlayerAudio::checkABLoop()
+{
+    if (!abLoopEnabled || !transportSource.isPlaying())
+        return;
+
+    double currentPos = transportSource.getCurrentPosition();
+
+    // If we've passed the B point, jump back to A
+    if (currentPos >= abEndPosition)
+    {
+        transportSource.setPosition(abStartPosition);
+    }
+}
+
+
+
+
+
+
 // Playlist-related components
 void PlayerAudio::addToList(juce::File& file) {
     bool exist{};
@@ -186,6 +253,8 @@ void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
 	respeeder.getNextAudioBlock(bufferToFill);
+
+    checkABLoop();
 }
 
 void PlayerAudio::releaseResources()
