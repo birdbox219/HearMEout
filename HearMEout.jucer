@@ -4,13 +4,17 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="lyqpY0" name="HearMEout">
     <GROUP id="{E1ECB79E-1B0B-FF38-B5E6-131670820705}" name="Assets">
+      <FILE id="wtI4zS" name="delete.png" compile="0" resource="1" file="Assetes/delete.png"/>
       <FILE id="QZg7k2" name="goEnd.png" compile="0" resource="1" file="Assetes/goEnd.png"/>
       <FILE id="q1fGiD" name="goStart.png" compile="0" resource="1" file="Assetes/goStart.png"/>
+      <FILE id="eqRjM5" name="logo.jpg" compile="0" resource="1" file="Assetes/logo.jpg"/>
+      <FILE id="Nl96YN" name="logo.png" compile="0" resource="1" file="Assetes/logo.png"/>
       <FILE id="Kt8Ayw" name="pasueBlue.png" compile="0" resource="1" file="Assetes/pasueBlue.png"/>
       <FILE id="OhCfum" name="paused.png" compile="0" resource="1" file="paused.png"/>
       <FILE id="brukUN" name="pausedBlueBlue.png" compile="0" resource="1"
             file="Assetes/pausedBlueBlue.png"/>
       <FILE id="OJu9f9" name="pauseyellow.png" compile="0" resource="1" file="Assetes/pauseyellow.png"/>
+      <FILE id="a8hQ4c" name="startWindow.png" compile="0" resource="1" file="Assetes/startWindow.png"/>
     </GROUP>
     <GROUP id="{7E558E29-4397-038A-F1C6-354E61356884}" name="Source">
       <FILE id="XBGN7u" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>

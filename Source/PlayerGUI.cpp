@@ -33,7 +33,7 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(resetButton);
     addAndMakeVisible(playList);
     playList.setModel(this);
-    
+  addAndMakeVisible(removeButton);
     addAndMakeVisible(selectButton);
     speedSlider.setRange(0.1, 2.0, 0.01);
     speedSlider.setValue(1.0);
@@ -41,7 +41,9 @@ PlayerGUI::PlayerGUI()
     speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 20);
 
 
-
+   
+  
+ 
     
     
     
@@ -61,6 +63,7 @@ PlayerGUI::PlayerGUI()
 
     goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
     goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
+    remove = juce::ImageFileFormat::loadFrom(BinaryData::delete_png, BinaryData::delete_pngSize);
     
 
 
@@ -200,7 +203,14 @@ void PlayerGUI::resized()
         goStart, 0.8f, juce::Colours::transparentWhite, // Hover opacity
         goStart, 1.0f, juce::Colours::yellow  //Pressed
     );
-
+    removeButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        remove, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        remove, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        remove, 1.0f, juce::Colours::yellow  //Pressed
+    );
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
     //Sliders Bounds
@@ -229,6 +239,7 @@ void PlayerGUI::resized()
     playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::mediumpurple);  
     playList.setColour(juce::ListBox::textColourId, juce::Colours::white);    
     selectButton.setBounds(600, 60, 60, 40);
+    removeButton.setBounds(660, 60, 60, 40);
    selectButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
 
  
@@ -314,6 +325,7 @@ void PlayerGUI::paintListBoxItem(int rowNumber, juce::Graphics& g,
 
         g.drawText(juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s),190, 0, width - 10, height,
             juce::Justification::centredLeft, true);
+        
     }
 }
  
