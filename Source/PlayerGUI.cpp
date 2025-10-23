@@ -47,7 +47,7 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(resetButton);
     addAndMakeVisible(playList);
     playList.setModel(this);
-    
+  addAndMakeVisible(removeButton);
     addAndMakeVisible(selectButton);
     speedSlider.setRange(0.1, 2.0, 0.01);
     speedSlider.setValue(1.0);
@@ -59,8 +59,9 @@ PlayerGUI::PlayerGUI()
     speedSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
     
 
-
-
+   
+  
+ 
     
     
     
@@ -75,6 +76,7 @@ PlayerGUI::PlayerGUI()
 
     goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
     goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
+    remove = juce::ImageFileFormat::loadFrom(BinaryData::delete_png, BinaryData::delete_pngSize);
     
 
 
@@ -310,7 +312,14 @@ void PlayerGUI::resized()
         goStart, 0.8f, juce::Colours::transparentWhite, // Hover opacity
         goStart, 1.0f, juce::Colours::yellow  //Pressed
     );
-
+    removeButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        remove, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        remove, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        remove, 1.0f, juce::Colours::yellow  //Pressed
+    );
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
     //Sliders Bounds
@@ -338,8 +347,8 @@ void PlayerGUI::resized()
     resetButton.setBounds(170, 20, 60, 40);
     
     playList.setBounds(20, 70, 300, 300);
-    
     selectButton.setBounds(230, 20, 60, 40);
+    removeButton.setBounds(280, 20, 60, 40);
    
 
  
@@ -441,6 +450,7 @@ void PlayerGUI::paintListBoxItem(int rowNumber, juce::Graphics& g,
         g.drawText(juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s),
             190, 0, width - 10, height,
             juce::Justification::centredLeft, true);
+        
     }
 }
  
@@ -452,7 +462,7 @@ void PlayerGUI::selectedRowsChanged(int lastRowSelected)
         auto file = files[lastRowSelected];
        
         sendFile = file.file;
-
+        sendRow = lastRowSelected;
     }                                                                                                                                                                    
 }
 
