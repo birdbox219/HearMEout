@@ -384,6 +384,13 @@ void MainComponent::buttonClicked(juce::Button* button)
         playerGUI.setVisible(true);
         repaint();
     }
+    else if (button == &playerGUI.removeButton) {
+        if (!playerGUI.files.empty()) {
+            playerGUI.files.erase(playerGUI.files.begin() + playerGUI.sendRow);
+            playerGUI.playList.updateContent();
+        }
+
+    }
 
 }
 

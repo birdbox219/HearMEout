@@ -347,8 +347,8 @@ void PlayerGUI::resized()
     resetButton.setBounds(170, 20, 60, 40);
     
     playList.setBounds(20, 70, 300, 300);
-    
     selectButton.setBounds(230, 20, 60, 40);
+    removeButton.setBounds(280, 20, 60, 40);
    
 
  
@@ -462,7 +462,7 @@ void PlayerGUI::selectedRowsChanged(int lastRowSelected)
         auto file = files[lastRowSelected];
        
         sendFile = file.file;
-
+        sendRow = lastRowSelected;
     }                                                                                                                                                                    
 }
 

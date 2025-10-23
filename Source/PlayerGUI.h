@@ -109,6 +109,7 @@ public:
   
 
     juce::File sendFile;
+    int sendRow;
 
     juce::Label abStartLabel;
     juce::Label abEndLabel;
