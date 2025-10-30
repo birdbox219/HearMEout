@@ -12,11 +12,13 @@ class MainComponent : public juce::AudioAppComponent,
     public juce::Slider::Listener,
     public juce::Timer,
     public juce::MouseListener
+   
 {
 public:
     MainComponent();
     ~MainComponent() override;
-
+    bool isStartWindow = true;
+ 
     // Audio
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
@@ -29,7 +31,7 @@ public:
     // Event handlers
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
-
+ 
 
     void timerCallback() override;
 
@@ -46,6 +48,7 @@ public:
    
     void ShowButtons(juce::Button &button);
     void HideButtons(juce::Button &button);
+    juce::TextButton startButton{ "Start" };
 
 private:
     // Audio

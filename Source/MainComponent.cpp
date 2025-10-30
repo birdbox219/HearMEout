@@ -1,4 +1,4 @@
-﻿#include "MainComponent.h"
+#include "MainComponent.h"
 /*
 Keep working on this project structure dont change without permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -6,10 +6,19 @@ BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 */
 MainComponent::MainComponent()
 {
+  
     
-   
-    addAndMakeVisible(playerGUI);
  
+
+    isStartWindow = true;
+    startTimer(7000);
+    addAndMakeVisible(playerGUI);
+    playerGUI.setVisible(false);
+    addAndMakeVisible(startButton);
+    startButton.addListener(this);
+
+    startButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkorange);
+  
     playerGUI.loadButton.addListener(this);
     
     
@@ -28,6 +37,7 @@ MainComponent::MainComponent()
     playerGUI.goEndButton.addListener(this);
     playerGUI.addToListButton.addListener(this);
     playerGUI.resetButton.addListener(this);
+    playerGUI.removeButton.addListener(this);
     playerGUI.speedSlider.addListener(this);
 
 
@@ -92,14 +102,28 @@ void MainComponent::releaseResources()
 
 void MainComponent::paint(juce::Graphics& g)
 {
+    if (isStartWindow) {
+        g.fillAll(juce::Colours::black);
+        g.setColour(juce::Colours::white);
+        g.setFont(juce::Font(40.0f, juce::Font::bold));
+        juce::Image startWindow = juce::ImageFileFormat::loadFrom(BinaryData::startWindow_png, BinaryData::startWindow_pngSize);
+        g.drawImageWithin(startWindow,
+            0, 0, getWidth(), getHeight(),
+            juce::RectanglePlacement::stretchToFit);
+      
+        
+    }
+    else{g.fillAll(juce::Colours::blueviolet);}
     
-    //g.fillAll(juce::Colours::blueviolet);
 }
+
 
 
 void MainComponent::resized()
 {
- 
+    if (isStartWindow){
+    startButton.setBounds(getWidth() / 2 - 50, getHeight() - 60, 100, 40);
+}
 
     playerGUI.setBounds(getLocalBounds());
 }
@@ -353,7 +377,20 @@ void MainComponent::buttonClicked(juce::Button* button)
         HideButtons(playerGUI.stopButtonIcon);
         ShowButtons(playerGUI.startIcon);
     }
-   
+    else if (button == &startButton) {
+        isStartWindow = false;
+        startButton.setVisible(false);
+
+        playerGUI.setVisible(true);
+        repaint();
+    }
+    else if (button == &playerGUI.removeButton) {
+        if (!playerGUI.files.empty()) {
+            playerGUI.files.erase(playerGUI.files.begin() + playerGUI.sendRow);
+            playerGUI.playList.updateContent();
+        }
+
+    }
 
 }
 
@@ -384,6 +421,8 @@ void MainComponent::sliderValueChanged(juce::Slider* slider)
 
 void MainComponent::timerCallback()
 {
+   
+    
     if (!isDraggingSlider)
     {
         double currentLenght = player.getCurrentPosition();
@@ -398,6 +437,7 @@ void MainComponent::timerCallback()
 
 
     }
+    
 }
 
 

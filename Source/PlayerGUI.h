@@ -29,7 +29,7 @@ public:
 
     juce::ImageButton goStartButton;
     juce::ImageButton goEndButton;
-    
+   
     //skip buttons:
     juce::TextButton skipBackButton { "⏪ 10s" };
     juce::TextButton skipForwardButton { "10s ⏩" };
@@ -54,6 +54,7 @@ public:
     juce::Image stopImageDownIcon;
     juce::Image goEnd;
     juce::Image goStart;
+    juce::Image remove;
     juce::ImageButton stopButtonIcon;
   
 
@@ -92,6 +93,7 @@ public:
     juce::TextButton addToListButton{"+"}; 
     juce::TextButton resetButton{ "Clear" };
     juce::TextButton selectButton{ "Select" };
+    juce::ImageButton removeButton;
     juce::ListBox playList;
     struct fileInfo {
         juce::File file;
@@ -107,6 +109,7 @@ public:
   
 
     juce::File sendFile;
+    int sendRow;
 
     juce::Label abStartLabel;
     juce::Label abEndLabel;
