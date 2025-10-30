@@ -408,7 +408,7 @@ juce::String MainComponent::formatTime(double seconds)
     return juce::String(mins) + ":" + juce::String(secs).paddedLeft('0', 2);
 }
 
-
+// Parse time string format 
 double MainComponent::parseTimeString(const juce::String& timeStr)
 {
     

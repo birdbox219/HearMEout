@@ -111,8 +111,8 @@ PlayerGUI::PlayerGUI()
     progressSlider.setValue(0.0);
     progressSlider.setSliderStyle(juce::Slider::LinearBar);  
     progressSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    progressSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow);
-    progressSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
+    progressSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow.withAlpha(0.6f));
+    //progressSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
     
 
 

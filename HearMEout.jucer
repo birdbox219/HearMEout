@@ -15,10 +15,6 @@
       <FILE id="OJu9f9" name="pauseyellow.png" compile="0" resource="1" file="Assetes/pauseyellow.png"/>
     </GROUP>
     <GROUP id="{7E558E29-4397-038A-F1C6-354E61356884}" name="Source">
-      <FILE id="eBD4CY" name="JuceUtilitesManager.cpp" compile="1" resource="0"
-            file="Source/JuceUtilitesManager.cpp"/>
-      <FILE id="WvgqgN" name="JuceUtilitesManager.h" compile="0" resource="0"
-            file="Source/JuceUtilitesManager.h"/>
       <FILE id="XBGN7u" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="jkwpup" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
