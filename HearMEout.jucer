@@ -4,6 +4,7 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" maxBinaryFileSize="20971520">
   <MAINGROUP id="lyqpY0" name="HearMEout">
     <GROUP id="{E1ECB79E-1B0B-FF38-B5E6-131670820705}" name="Assets">
+      <FILE id="hkFqsQ" name="delete.png" compile="0" resource="1" file="Assetes/delete.png"/>
       <FILE id="JpBHyo" name="DoctorXTheme3.png" compile="0" resource="1"
             file="Assetes/DoctorXTheme3.png"/>
       <FILE id="QZg7k2" name="goEnd.png" compile="0" resource="1" file="Assetes/goEnd.png"/>
@@ -13,6 +14,7 @@
       <FILE id="OnNIuf" name="NierAutomataTheme2.png" compile="0" resource="1"
             file="Assetes/NierAutomataTheme2.png"/>
       <FILE id="OJu9f9" name="pauseyellow.png" compile="0" resource="1" file="Assetes/pauseyellow.png"/>
+      <FILE id="a8hQ4c" name="startWindow.png" compile="0" resource="1" file="Assetes/startWindow.png"/>
     </GROUP>
     <GROUP id="{7E558E29-4397-038A-F1C6-354E61356884}" name="Source">
       <FILE id="eBD4CY" name="JuceUtilitesManager.cpp" compile="1" resource="0"
