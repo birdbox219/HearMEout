@@ -2,7 +2,6 @@
 #include "BinaryData.h"
 
 
-
 PlayerGUI::PlayerGUI()
 {
     
@@ -76,7 +75,11 @@ PlayerGUI::PlayerGUI()
     goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
     goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
     remove = juce::ImageFileFormat::loadFrom(BinaryData::delete_png, BinaryData::delete_pngSize);
-    
+    forward_10 = juce::ImageFileFormat::loadFrom(BinaryData::ten_for_png,BinaryData::ten_for_pngSize);
+    backward_10 = juce::ImageFileFormat::loadFrom(BinaryData::ten_back_png,BinaryData::ten_back_pngSize);
+    muteimage = juce::ImageFileFormat::loadFrom(BinaryData::volume_png,BinaryData::volume_pngSize);
+    unmuteimage = juce::ImageFileFormat::loadFrom(BinaryData::no_volume_png,BinaryData::no_volume_pngSize);
+
 
 
     
@@ -178,9 +181,9 @@ PlayerGUI::PlayerGUI()
     styleButton(loopButton, juce::Colours::darkgrey);
     styleButton(abLoopButton, juce::Colours::darkgrey);
     styleButton(abStartButton, juce::Colours::darkgrey);
-    styleButton(muteButton, juce::Colours::darkslategrey);
-    styleButton(skipBackButton, juce::Colours::darkslategrey);
-    styleButton(skipForwardButton, juce::Colours::darkslategrey);
+    //styleButton(muteButton, juce::Colours::darkslategrey);
+    // styleButton(skipBackButton, juce::Colours::darkslategrey);
+    // styleButton(skipForwardButton, juce::Colours::darkslategrey);
     styleButton(addToListButton, juce::Colours::darkblue);
     styleButton(resetButton, juce::Colours::mediumvioletred);
     styleButton(selectButton, juce::Colours::green);
@@ -319,6 +322,29 @@ void PlayerGUI::resized()
         remove, 0.8f, juce::Colours::transparentWhite, // Hover opacity
         remove, 1.0f, juce::Colours::yellow  //Pressed
     );
+    skipBackButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        backward_10, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        backward_10, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        backward_10, 1.0f, juce::Colours::yellow  //Pressed
+    );
+    skipForwardButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        forward_10, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        forward_10, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        forward_10, 1.0f, juce::Colours::yellow  //Pressed
+    );
+    muteButton.setImages(
+    false, true, true,
+    muteimage, 1.0f, juce::Colours::transparentWhite,
+    muteimage, 1.0f, juce::Colours::transparentWhite,
+    muteimage, 1.0f, juce::Colours::transparentWhite
+    );
+
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
     //Sliders Bounds

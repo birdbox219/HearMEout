@@ -1,4 +1,5 @@
 ﻿#include "MainComponent.h"
+#include "BinaryData.h"
 /*
 Keep working on this project structure dont change without permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -24,7 +25,7 @@ MainComponent::MainComponent()
     playerGUI.loadButton.addListener(this);
     
     
-        playerGUI.selectButton.addListener(this);
+    playerGUI.selectButton.addListener(this);
     playerGUI.loopButton.addListener(this);
 
 
@@ -371,21 +372,28 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     else if (button == &playerGUI.muteButton)
     {
-        player.toggleMute();// tell PlayerAudio to toggle mute state
-        playerGUI.volumeSlider.setValue(0.0); // update UI - mahmoud 
+        player.toggleMute();
+    if (player.isMuted)
+    {
+        playerGUI.volumeSlider.setValue(0.0);
+        playerGUI.muteButton.setImages(
+            false, true, true,
+            playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite
+        );
+    }
+    else
+    {
+        playerGUI.volumeSlider.setValue(player.lastGain);// update UI - mahmoud 
+        playerGUI.muteButton.setImages(
+            false, true, true,
+            playerGUI.muteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.muteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.muteimage, 1.0f, juce::Colours::transparentWhite
+        );
+    }
 
-    // Change the button text to show current state
-        if (player.isMuted)
-        {
-            playerGUI.muteButton.setButtonText("Unmute");
-        }
-        
-        else
-        {
-            playerGUI.muteButton.setButtonText("Mute");
-            playerGUI.volumeSlider.setValue(player.getPreviousGain()); // update UI - mahmoud 
-
-        }
         
     }
     
