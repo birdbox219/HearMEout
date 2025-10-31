@@ -1,4 +1,4 @@
-#pragma once 
+﻿#pragma once 
 #include <JuceHeader.h>	
 #include<vector>
 
@@ -54,11 +54,19 @@ public:
 	// Playlist-related components
 	std::vector <juce::File> files;
 	void addToList(juce::File& file);
+
+	void SaveSession();
+	bool LoadLastSession();
+	juce::File getSessionFile();
+	juce::File getCurrentFile() const { return currentFile; }
 	
 
 private:
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 	void checkABLoop();
+
+
+	
  
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
@@ -73,6 +81,9 @@ private:
 	bool abLoopEnabled = false;
 	double abStartPosition = 0.0; 
 	double abEndPosition = 0.0;
+	//-------
+
+	juce::File currentFile;
 
  
 	

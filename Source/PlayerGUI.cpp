@@ -7,8 +7,7 @@ PlayerGUI::PlayerGUI()
 {
     
    
-    //backgroundImage = juce::ImageFileFormat::loadFrom(BinaryData::MakimaTheme1_png, BinaryData::MakimaTheme1_pngSize);
-    //backgroundImage = juce::ImageFileFormat::loadFrom(BinaryData::NierAutomataTheme2_png, BinaryData::NierAutomataTheme2_pngSize);
+    
     
     addAndMakeVisible(loadButton);
     addAndMakeVisible(changeThemeButton);
