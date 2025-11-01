@@ -8,6 +8,8 @@
 #include "PlayerGUI.h"
 #include "SessionManager.h"
 
+
+
 class MainComponent : public juce::AudioAppComponent,
     public juce::Button::Listener,
     public juce::Slider::Listener,
@@ -50,13 +52,19 @@ public:
     void ShowButtons(juce::Button &button);
     void HideButtons(juce::Button &button);
     juce::TextButton startButton{ "Start" };
+    juce::TextButton singleTrackButton{ "Single Track" };
+    juce::TextButton twoTracksButton{ "Two Tracks" };
+   
+    
 
 private:
     // Audio
 	PlayerAudio player;
+    PlayerAudio player2;  //for track2
 
 	// GUI
     PlayerGUI playerGUI;
+    PlayerGUI playerGUI2; //for track2
 	//session manager
     SessionManager sessionManager;
 
@@ -66,6 +74,7 @@ private:
     juce::String formatTime(double seconds);
     double parseTimeString(const juce::String& timeStr);
     bool isDraggingSlider = false;
+    bool isDraggingSlider2 = false;
 
     juce::String authorName = "Unknown";
 

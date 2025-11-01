@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="G87jUw" name="HearMEout" projectType="guiapp" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" maxBinaryFileSize="20971520">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" maxBinaryFileSize="20971520"
+              headerPath="../taglib&#10;">
   <MAINGROUP id="lyqpY0" name="HearMEout">
     <GROUP id="{E1ECB79E-1B0B-FF38-B5E6-131670820705}" name="Assets">
       <FILE id="hkFqsQ" name="delete.png" compile="0" resource="1" file="Assetes/delete.png"/>
