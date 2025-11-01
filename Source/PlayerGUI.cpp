@@ -243,11 +243,11 @@ void PlayerGUI::resized()
 {
     int y = 20;
     loadButton.setBounds(20, y, 100, 40);
-    changeThemeButton.setBounds(getWidth() - 230, 30, 100, 40);
+    changeThemeButton.setBounds(350, 30, 100, 40);//(getWidth() - 230, 30, 100, 40)*/;
     
      // Side buttons
     goStartButton.setBounds(200, 500, 100, 40);
-    goEndButton.setBounds(660, 500, 100, 40);
+    goEndButton.setBounds(570, 500, 100, 40);
 
     // Central control icons
     startIcon.setBounds(450, 500, 60, 60);
@@ -324,12 +324,12 @@ void PlayerGUI::resized()
     nextButton.setBounds(440, y, 80, 40);*/
     //Sliders Bounds
 
-    volumeSlider.setBounds(830, 30, 30 , getHeight() - 310 );
+    volumeSlider.setBounds(560, 30, 30 , getHeight() - 310 ); //I changed the X from 830 for the new track - Alaa
 
     int progressY = 450;
     progressSlider.setBounds(90, progressY, getWidth() - 180, 30);
     //speed slider
-    speedSlider.setBounds(780, 30, 30, getHeight() - 310);//audio speed length and width.
+    speedSlider.setBounds(470, 30, 30, getHeight() - 310);//audio speed length and width.I changed the X from 780 for the new track - Alaa
 
 
 
