@@ -87,9 +87,7 @@ public:
 	std::vector <juce::File> files;
 	void addToList(juce::File& file);
 
-	void SaveSession();
-	bool LoadLastSession();
-	juce::File getSessionFile();
+	
 	juce::File getCurrentFile() const { return currentFile; }
 	
 	
