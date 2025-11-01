@@ -1,4 +1,5 @@
-#include "MainComponent.h"
+﻿#include "MainComponent.h"
+#include "BinaryData.h"
 /*
 Keep working on this project structure dont change without permision !
 BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -6,6 +7,8 @@ BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 */
 MainComponent::MainComponent()
 {
+	//Load saved session 
+    bool sessionLoaded = player.LoadLastSession();
   
     
  
@@ -93,15 +96,63 @@ MainComponent::MainComponent()
 
     
 
-    setSize(500, 250);
+    //setSize(500, 250);
+    setSize(900, 600);
     setAudioChannels(0, 2);
 
     startTimer(100);
+
+    if (sessionLoaded)
+    {
+        juce::File currentFile = player.getCurrentFile();
+        if (currentFile.existsAsFile())
+        {
+            double totalTime = player.getTotalLength();
+            playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+            juce::String fileName = currentFile.getFileNameWithoutExtension();
+
+            
+            authorName = "Unknown"; 
+
+            playerGUI.metaData(fileName, totalTime, authorName);
+
+            
+            playerGUI.volumeSlider.setValue(player.getPreviousGain(), juce::dontSendNotification);
+
+            
+            playerGUI.speedSlider.setValue(1.0, juce::dontSendNotification);
+
+            
+            if (player.isLooping())
+            {
+                playerGUI.loopButton.setColour(
+                    juce::TextButton::buttonColourId,
+                    juce::Colours::orangered
+                );
+            }
+
+            // Update mute button
+            if (player.isMuted)
+            {
+                playerGUI.muteButton.setButtonText("Unmute");
+            }
+
+            
+            for (const auto& file : player.files)
+            {
+                double fileTime = 0.0; 
+                playerGUI.showFile(const_cast<juce::File&>(file), fileTime);
+            }
+        }
+    }
+    
 }
 
 MainComponent::~MainComponent()
 {
     shutdownAudio();
+	
+
 }
 //----------------------------------------------------------------
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
@@ -350,22 +401,29 @@ void MainComponent::buttonClicked(juce::Button* button)
     }
     else if (button == &playerGUI.muteButton)
     {
-        player.toggleMute();// tell PlayerAudio to toggle mute state
-        playerGUI.volumeSlider.setValue(0.0); // update UI - mahmoud 
+        player.toggleMute();
+    if (player.isMuted)
+    {
+        playerGUI.volumeSlider.setValue(0.0);
+        playerGUI.muteButton.setImages(
+            false, true, true,
+            playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite
+        );
+    }
+    else
+    {
+        playerGUI.volumeSlider.setValue(player.lastGain);// update UI - mahmoud 
+        playerGUI.muteButton.setImages(
+            false, true, true,
+            playerGUI.muteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.muteimage, 1.0f, juce::Colours::transparentWhite,
+            playerGUI.muteimage, 1.0f, juce::Colours::transparentWhite
+        );
+    }
 
-        // Change the button text to show current state
-        if (player.isMuted)
-        {
-            playerGUI.muteButton.setButtonText("Unmute");
-        }
-
-        else
-        {
-            playerGUI.muteButton.setButtonText("Mute");
-            playerGUI.volumeSlider.setValue(player.getPreviousGain()); // update UI - mahmoud 
-
-        }
-
+        
     }
     else if (button == &playerGUI.addToListButton) {
         fileChooser = std::make_unique<juce::FileChooser>(
@@ -782,7 +840,7 @@ juce::String MainComponent::formatTime(double seconds)
     return juce::String(mins) + ":" + juce::String(secs).paddedLeft('0', 2);
 }
 
-
+// Parse time string format 
 double MainComponent::parseTimeString(const juce::String& timeStr)
 {
     

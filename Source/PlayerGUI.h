@@ -31,8 +31,8 @@ public:
     juce::ImageButton goEndButton;
    
     //skip buttons:
-    juce::TextButton skipBackButton { "⏪ 10s" };
-    juce::TextButton skipForwardButton { "10s ⏩" };
+    juce::ImageButton skipBackButton;
+    juce::ImageButton skipForwardButton;
 
  
     // Text Buttons
@@ -41,11 +41,11 @@ public:
     //juce::TextButton goEndButton{ "Go to end" };
     juce::TextButton loopButton{ "Loop" };
 
-    juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow };
+    juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow.withAlpha(0.6f)};
     //juce::TextButton stopButton{ "Stop" };
 
 
-    juce::TextButton muteButton{"Mute"};
+    juce::ImageButton muteButton;
     
 
     //Icon Buttons
@@ -55,7 +55,12 @@ public:
     juce::Image goEnd;
     juce::Image goStart;
     juce::Image remove;
+    juce::Image forward_10;
+    juce::Image backward_10;
+    juce::Image muteimage;
+    juce::Image unmuteimage;
     juce::ImageButton stopButtonIcon;
+
   
 
 
@@ -94,6 +99,7 @@ public:
     juce::TextButton resetButton{ "Clear" };
     juce::TextButton selectButton{ "Select" };
     juce::ImageButton removeButton;
+
     juce::ListBox playList;
     struct fileInfo {
         juce::File file;

@@ -1,4 +1,4 @@
-#pragma once 
+﻿#pragma once 
 #include <JuceHeader.h>	
 #include<vector>
 
@@ -86,6 +86,12 @@ public:
 	//// Playlist-related components
 	std::vector <juce::File> files;
 	void addToList(juce::File& file);
+
+	void SaveSession();
+	bool LoadLastSession();
+	juce::File getSessionFile();
+	juce::File getCurrentFile() const { return currentFile; }
+	
 	
 
 	juce::AudioTransportSource transportSource2; //for track2
@@ -114,6 +120,9 @@ public:
 	bool abLoopEnabled = false;
 	double abStartPosition = 0.0; 
 	double abEndPosition = 0.0;
+	//-------
+
+	juce::File currentFile;
 
 	bool abLoopEnabled2 = false;
 	double abStartPosition2 = 0.0;
