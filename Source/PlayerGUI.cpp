@@ -184,42 +184,42 @@ void PlayerGUI::paint(juce::Graphics& g)
         {
         case 0: // Makima Theme - Red/Pink gradient (power, intensity)
             gradient = juce::ColourGradient(
-                juce::Colour(0xffDC2626).withAlpha(0.5f),  // Red
+                juce::Colour(0xffDC2626).withAlpha(0.4f),  // Red
                 0.0f, 0.0f,
-                juce::Colour(0xff7C3AED).withAlpha(0.75f), // Purple
+                juce::Colour(0xff7C3AED).withAlpha(0.65f), // Purple
                 0.0f, (float)getHeight(),
                 false);
-            gradient.addColour(0.5, juce::Colour(0xffDB2777).withAlpha(0.65f)); // Pink
+            gradient.addColour(0.5, juce::Colour(0xffDB2777).withAlpha(0.55f)); // Pink
             break;
 
         case 1: // Nier Automata Theme - Cool Blue/Teal gradient (sci-fi, melancholic)
             gradient = juce::ColourGradient(
-                juce::Colour(0xff1E293B).withAlpha(0.6f),  // Dark slate
+                juce::Colour(0xff1E293B).withAlpha(0.5f),  // Dark slate
                 0.0f, 0.0f,
-                juce::Colour(0xff0891B2).withAlpha(0.7f),  // Cyan
+                juce::Colour(0xff0891B2).withAlpha(0.6f),  // Cyan
                 0.0f, (float)getHeight(),
                 false);
-            gradient.addColour(0.5, juce::Colour(0xff0F172A).withAlpha(0.65f)); // Very dark blue
+            gradient.addColour(0.5, juce::Colour(0xff0F172A).withAlpha(0.55f)); // Very dark blue
             break;
 
         case 2: // Doctor X Theme - Purple/Blue gradient (medical, professional)
             gradient = juce::ColourGradient(
-                juce::Colour(0xff6B46C1).withAlpha(0.65f), // Deep purple
+                juce::Colour(0xff6B46C1).withAlpha(0.55f), // Deep purple
                 0.0f, 0.0f,
-                juce::Colour(0xff1E40AF).withAlpha(0.8f),  // Blue
+                juce::Colour(0xff1E40AF).withAlpha(0.7f),  // Blue
                 0.0f, (float)getHeight(),
                 false);
-            gradient.addColour(0.5, juce::Colour(0xff4C1D95).withAlpha(0.7f)); // Mid purple
+            gradient.addColour(0.5, juce::Colour(0xff4C1D95).withAlpha(0.6f)); // Mid purple
             break;
 
         default: // Fallback gradient
             gradient = juce::ColourGradient(
-                juce::Colour(0xff6B46C1).withAlpha(0.7f),
+                juce::Colour(0xff6B46C1).withAlpha(0.6f),
                 0.0f, 0.0f,
-                juce::Colour(0xff1E3A8A).withAlpha(0.85f),
+                juce::Colour(0xff1E3A8A).withAlpha(0.75f),
                 0.0f, (float)getHeight(),
                 false);
-            gradient.addColour(0.5, juce::Colour(0xff7C3AED).withAlpha(0.75f));
+            gradient.addColour(0.5, juce::Colour(0xff7C3AED).withAlpha(0.65f));
             break;
         }
 
@@ -343,10 +343,10 @@ void PlayerGUI::resized()
         forward_10, 1.0f, juce::Colours::yellow  //Pressed
     );
     muteButton.setImages(
-    false, true, true,
-    muteimage, 1.0f, juce::Colours::transparentWhite,
-    muteimage, 1.0f, juce::Colours::transparentWhite,
-    muteimage, 1.0f, juce::Colours::transparentWhite
+        false, true, true,
+        muteimage, 1.0f, juce::Colours::transparentWhite.withAlpha(0.1f),
+        muteimage, 1.0f, juce::Colours::transparentWhite.withAlpha(0.1f),
+        muteimage, 1.0f, juce::Colours::yellow.withAlpha(0.1f)
     );
 
     
