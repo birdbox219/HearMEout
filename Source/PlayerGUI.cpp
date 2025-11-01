@@ -2,8 +2,7 @@
 #include "BinaryData.h"
 
 
-
-PlayerGUI::PlayerGUI() : sendRow(0) // Initialize sendRow to 0
+PlayerGUI::PlayerGUI()
 {
     // Existing constructor code remains unchanged
     addAndMakeVisible(loadButton);
@@ -53,6 +52,25 @@ PlayerGUI::PlayerGUI() : sendRow(0) // Initialize sendRow to 0
     goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
     goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
     remove = juce::ImageFileFormat::loadFrom(BinaryData::delete_png, BinaryData::delete_pngSize);
+    forward_10 = juce::ImageFileFormat::loadFrom(BinaryData::ten_for_png,BinaryData::ten_for_pngSize);
+    backward_10 = juce::ImageFileFormat::loadFrom(BinaryData::ten_back_png,BinaryData::ten_back_pngSize);
+    muteimage = juce::ImageFileFormat::loadFrom(BinaryData::volume_png,BinaryData::volume_pngSize);
+    unmuteimage = juce::ImageFileFormat::loadFrom(BinaryData::no_volume_png,BinaryData::no_volume_pngSize);
+
+
+
+    
+   
+
+    
+    
+    //------------------------------------------//
+
+
+    
+
+
+
 
     // Volume slider
     volumeSlider.setRange(0.0, 1.0, 0.01);
@@ -122,9 +140,9 @@ PlayerGUI::PlayerGUI() : sendRow(0) // Initialize sendRow to 0
     styleButton(loopButton, juce::Colours::darkgrey);
     styleButton(abLoopButton, juce::Colours::darkgrey);
     styleButton(abStartButton, juce::Colours::darkgrey);
-    styleButton(muteButton, juce::Colours::darkslategrey);
-    styleButton(skipBackButton, juce::Colours::darkslategrey);
-    styleButton(skipForwardButton, juce::Colours::darkslategrey);
+    //styleButton(muteButton, juce::Colours::darkslategrey);
+    // styleButton(skipBackButton, juce::Colours::darkslategrey);
+    // styleButton(skipForwardButton, juce::Colours::darkslategrey);
     styleButton(addToListButton, juce::Colours::darkblue);
     styleButton(resetButton, juce::Colours::mediumvioletred);
     styleButton(selectButton, juce::Colours::green);
@@ -217,6 +235,58 @@ void PlayerGUI::resized()
 
     abLoopButton.setBounds(abX, abY, 160, 30);
 
+    
+    goEndButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        goEnd, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        goEnd, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        goEnd, 1.0f, juce::Colours::yellow  //Pressed
+     
+    );
+    goStartButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        goStart, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        goStart, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        goStart, 1.0f, juce::Colours::yellow  //Pressed
+    );
+    removeButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        remove, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        remove, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        remove, 1.0f, juce::Colours::yellow  //Pressed
+    );
+    skipBackButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        backward_10, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        backward_10, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        backward_10, 1.0f, juce::Colours::yellow  //Pressed
+    );
+    skipForwardButton.setImages(
+        false, // resizeButtonImageAutomatically
+        true,  // preserveProportions
+        true,  // useAlphaChannel
+        forward_10, 1.0f, juce::Colours::transparentWhite, // Normal opacity
+        forward_10, 0.8f, juce::Colours::transparentWhite, // Hover opacity
+        forward_10, 1.0f, juce::Colours::yellow  //Pressed
+    );
+    muteButton.setImages(
+    false, true, true,
+    muteimage, 1.0f, juce::Colours::transparentWhite,
+    muteimage, 1.0f, juce::Colours::transparentWhite,
+    muteimage, 1.0f, juce::Colours::transparentWhite
+    );
+
+    /*prevButton.setBounds(340, y, 80, 40);
+    nextButton.setBounds(440, y, 80, 40);*/
+    //Sliders Bounds
     abStartTimeLabel.setBounds(abX, abY + 40, 50, 25);
     abStartLabel.setBounds(abX + 55, abY + 40, 105, 25);
 
