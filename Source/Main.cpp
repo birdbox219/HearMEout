@@ -23,7 +23,7 @@ class SimpleAudioPlayer : public juce::JUCEApplication
 {
 public:
     const juce::String getApplicationName() override { return "HearMeOut"; }
-    const juce::String getApplicationVersion() override { return "0.3"; }
+    const juce::String getApplicationVersion() override { return "0.4"; }
 
     void initialise(const juce::String&) override
     {

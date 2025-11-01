@@ -13,8 +13,12 @@
             file="Assetes/MakimaTheme1.png"/>
       <FILE id="OnNIuf" name="NierAutomataTheme2.png" compile="0" resource="1"
             file="Assetes/NierAutomataTheme2.png"/>
+      <FILE id="xxtMcj" name="no_volume.png" compile="0" resource="1" file="Assetes/no_volume.png"/>
       <FILE id="OJu9f9" name="pauseyellow.png" compile="0" resource="1" file="Assetes/pauseyellow.png"/>
       <FILE id="a8hQ4c" name="startWindow.png" compile="0" resource="1" file="Assetes/startWindow.png"/>
+      <FILE id="Xfbc6y" name="ten_back.png" compile="0" resource="1" file="Assetes/ten_back.png"/>
+      <FILE id="oSl0cb" name="ten_for.png" compile="0" resource="1" file="Assetes/ten_for.png"/>
+      <FILE id="GACtIa" name="volume.png" compile="0" resource="1" file="Assetes/volume.png"/>
     </GROUP>
     <GROUP id="{7E558E29-4397-038A-F1C6-354E61356884}" name="Source">
       <FILE id="XBGN7u" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>

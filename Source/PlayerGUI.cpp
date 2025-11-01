@@ -284,9 +284,7 @@ void PlayerGUI::resized()
     muteimage, 1.0f, juce::Colours::transparentWhite
     );
 
-    /*prevButton.setBounds(340, y, 80, 40);
-    nextButton.setBounds(440, y, 80, 40);*/
-    //Sliders Bounds
+    
     abStartTimeLabel.setBounds(abX, abY + 40, 50, 25);
     abStartLabel.setBounds(abX + 55, abY + 40, 105, 25);
 
