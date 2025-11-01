@@ -167,6 +167,21 @@ void PlayerGUI::paint(juce::Graphics& g)
         g.drawImage(backgroundImage,
             getLocalBounds().toFloat(),
             juce::RectanglePlacement::stretchToFit);
+        juce::ColourGradient gradient(
+            juce::Colour(0xffDB2777).withAlpha(0.5f),
+            0.0f, 0.0f,
+            juce::Colour(0xff7C3AED).withAlpha(0.65f),
+            0.0f, (float)getHeight(),
+            false);
+        g.setGradientFill(gradient);
+        g.fillAll();
+
+
+
+
+
+
+
     }
     else
     {
@@ -181,7 +196,7 @@ void PlayerGUI::paint(juce::Graphics& g)
         g.fillAll();
     }
 
-    g.setColour(juce::Colours::transparentBlack.withAlpha(0.25f)); 
+    g.setColour(juce::Colours::transparentBlack.withAlpha(0.1f)); 
 	
     g.fillRect(getLocalBounds());
 }
