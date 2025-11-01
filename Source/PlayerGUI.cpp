@@ -167,12 +167,62 @@ void PlayerGUI::paint(juce::Graphics& g)
         g.drawImage(backgroundImage,
             getLocalBounds().toFloat(),
             juce::RectanglePlacement::stretchToFit);
-        juce::ColourGradient gradient(
+     /*   juce::ColourGradient gradient(
             juce::Colour(0xffDB2777).withAlpha(0.5f),
             0.0f, 0.0f,
             juce::Colour(0xff7C3AED).withAlpha(0.65f),
             0.0f, (float)getHeight(),
             false);
+        g.setGradientFill(gradient);
+        g.fillAll();*/
+
+		//you can change as you want :)))))))))))))))))))))))))
+
+        juce::ColourGradient gradient;
+
+        switch (currentThemeIndex)
+        {
+        case 0: // Makima Theme - Red/Pink gradient (power, intensity)
+            gradient = juce::ColourGradient(
+                juce::Colour(0xffDC2626).withAlpha(0.5f),  // Red
+                0.0f, 0.0f,
+                juce::Colour(0xff7C3AED).withAlpha(0.75f), // Purple
+                0.0f, (float)getHeight(),
+                false);
+            gradient.addColour(0.5, juce::Colour(0xffDB2777).withAlpha(0.65f)); // Pink
+            break;
+
+        case 1: // Nier Automata Theme - Cool Blue/Teal gradient (sci-fi, melancholic)
+            gradient = juce::ColourGradient(
+                juce::Colour(0xff1E293B).withAlpha(0.6f),  // Dark slate
+                0.0f, 0.0f,
+                juce::Colour(0xff0891B2).withAlpha(0.7f),  // Cyan
+                0.0f, (float)getHeight(),
+                false);
+            gradient.addColour(0.5, juce::Colour(0xff0F172A).withAlpha(0.65f)); // Very dark blue
+            break;
+
+        case 2: // Doctor X Theme - Purple/Blue gradient (medical, professional)
+            gradient = juce::ColourGradient(
+                juce::Colour(0xff6B46C1).withAlpha(0.65f), // Deep purple
+                0.0f, 0.0f,
+                juce::Colour(0xff1E40AF).withAlpha(0.8f),  // Blue
+                0.0f, (float)getHeight(),
+                false);
+            gradient.addColour(0.5, juce::Colour(0xff4C1D95).withAlpha(0.7f)); // Mid purple
+            break;
+
+        default: // Fallback gradient
+            gradient = juce::ColourGradient(
+                juce::Colour(0xff6B46C1).withAlpha(0.7f),
+                0.0f, 0.0f,
+                juce::Colour(0xff1E3A8A).withAlpha(0.85f),
+                0.0f, (float)getHeight(),
+                false);
+            gradient.addColour(0.5, juce::Colour(0xff7C3AED).withAlpha(0.75f));
+            break;
+        }
+
         g.setGradientFill(gradient);
         g.fillAll();
 
