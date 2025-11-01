@@ -346,7 +346,7 @@ void PlayerGUI::resized()
         false, true, true,
         muteimage, 1.0f, juce::Colours::transparentWhite.withAlpha(0.1f),
         muteimage, 1.0f, juce::Colours::transparentWhite.withAlpha(0.1f),
-        muteimage, 1.0f, juce::Colours::yellow.withAlpha(0.1f)
+        muteimage, 1.0f, juce::Colours::yellow.withAlpha(0.9f)
     );
 
     

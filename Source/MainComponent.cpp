@@ -17,6 +17,7 @@ MainComponent::MainComponent()
     isStartWindow = true;
     startTimer(7000);
     addAndMakeVisible(playerGUI);
+
     playerGUI.setVisible(false);
     addAndMakeVisible(startButton);
     startButton.addListener(this);
@@ -130,6 +131,7 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     sessionManager.saveSession(player, playerGUI);
+	//PlayerGUI().~PlayerGUI();
     shutdownAudio();
 	
 
