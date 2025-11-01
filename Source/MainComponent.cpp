@@ -73,7 +73,8 @@ MainComponent::MainComponent()
 
     
 
-    setSize(500, 250);
+    //setSize(500, 250);
+    setSize(900, 600);
     setAudioChannels(0, 2);
 
     startTimer(100);

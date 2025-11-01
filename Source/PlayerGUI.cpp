@@ -3,20 +3,17 @@
 
 
 
-PlayerGUI::PlayerGUI()
+PlayerGUI::PlayerGUI() : sendRow(0) // Initialize sendRow to 0
 {
-    
-   
-    
-    
+    // Existing constructor code remains unchanged
     addAndMakeVisible(loadButton);
     addAndMakeVisible(changeThemeButton);
     changeThemeButton.setButtonText("Theme");
     changeThemeButton.onClick = [this]()
     {
-            ChangeTheme(); 
+        ChangeTheme();
     };
-    
+
     addAndMakeVisible(goStartButton);
     addAndMakeVisible(goEndButton);
     addAndMakeVisible(title);
@@ -24,13 +21,10 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(author);
     addAndMakeVisible(startIcon);
     addAndMakeVisible(stopButtonIcon);
-    
- 
+
     addAndMakeVisible(loopButton);
     addAndMakeVisible(abLoopButton);
     addAndMakeVisible(abStartButton);
-
-    
 
     addAndMakeVisible(muteButton);
     addAndMakeVisible(startIcon);
@@ -38,15 +32,12 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(skipBackButton);
     addAndMakeVisible(skipForwardButton);
 
-
-
-
     // Playlist-related components
     addAndMakeVisible(addToListButton);
     addAndMakeVisible(resetButton);
     addAndMakeVisible(playList);
     playList.setModel(this);
-  addAndMakeVisible(removeButton);
+    addAndMakeVisible(removeButton);
     addAndMakeVisible(selectButton);
     speedSlider.setRange(0.1, 2.0, 0.01);
     speedSlider.setValue(1.0);
@@ -56,73 +47,34 @@ PlayerGUI::PlayerGUI()
     speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 20);
     speedSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow);
     speedSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
-    
 
-   
-  
- 
-    
-    
-    
-    //Icon Manager
-    
-
-     
+    // Icon Manager
     stopImageIcon = juce::ImageFileFormat::loadFrom(BinaryData::pauseyellow_png, BinaryData::pauseyellow_pngSize);
-    
-    
-
-
     goEnd = juce::ImageFileFormat::loadFrom(BinaryData::goEnd_png, BinaryData::goEnd_pngSize);
     goStart = juce::ImageFileFormat::loadFrom(BinaryData::goStart_png, BinaryData::goStart_pngSize);
     remove = juce::ImageFileFormat::loadFrom(BinaryData::delete_png, BinaryData::delete_pngSize);
-    
-
-
-    
-   
-
-    
-    
-    //------------------------------------------//
-
-
-    
-
-
-
 
     // Volume slider
     volumeSlider.setRange(0.0, 1.0, 0.01);
     volumeSlider.setValue(0.5);
     volumeSlider.setSliderStyle(juce::Slider::LinearBarVertical);
     volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    
     volumeSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow);
     volumeSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
 
-
-
-
-    //volumeSlider.addListener(this);
     addAndMakeVisible(volumeSlider);
 
-    //Progress Slider
+    // Progress Slider
     progressSlider.setRange(0.0, 1.0, 0.001);
     progressSlider.setValue(0.0);
-    progressSlider.setSliderStyle(juce::Slider::LinearBar);  
+    progressSlider.setSliderStyle(juce::Slider::LinearBar);
     progressSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     progressSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow.withAlpha(0.6f));
-    //progressSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
-    
-
-
 
     addAndMakeVisible(progressSlider);
 
-    //Progress Lebel
+    // Progress Label
     currentTimeLabel.setText("0:00", juce::dontSendNotification);
-    //currentTimeLabel.setJustificationType(juce::Justification::centredLeft);
     addAndMakeVisible(currentTimeLabel);
 
     TotalTimeLabel.setText("0:00", juce::dontSendNotification);
@@ -135,7 +87,6 @@ PlayerGUI::PlayerGUI()
     abEndTimeLabel.setText("End:", juce::dontSendNotification);
     abEndTimeLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(abEndTimeLabel);
-
 
     abStartLabel.setText("0:00", juce::dontSendNotification);
     abStartLabel.setEditable(true);
@@ -151,28 +102,21 @@ PlayerGUI::PlayerGUI()
     abEndLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(abEndLabel);
 
-
     abStartTimeLabel.setVisible(false);
     abEndTimeLabel.setVisible(false);
     abStartLabel.setVisible(false);
     abEndLabel.setVisible(false);
     abStartButton.setVisible(false);
 
-	//---------------Theme Manager-----------------//
+    // Theme Manager
+    setOpaque(true);
 
-
-     //Theme manager
-    //setColour(juce::ResizableWindow::backgroundColourId, juce::Colours::blueviolet);
-   
-    setOpaque(true); 
-
-    // Make buttons semi-transparent with glass effect
     auto styleButton = [](juce::TextButton& btn, juce::Colour baseColour) {
         btn.setColour(juce::TextButton::buttonColourId, baseColour.withAlpha(0.2f));
         btn.setColour(juce::TextButton::buttonOnColourId, baseColour.withAlpha(0.4f));
         btn.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
         btn.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
-        };
+    };
 
     styleButton(loadButton, juce::Colours::darkblue);
     styleButton(loopButton, juce::Colours::darkgrey);
@@ -184,35 +128,13 @@ PlayerGUI::PlayerGUI()
     styleButton(addToListButton, juce::Colours::darkblue);
     styleButton(resetButton, juce::Colours::mediumvioletred);
     styleButton(selectButton, juce::Colours::green);
-	styleButton(changeThemeButton, juce::Colours::purple);
+    styleButton(changeThemeButton, juce::Colours::purple);
 
-    
-    
-
-    
     playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::black.withAlpha(0.2f));
     playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.1f));
     playList.setColour(juce::ListBox::textColourId, juce::Colours::white);
 
-   
     playList.setOpaque(false);
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-    //setSize(500, 250);
-    //setAudioChannels(0, 2);
 }
 
 
@@ -230,7 +152,15 @@ void PlayerGUI::paint(juce::Graphics& g)
     }
     else
     {
-        g.fillAll(juce::Colours::blueviolet);
+        juce::ColourGradient gradient(
+            juce::Colour(0xff0891B2),  // Cyan
+            0.0f, 0.0f,
+            juce::Colour(0xff1E40AF),  // Blue
+            0.0f, (float)getHeight(),
+            false);
+        gradient.addColour(0.5, juce::Colour(0xff0284C7)); // Sky blue
+        g.setGradientFill(gradient);
+        g.fillAll();
     }
 
     g.setColour(juce::Colours::transparentBlack.withAlpha(0.25f)); 
@@ -240,132 +170,152 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 void PlayerGUI::resized()
 {
-    int y = 20;
-    loadButton.setBounds(20, y, 100, 40);
-    changeThemeButton.setBounds(getWidth() - 230, 30, 100, 40);
-    
-     // Side buttons
-    goStartButton.setBounds(200, 500, 100, 40);
-    goEndButton.setBounds(660, 500, 100, 40);
-
-    // Central control icons
-    startIcon.setBounds(450, 500, 60, 60);
-    stopButtonIcon.setBounds(450, 500, 60, 60);
-
-    // New skip buttons
-    skipBackButton.setBounds(370, 510, 60, 40);
-    skipForwardButton.setBounds(530, 510, 60, 40);
-
-    title.setBounds(320, 90, 100, 40);
-    time.setBounds(320, 110, 100, 40);
-    author.setBounds(320, 130, 100, 40);
-    
-
-    loopButton.setBounds(800, 500, 80, 40);
-    abLoopButton.setBounds(760, 330, 120, 30);
-    abStartButton.setBounds(760, 433, 120, 20);
-
+    auto bounds = getLocalBounds();
+    const int margin = 10;
 
     
-    
+    float scale = juce::jmin(getWidth() / 900.0f, getHeight() / 600.0f);
 
-    //mute button
-    muteButton.setBounds(50, 500, 100, 40);
    
+    auto topBar = bounds.removeFromTop(70);
 
+    
+    loadButton.setBounds(20, 20, 100, 40);
+    addToListButton.setBounds(125, 20, 40, 40);
+    resetButton.setBounds(170, 20, 60, 40);
+    selectButton.setBounds(230, 20, 60, 40);
+    removeButton.setBounds(280, 20, 60, 40);
 
+    
+    changeThemeButton.setBounds(getWidth() - 210, 30, 100, 40);
+
+    
+    playList.setBounds(20, 70, 300, 300);
+
+    
+    int centerX = 320;
+    title.setBounds(centerX, 90, 200, 20);
+    time.setBounds(centerX, 115, 200, 20);
+    author.setBounds(centerX, 140, 200, 20);
+
+    
+    int rightEdge = getWidth() - 20;
+
+    
+    int sliderWidth = 30;
+    int sliderTop = 30;
+    int sliderBottom = getHeight() - 310;;
+    //int sliderBottom = 290;
+    int sliderHeight = sliderBottom - sliderTop;
+
+    volumeSlider.setBounds(rightEdge - sliderWidth, sliderTop, sliderWidth, sliderHeight);
+    speedSlider.setBounds(rightEdge - (sliderWidth * 2 + 20), sliderTop, sliderWidth, sliderHeight);
+
+    
+    int abX = rightEdge - 180;
+    int abY = sliderBottom + 20; 
+
+    abLoopButton.setBounds(abX, abY, 160, 30);
+
+    abStartTimeLabel.setBounds(abX, abY + 40, 50, 25);
+    abStartLabel.setBounds(abX + 55, abY + 40, 105, 25);
+
+    abEndTimeLabel.setBounds(abX, abY + 75, 50, 25);
+    abEndLabel.setBounds(abX + 55, abY + 75, 105, 25);
+
+    abStartButton.setBounds(abX, abY + 110, 160, 25);
 
     
 
+   
+    int progressY = getHeight() - 150;
+    int progressLeft = 90;
+    int progressRight = getWidth() - 90;
+
+    currentTimeLabel.setBounds(20, progressY - 5, 60, 40);
+    progressSlider.setBounds(progressLeft, progressY, progressRight - progressLeft, 30);
+    TotalTimeLabel.setBounds(progressRight + 10, progressY - 5, 60, 40);
+
+    
+    int controlsY = getHeight() - 100;
+    centerX = getWidth() / 2;
+
+   
+    int playBtnWidth = 60;
+    int playBtnHeight = 60;
+    int smallBtnWidth = 60;
+    int smallBtnHeight = 40;
+    int largeBtnWidth = 100;
+    int largeBtnHeight = 40;
+    int spacing = 20;
+
+    
+    startIcon.setBounds(centerX - playBtnWidth / 2, controlsY, playBtnWidth, playBtnHeight);
+    stopButtonIcon.setBounds(startIcon.getBounds());
+
+    
+    skipBackButton.setBounds(centerX - playBtnWidth / 2 - smallBtnWidth - spacing,
+        controlsY + 10, smallBtnWidth, smallBtnHeight);
+    skipForwardButton.setBounds(centerX + playBtnWidth / 2 + spacing,
+        controlsY + 10, smallBtnWidth, smallBtnHeight);
+
+    
+    goStartButton.setBounds(centerX - playBtnWidth / 2 - smallBtnWidth - largeBtnWidth - spacing * 2,
+        controlsY, largeBtnWidth, largeBtnHeight);
+    goEndButton.setBounds(centerX + playBtnWidth / 2 + smallBtnWidth + spacing * 2,
+        controlsY, largeBtnWidth, largeBtnHeight);
+
+    
+    muteButton.setBounds(50, controlsY, largeBtnWidth, largeBtnHeight);
+    loopButton.setBounds(getWidth() - 50 - 80, controlsY, 80, largeBtnHeight);
+
+    
     if (stopImageIcon.isValid())
     {
-
-
         stopButtonIcon.setImages(false, true, true,
-
             stopImageIcon, 1.0f, juce::Colours::transparentBlack,
             stopImageOverIcon, 0.8f, juce::Colours::transparentWhite,
             stopImageDownIcon, 1.0f, juce::Colours::yellow);
-
-
     }
 
-    
-    
+    if (goEnd.isValid())
+    {
+        goEndButton.setImages(false, true, true,
+            goEnd, 1.0f, juce::Colours::transparentWhite,
+            goEnd, 0.8f, juce::Colours::transparentWhite,
+            goEnd, 1.0f, juce::Colours::yellow);
+    }
 
-    
-    goEndButton.setImages(
-        false, // resizeButtonImageAutomatically
-        true,  // preserveProportions
-        true,  // useAlphaChannel
-        goEnd, 1.0f, juce::Colours::transparentWhite, // Normal opacity
-        goEnd, 0.8f, juce::Colours::transparentWhite, // Hover opacity
-        goEnd, 1.0f, juce::Colours::yellow  //Pressed
-     
-    );
-    goStartButton.setImages(
-        false, // resizeButtonImageAutomatically
-        true,  // preserveProportions
-        true,  // useAlphaChannel
-        goStart, 1.0f, juce::Colours::transparentWhite, // Normal opacity
-        goStart, 0.8f, juce::Colours::transparentWhite, // Hover opacity
-        goStart, 1.0f, juce::Colours::yellow  //Pressed
-    );
-    removeButton.setImages(
-        false, // resizeButtonImageAutomatically
-        true,  // preserveProportions
-        true,  // useAlphaChannel
-        remove, 1.0f, juce::Colours::transparentWhite, // Normal opacity
-        remove, 0.8f, juce::Colours::transparentWhite, // Hover opacity
-        remove, 1.0f, juce::Colours::yellow  //Pressed
-    );
-    /*prevButton.setBounds(340, y, 80, 40);
-    nextButton.setBounds(440, y, 80, 40);*/
-    //Sliders Bounds
+    if (goStart.isValid())
+    {
+        goStartButton.setImages(false, true, true,
+            goStart, 1.0f, juce::Colours::transparentWhite,
+            goStart, 0.8f, juce::Colours::transparentWhite,
+            goStart, 1.0f, juce::Colours::yellow);
+    }
 
-    volumeSlider.setBounds(830, 30, 30 , getHeight() - 310 );
+    if (remove.isValid())
+    {
+        removeButton.setImages(false, true, true,
+            remove, 1.0f, juce::Colours::transparentWhite,
+            remove, 0.8f, juce::Colours::transparentWhite,
+            remove, 1.0f, juce::Colours::yellow);
+    }
 
-    int progressY = 450;
-    progressSlider.setBounds(90, progressY, getWidth() - 180, 30);
-    //speed slider
-    speedSlider.setBounds(780, 30, 30, getHeight() - 310);//audio speed length and width.
+    //skipBackButton.setImages(false, true, true,
+    //    backward_10, 1.0f, juce::Colours::transparentWhite,
+    //    backward_10, 0.8f, juce::Colours::transparentWhite,
+    //    backward_10, 1.0f, juce::Colours::yellow);
 
+    //skipForwardButton.setImages(false, true, true,
+    //    forward_10, 1.0f, juce::Colours::transparentWhite,
+    //    forward_10, 0.8f, juce::Colours::transparentWhite,
+    //    forward_10, 1.0f, juce::Colours::yellow);
 
-
-
-
-
-
-    //Lebels Bounds
-    currentTimeLabel.setBounds(20, progressY - 30, 60, 80);
-    TotalTimeLabel.setBounds(getWidth() - 80, progressY - 30, 60, 80);
-
-    // Playlist-related components
-    addToListButton.setBounds(125, 20, 40, 40);
-    
-    resetButton.setBounds(170, 20, 60, 40);
-    
-    playList.setBounds(20, 70, 300, 300);
-    selectButton.setBounds(230, 20, 60, 40);
-    removeButton.setBounds(280, 20, 60, 40);
-   
-
- 
-
-
-  
-
-    //A-B Lebels
-
-    abStartTimeLabel.setBounds(700, 370, 50, 25);
-    abStartLabel.setBounds(760, 370, 80, 25);
-
-    abEndTimeLabel.setBounds(700, 405, 50, 25);
-    abEndLabel.setBounds(760, 405, 80, 25);
-
-
-
-
+    //muteButton.setImages(false, true, true,
+    //    muteimage, 1.0f, juce::Colours::transparentWhite,
+    //    muteimage, 1.0f, juce::Colours::transparentWhite,
+    //    muteimage, 1.0f, juce::Colours::transparentWhite);
 }
 void PlayerGUI::metaData(juce::String& fileName, double& totalTime, juce::String& authorName)
 {
