@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <JuceHeader.h>
 #include <vector>
@@ -6,6 +6,7 @@
 
 #include "PlayerAudio.h"
 #include "PlayerGUI.h"
+#include "SessionManager.h"
 
 class MainComponent : public juce::AudioAppComponent,
     public juce::Button::Listener,
@@ -56,6 +57,8 @@ private:
 
 	// GUI
     PlayerGUI playerGUI;
+	//session manager
+    SessionManager sessionManager;
 
  
     std::unique_ptr<juce::FileChooser> fileChooser;

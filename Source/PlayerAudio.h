@@ -36,7 +36,7 @@ public:
 	double getTotalLength() const;
 
 
-	void setPosition(double newPositon);
+	void setPosition(double newPosition);
 
 	void setABLoop(bool enabled);
 	bool isABLoopEnabled() const { return abLoopEnabled; }
@@ -55,9 +55,7 @@ public:
 	std::vector <juce::File> files;
 	void addToList(juce::File& file);
 
-	void SaveSession();
-	bool LoadLastSession();
-	juce::File getSessionFile();
+	
 	juce::File getCurrentFile() const { return currentFile; }
 	
 

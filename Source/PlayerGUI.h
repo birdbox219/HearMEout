@@ -111,7 +111,7 @@ public:
     void paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height, bool rowIsSelected) override;
     void showFile(juce::File& file,double time);
     void selectedRowsChanged(int lastRowSelected);
-	void ChangeTheme();
+	void ChangeTheme(int themeIndex = -1);
   
 
     juce::File sendFile;

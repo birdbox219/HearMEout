@@ -8,7 +8,8 @@ BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 MainComponent::MainComponent()
 {
 	//Load saved session 
-    bool sessionLoaded = player.LoadLastSession();
+    //bool sessionLoaded = player.LoadLastSession();
+    bool sessionLoaded = sessionManager.loadSession(player, playerGUI);
   
     
  
@@ -80,54 +81,55 @@ MainComponent::MainComponent()
 
     startTimer(100);
 
-    if (sessionLoaded)
-    {
-        juce::File currentFile = player.getCurrentFile();
-        if (currentFile.existsAsFile())
-        {
-            double totalTime = player.getTotalLength();
-            playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
-            juce::String fileName = currentFile.getFileNameWithoutExtension();
+    //if (sessionLoaded)
+    //{
+    //    juce::File currentFile = player.getCurrentFile();
+    //    if (currentFile.existsAsFile())
+    //    {
+    //        double totalTime = player.getTotalLength();
+    //        playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+    //        juce::String fileName = currentFile.getFileNameWithoutExtension();
 
-            
-            authorName = "Unknown"; 
+    //        
+    //        authorName = "Unknown"; 
 
-            playerGUI.metaData(fileName, totalTime, authorName);
+    //        playerGUI.metaData(fileName, totalTime, authorName);
 
-            
-            playerGUI.volumeSlider.setValue(player.getPreviousGain(), juce::dontSendNotification);
+    //        
+    //        playerGUI.volumeSlider.setValue(player.getPreviousGain(), juce::dontSendNotification);
 
-            
-            playerGUI.speedSlider.setValue(1.0, juce::dontSendNotification);
+    //        
+    //        playerGUI.speedSlider.setValue(1.0, juce::dontSendNotification);
 
-            
-            if (player.isLooping())
-            {
-                playerGUI.loopButton.setColour(
-                    juce::TextButton::buttonColourId,
-                    juce::Colours::orangered
-                );
-            }
+    //        
+    //        if (player.isLooping())
+    //        {
+    //            playerGUI.loopButton.setColour(
+    //                juce::TextButton::buttonColourId,
+    //                juce::Colours::orangered
+    //            );
+    //        }
 
-            // Update mute button
-            if (player.isMuted)
-            {
-                playerGUI.muteButton.setButtonText("Unmute");
-            }
+    //        // Update mute button
+    //        if (player.isMuted)
+    //        {
+    //            playerGUI.muteButton.setButtonText("Unmute");
+    //        }
 
-            
-            for (const auto& file : player.files)
-            {
-                double fileTime = 0.0; 
-                playerGUI.showFile(const_cast<juce::File&>(file), fileTime);
-            }
-        }
-    }
+    //        
+    //        for (const auto& file : player.files)
+    //        {
+    //            double fileTime = 0.0; 
+    //            playerGUI.showFile(const_cast<juce::File&>(file), fileTime);
+    //        }
+    //    }
+    //}
     
 }
 
 MainComponent::~MainComponent()
 {
+    sessionManager.saveSession(player, playerGUI);
     shutdownAudio();
 	
 

@@ -548,11 +548,19 @@ void PlayerGUI::selectedRowsChanged(int lastRowSelected)
     }                                                                                                                                                                    
 }
 
-void PlayerGUI::ChangeTheme()
+void PlayerGUI::ChangeTheme(int themeIndex)
 {
-	int numpersOfThemes = 3;
-    // cycle between 2 or more backgrounds
-    currentThemeIndex = (currentThemeIndex + 1) % numpersOfThemes;
+    int numThemes = 3;
+
+    if (themeIndex >= 0 && themeIndex < numThemes)
+    {
+        currentThemeIndex = themeIndex;
+    }
+    else
+    {
+        currentThemeIndex = (currentThemeIndex + 1) % numThemes;
+    }
+
     switch (currentThemeIndex)
     {
     case 0:
@@ -573,8 +581,6 @@ void PlayerGUI::ChangeTheme()
             BinaryData::DoctorXTheme3_pngSize);
         break;
     }
-
-    
 
     repaint();
 }
