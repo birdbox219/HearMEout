@@ -60,7 +60,7 @@ public:
 private:
     // Audio
 	PlayerAudio player;
-    PlayerAudio player2;  //for track2
+    //PlayerAudio player2;  //for track2
 
 	// GUI
     PlayerGUI playerGUI;

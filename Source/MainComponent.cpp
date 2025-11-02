@@ -11,9 +11,9 @@ MainComponent::MainComponent()
     //bool sessionLoaded = player.LoadLastSession();
     bool sessionLoaded = sessionManager.loadSession(player, playerGUI);
 
-	/*player.transportSource2.stop();
+    player.readerSource2.reset(nullptr);
     player.transportSource2.setSource(nullptr);
-    player.readerSource2.reset(nullptr);*/
+    
 
   
     
@@ -33,10 +33,8 @@ MainComponent::MainComponent()
     twoTracksButton.addListener(this);
     twoTracksButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumpurple);
     twoTracksButton.setVisible(false);
-   /* addAndMakeVisible(homeButton);
-    homeButton.addListener(this);
-    homeButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue);
-    homeButton.setVisible(false);*/
+   
+
 
   
     playerGUI.loadButton.addListener(this);
@@ -103,55 +101,13 @@ MainComponent::MainComponent()
 
     
 
-    //setSize(500, 250);
+    
     setSize(900, 600);
     setAudioChannels(0, 2);
 
     startTimer(100);
 
-    //if (sessionLoaded)
-    //{
-    //    juce::File currentFile = player.getCurrentFile();
-    //    if (currentFile.existsAsFile())
-    //    {
-    //        double totalTime = player.getTotalLength();
-    //        playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
-    //        juce::String fileName = currentFile.getFileNameWithoutExtension();
-
-    //        
-    //        authorName = "Unknown"; 
-
-    //        playerGUI.metaData(fileName, totalTime, authorName);
-
-    //        
-    //        playerGUI.volumeSlider.setValue(player.getPreviousGain(), juce::dontSendNotification);
-
-    //        
-    //        playerGUI.speedSlider.setValue(1.0, juce::dontSendNotification);
-
-    //        
-    //        if (player.isLooping())
-    //        {
-    //            playerGUI.loopButton.setColour(
-    //                juce::TextButton::buttonColourId,
-    //                juce::Colours::orangered
-    //            );
-    //        }
-
-    //        // Update mute button
-    //        if (player.isMuted)
-    //        {
-    //            playerGUI.muteButton.setButtonText("Unmute");
-    //        }
-
-    //        
-    //        for (const auto& file : player.files)
-    //        {
-    //            double fileTime = 0.0; 
-    //            playerGUI.showFile(const_cast<juce::File&>(file), fileTime);
-    //        }
-    //    }
-    //}
+    
     
 }
 
@@ -163,7 +119,7 @@ MainComponent::~MainComponent()
 	
 
 }
-//----------------------------------------------------------------
+//----------------------------------------------------------------//NOTED
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     player.prepareToPlay(samplesPerBlockExpected, sampleRate);
@@ -234,7 +190,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             [this](const juce::FileChooser& fc)
             {
                 auto file = fc.getResult();
-                //player.loadFile(file);
+                
                 authorName = player.loadFile(file);
                 double totalTime = player.getTotalLength();
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);

@@ -126,6 +126,8 @@ public:
 	bool abLoopEnabled2 = false;
 	double abStartPosition2 = 0.0;
 	double abEndPosition2 = 0.0;
+
+	
 	
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 

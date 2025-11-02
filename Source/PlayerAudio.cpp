@@ -5,14 +5,10 @@ PlayerAudio::PlayerAudio()
 {
 	formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
-    //transportSource2.addChangeListener(this);
 
-
-    /*mixer.addInputSource(&respeeder, false);
-    mixer.addInputSource(&respeeder2, false);*/
-
-    /*respeeder.setResamplingRatio(1.0);
-    respeeder2.setResamplingRatio(1.0);*/
+    respeeder.setResamplingRatio(1.0);
+    respeeder2.setResamplingRatio(1.0);
+ 
     mixer.addInputSource(&respeeder, false);
     mixer.addInputSource(&respeeder2, false);
 
@@ -105,11 +101,12 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
 
 
 
-
+        
         readerSource.reset(new juce::AudioFormatReaderSource(reader, true));
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
 
 		currentFile = file;
+        respeeder.setResamplingRatio(1.0);
 
         clearABPoints();
 
@@ -155,11 +152,12 @@ juce::String PlayerAudio::loadFile2(const juce::File& file)
 
 
 
-
+        
         readerSource2.reset(new juce::AudioFormatReaderSource(reader2, true));
         transportSource2.setSource(readerSource2.get(), 0, nullptr, reader2->sampleRate);
-
+        respeeder2.setResamplingRatio(1.0);
         clearABPoints();
+        
 
         return authorName;
     }
@@ -247,6 +245,8 @@ void PlayerAudio::setSpeed2(double ratio)
 {
     respeeder2.setResamplingRatio(ratio);
 }
+
+
 
 // skip 10sec and rewind 10 sec:
 void PlayerAudio::skipForward(double seconds)
@@ -493,9 +493,33 @@ void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    mixer.getNextAudioBlock(bufferToFill);
-    checkABLoop();
-	checkABLoop2();
+    bool track1Active = (readerSource != nullptr && transportSource.getTotalLength() > 0);
+    bool track2Active = (readerSource2 != nullptr && transportSource2.getTotalLength() > 0);
+
+    if (track1Active && track2Active)
+    {
+        // Both tracks loaded - use mixer
+        mixer.getNextAudioBlock(bufferToFill);
+        checkABLoop();
+        checkABLoop2();
+    }
+    else if (track1Active && !track2Active)
+    {
+        // Only track 1 - bypass mixer completely
+        respeeder.getNextAudioBlock(bufferToFill);
+        checkABLoop();
+    }
+    else if (track2Active && !track1Active)
+    {
+        // Only track 2 - bypass mixer completely
+        respeeder2.getNextAudioBlock(bufferToFill);
+        checkABLoop2();
+    }
+    else
+    {
+        // No tracks loaded - output silence
+        bufferToFill.clearActiveBufferRegion();
+    }
 }
 
 void PlayerAudio::releaseResources()
@@ -505,8 +529,7 @@ void PlayerAudio::releaseResources()
    respeeder.releaseResources();
    respeeder2.releaseResources();
     mixer.releaseResources();
-    //transportSource.releaseResources();
-    //transportSource2.releaseResources();
+    
 
     
 }
