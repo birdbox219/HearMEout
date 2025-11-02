@@ -8,6 +8,7 @@ class PlayerAudio : public juce::AudioAppComponent,  public juce::ChangeListener
 public:
 	PlayerAudio();
 	~PlayerAudio() override;
+	void setTrackActive(int trackNumber, bool active);
 
 	juce::String loadFile(const juce::File& file);
 	juce::String loadFile2(const juce::File& file); //track2

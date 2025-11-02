@@ -5,13 +5,18 @@ PlayerAudio::PlayerAudio()
 {
 	formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
-    transportSource2.addChangeListener(this);
-  /*  mixer.addInputSource(&transportSource, false);
-    mixer.addInputSource(&transportSource2, false);*/
+    //transportSource2.addChangeListener(this);
+
+
+    /*mixer.addInputSource(&respeeder, false);
+    mixer.addInputSource(&respeeder2, false);*/
+
+    /*respeeder.setResamplingRatio(1.0);
+    respeeder2.setResamplingRatio(1.0);*/
     mixer.addInputSource(&respeeder, false);
     mixer.addInputSource(&respeeder2, false);
 
-    setAudioChannels(0, 2); // no inputs, 2 outputs
+    //setAudioChannels(0, 2); // no inputs, 2 outputs
 
 
 
@@ -27,7 +32,35 @@ PlayerAudio::~PlayerAudio()
     transportSource.setSource(nullptr);
     transportSource2.removeChangeListener(this);
     transportSource2.setSource(nullptr);
+
+    mixer.removeAllInputs();
 }
+
+
+
+void PlayerAudio::setTrackActive(int trackNumber, bool active)
+{
+    if (trackNumber == 1)
+    {
+        if (!active)
+        {
+            transportSource.stop();
+            transportSource.setSource(nullptr);
+            readerSource.reset(nullptr);
+        }
+    }
+    else if (trackNumber == 2)
+    {
+        if (!active)
+        {
+            transportSource2.stop();
+            transportSource2.setSource(nullptr);
+            readerSource2.reset(nullptr);
+        }
+    }
+}
+
+
 
 void PlayerAudio::setGain(float newGain)
 {
@@ -448,8 +481,8 @@ void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
 	
 
-   /* transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    transportSource2.prepareToPlay(samplesPerBlockExpected, sampleRate);*/
+    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    transportSource2.prepareToPlay(samplesPerBlockExpected, sampleRate);
    
     respeeder.prepareToPlay(samplesPerBlockExpected, sampleRate);
     respeeder2.prepareToPlay(samplesPerBlockExpected, sampleRate);
@@ -460,13 +493,15 @@ void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	//respeeder.getNextAudioBlock(bufferToFill);
     mixer.getNextAudioBlock(bufferToFill);
     checkABLoop();
+	checkABLoop2();
 }
 
 void PlayerAudio::releaseResources()
 {
+    transportSource.releaseResources();
+    transportSource2.releaseResources();
    respeeder.releaseResources();
    respeeder2.releaseResources();
     mixer.releaseResources();

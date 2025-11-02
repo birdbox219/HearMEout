@@ -10,6 +10,11 @@ MainComponent::MainComponent()
 	//Load saved session 
     //bool sessionLoaded = player.LoadLastSession();
     bool sessionLoaded = sessionManager.loadSession(player, playerGUI);
+
+	/*player.transportSource2.stop();
+    player.transportSource2.setSource(nullptr);
+    player.readerSource2.reset(nullptr);*/
+
   
     
  
@@ -718,6 +723,8 @@ void MainComponent::buttonClicked(juce::Button* button)
         playerGUI.setVisible(true);
         playerGUI2.setVisible(false);
         playerGUI.setBounds(getLocalBounds());
+
+       
   
         repaint();
     }
@@ -727,8 +734,11 @@ void MainComponent::buttonClicked(juce::Button* button)
      twoTracksButton.setVisible(false);
      playerGUI.setVisible(true);
      playerGUI2.setVisible(true);
+     
+
      playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
      playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));
+	 
      repaint();
  }
  else if (button == &singleTrackButton) {
@@ -738,8 +748,12 @@ void MainComponent::buttonClicked(juce::Button* button)
      playerGUI2.setVisible(false);
      playerGUI.setBounds(getLocalBounds());
 
-    player.transportSource2.removeChangeListener(&player);
-    player.transportSource2.setSource(nullptr);
+
+     player.setTrackActive(2, false);
+
+    playerGUI2.progressSlider.setValue(0.0, juce::dontSendNotification);
+    playerGUI2.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+    
   
      repaint();
  }
