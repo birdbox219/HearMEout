@@ -29,9 +29,17 @@ MainComponent::MainComponent()
     singleTrackButton.setVisible(false);
     singleTrackButton.addListener(this);
     singleTrackButton.setColour(juce::TextButton::buttonColourId, juce::Colours::purple);
+	singleTrackButton.setColour(juce::TextButton::buttonColourId, juce::Colours::purple.withAlpha(0.2f));
+	singleTrackButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::purple.withAlpha(0.4f));
+	singleTrackButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+	singleTrackButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
     addAndMakeVisible(twoTracksButton);
     twoTracksButton.addListener(this);
     twoTracksButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumpurple);
+    twoTracksButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumpurple.withAlpha(0.2f));
+    twoTracksButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::mediumpurple.withAlpha(0.4f));
+    twoTracksButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+    twoTracksButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
     twoTracksButton.setVisible(false);
    
 
