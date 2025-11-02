@@ -148,8 +148,8 @@ PlayerGUI::PlayerGUI()
     styleButton(selectButton, juce::Colours::green);
     styleButton(changeThemeButton, juce::Colours::purple);
 
-    playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::black.withAlpha(0.2f));
-    playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.1f));
+    playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::black.withAlpha(0.05f));
+    playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.05f));
     playList.setColour(juce::ListBox::textColourId, juce::Colours::white);
 
     playList.setOpaque(false);
@@ -346,7 +346,7 @@ void PlayerGUI::resized()
         false, true, true,
         muteimage, 1.0f, juce::Colours::transparentWhite.withAlpha(0.1f),
         muteimage, 1.0f, juce::Colours::transparentWhite.withAlpha(0.1f),
-        muteimage, 1.0f, juce::Colours::yellow.withAlpha(0.1f)
+        muteimage, 1.0f, juce::Colours::yellow.withAlpha(0.9f)
     );
 
     
@@ -548,11 +548,19 @@ void PlayerGUI::selectedRowsChanged(int lastRowSelected)
     }                                                                                                                                                                    
 }
 
-void PlayerGUI::ChangeTheme()
+void PlayerGUI::ChangeTheme(int themeIndex)
 {
-	int numpersOfThemes = 3;
-    // cycle between 2 or more backgrounds
-    currentThemeIndex = (currentThemeIndex + 1) % numpersOfThemes;
+    int numThemes = 3;
+
+    if (themeIndex >= 0 && themeIndex < numThemes)
+    {
+        currentThemeIndex = themeIndex;
+    }
+    else
+    {
+        currentThemeIndex = (currentThemeIndex + 1) % numThemes;
+    }
+
     switch (currentThemeIndex)
     {
     case 0:
@@ -573,8 +581,6 @@ void PlayerGUI::ChangeTheme()
             BinaryData::DoctorXTheme3_pngSize);
         break;
     }
-
-    
 
     repaint();
 }

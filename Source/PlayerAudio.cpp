@@ -1,17 +1,18 @@
-#include "PlayerAudio.h"
+﻿#include "PlayerAudio.h"
 
 PlayerAudio::PlayerAudio()
 
 {
 	formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
-    transportSource2.addChangeListener(this);
-  /*  mixer.addInputSource(&transportSource, false);
-    mixer.addInputSource(&transportSource2, false);*/
+
+    respeeder.setResamplingRatio(1.0);
+    respeeder2.setResamplingRatio(1.0);
+ 
     mixer.addInputSource(&respeeder, false);
     mixer.addInputSource(&respeeder2, false);
 
-    setAudioChannels(0, 2); // no inputs, 2 outputs
+    //setAudioChannels(0, 2); // no inputs, 2 outputs
 
 
 
@@ -21,13 +22,41 @@ PlayerAudio::PlayerAudio()
 
 PlayerAudio::~PlayerAudio()
 {
-    SaveSession();
+
 
     transportSource.removeChangeListener(this);
     transportSource.setSource(nullptr);
     transportSource2.removeChangeListener(this);
     transportSource2.setSource(nullptr);
+
+    mixer.removeAllInputs();
 }
+
+
+
+void PlayerAudio::setTrackActive(int trackNumber, bool active)
+{
+    if (trackNumber == 1)
+    {
+        if (!active)
+        {
+            transportSource.stop();
+            transportSource.setSource(nullptr);
+            readerSource.reset(nullptr);
+        }
+    }
+    else if (trackNumber == 2)
+    {
+        if (!active)
+        {
+            transportSource2.stop();
+            transportSource2.setSource(nullptr);
+            readerSource2.reset(nullptr);
+        }
+    }
+}
+
+
 
 void PlayerAudio::setGain(float newGain)
 {
@@ -72,11 +101,12 @@ juce::String PlayerAudio::loadFile(const juce::File& file)
 
 
 
-
+        
         readerSource.reset(new juce::AudioFormatReaderSource(reader, true));
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
 
 		currentFile = file;
+        respeeder.setResamplingRatio(1.0);
 
         clearABPoints();
 
@@ -122,11 +152,12 @@ juce::String PlayerAudio::loadFile2(const juce::File& file)
 
 
 
-
+        
         readerSource2.reset(new juce::AudioFormatReaderSource(reader2, true));
         transportSource2.setSource(readerSource2.get(), 0, nullptr, reader2->sampleRate);
-
+        respeeder2.setResamplingRatio(1.0);
         clearABPoints();
+        
 
         return authorName;
     }
@@ -214,6 +245,8 @@ void PlayerAudio::setSpeed2(double ratio)
 {
     respeeder2.setResamplingRatio(ratio);
 }
+
+
 
 // skip 10sec and rewind 10 sec:
 void PlayerAudio::skipForward(double seconds)
@@ -423,7 +456,8 @@ void PlayerAudio::checkABLoop2()
 
 
 // Playlist-related components
-void PlayerAudio::addToList(juce::File& file) {
+void PlayerAudio::addToList(juce::File& file)
+{
     bool exist{};
     if (!files.empty()) {
         for (auto f : files) {
@@ -438,148 +472,7 @@ void PlayerAudio::addToList(juce::File& file) {
        
     }
 }
-juce::File PlayerAudio::getSessionFile()
-{
-    
-    juce::File appDataDir = juce::File::getSpecialLocation(
-        juce::File::userApplicationDataDirectory)
-        .getChildFile("HearMeOut");
 
-    
-    if (!appDataDir.exists())
-        appDataDir.createDirectory();
-
-    return appDataDir.getChildFile("session.xml");
-}
-
-
-
-void PlayerAudio::SaveSession()
-{
-    if(!currentFile.existsAsFile())
-		return;
-
-    
-
-
-	juce::XmlElement root("SESSION");
-
-    root.setAttribute("filePath", currentFile.getFullPathName());
-
-    root.setAttribute("position", getCurrentPosition());
-
-    // Save volume
-    root.setAttribute("volume", transportSource.getGain());
-
-    // Save speed
-    root.setAttribute("speed", respeeder.getResamplingRatio());
-
-    // Save loop state
-    root.setAttribute("looping", isLoopingEnabled);
-
-    // Save mute state
-    root.setAttribute("muted", isMuted);
-    root.setAttribute("lastGain", lastGain);
-
-    // Save A-B loop data
-    root.setAttribute("abLoopEnabled", abLoopEnabled);
-    root.setAttribute("abStartPosition", abStartPosition);
-    root.setAttribute("abEndPosition", abEndPosition);
-
-    //Save theme
-	
-
-    // Save playlist
-    if (!files.empty())
-    {
-        auto* playlistElement = root.createNewChildElement("Playlist");
-        for (const auto& file : files)
-        {
-            auto* fileElement = playlistElement->createNewChildElement("File");
-            fileElement->setAttribute("path", file.getFullPathName());
-        }
-    }
-
-    
-    juce::File sessionFile = getSessionFile();
-
-    if (!root.writeTo(sessionFile))
-    {
-        DBG("Failed to save session!");
-    }
-}
-
-bool PlayerAudio::LoadLastSession()
-{
-    juce::File sessionFile = getSessionFile();
-
-    if (!sessionFile.existsAsFile())
-        return false;
-
-    auto xml = juce::XmlDocument::parse(sessionFile);
-
-    if (xml == nullptr)
-        return false;
-
-    
-    juce::String filePath = xml->getStringAttribute("filePath");
-    juce::File fileToLoad(filePath);
-
-    if (!fileToLoad.existsAsFile())
-    {
-        DBG("Session file no longer exists: " + filePath);
-        return false;
-    }
-
-    
-    loadFile(fileToLoad);
-
-    
-    double position = xml->getDoubleAttribute("position", 0.0);
-    setPosition(position);
-
-    
-    float volume = (float)xml->getDoubleAttribute("volume", 0.5);
-    setGain(volume);
-
-    
-    double speed = xml->getDoubleAttribute("speed", 1.0);
-    setSpeed(speed);
-
-    
-    bool looping = xml->getBoolAttribute("looping", false);
-    setLooping(looping);
-
-    
-    isMuted = xml->getBoolAttribute("muted", false);
-    lastGain = (float)xml->getDoubleAttribute("lastGain", 0.5);
-    if (isMuted)
-    {
-        transportSource.setGain(0.0f);
-    }
-
-    
-    abLoopEnabled = xml->getBoolAttribute("abLoopEnabled", false);
-    abStartPosition = xml->getDoubleAttribute("abStartPosition", 0.0);
-    abEndPosition = xml->getDoubleAttribute("abEndPosition", 0.0);
-
-    // Restore playlist
-    files.clear();
-    if (auto* playlistElement = xml->getChildByName("Playlist"))
-    {
-        for (auto* fileElement : playlistElement->getChildIterator())
-        {
-            juce::String path = fileElement->getStringAttribute("path");
-            juce::File file(path);
-            if (file.existsAsFile())
-            {
-                files.push_back(file);
-            }
-        }
-    }
-
-    return true;
-}
 
 
 //----------------------------------------------------------------//
@@ -588,8 +481,8 @@ void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
 	
 
-   /* transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    transportSource2.prepareToPlay(samplesPerBlockExpected, sampleRate);*/
+    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    transportSource2.prepareToPlay(samplesPerBlockExpected, sampleRate);
    
     respeeder.prepareToPlay(samplesPerBlockExpected, sampleRate);
     respeeder2.prepareToPlay(samplesPerBlockExpected, sampleRate);
@@ -600,18 +493,43 @@ void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-	//respeeder.getNextAudioBlock(bufferToFill);
-    mixer.getNextAudioBlock(bufferToFill);
-    checkABLoop();
+    bool track1Active = (readerSource != nullptr && transportSource.getTotalLength() > 0);
+    bool track2Active = (readerSource2 != nullptr && transportSource2.getTotalLength() > 0);
+
+    if (track1Active && track2Active)
+    {
+        // Both tracks loaded - use mixer
+        mixer.getNextAudioBlock(bufferToFill);
+        checkABLoop();
+        checkABLoop2();
+    }
+    else if (track1Active && !track2Active)
+    {
+        // Only track 1 - bypass mixer completely
+        respeeder.getNextAudioBlock(bufferToFill);
+        checkABLoop();
+    }
+    else if (track2Active && !track1Active)
+    {
+        // Only track 2 - bypass mixer completely
+        respeeder2.getNextAudioBlock(bufferToFill);
+        checkABLoop2();
+    }
+    else
+    {
+        // No tracks loaded - output silence
+        bufferToFill.clearActiveBufferRegion();
+    }
 }
 
 void PlayerAudio::releaseResources()
 {
+    transportSource.releaseResources();
+    transportSource2.releaseResources();
    respeeder.releaseResources();
    respeeder2.releaseResources();
     mixer.releaseResources();
-    //transportSource.releaseResources();
-    //transportSource2.releaseResources();
+    
 
     
 }

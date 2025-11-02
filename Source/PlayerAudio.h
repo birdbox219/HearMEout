@@ -8,6 +8,7 @@ class PlayerAudio : public juce::AudioAppComponent,  public juce::ChangeListener
 public:
 	PlayerAudio();
 	~PlayerAudio() override;
+	void setTrackActive(int trackNumber, bool active);
 
 	juce::String loadFile(const juce::File& file);
 	juce::String loadFile2(const juce::File& file); //track2
@@ -87,9 +88,7 @@ public:
 	std::vector <juce::File> files;
 	void addToList(juce::File& file);
 
-	void SaveSession();
-	bool LoadLastSession();
-	juce::File getSessionFile();
+	
 	juce::File getCurrentFile() const { return currentFile; }
 	
 	
@@ -127,6 +126,8 @@ public:
 	bool abLoopEnabled2 = false;
 	double abStartPosition2 = 0.0;
 	double abEndPosition2 = 0.0;
+
+	
 	
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 

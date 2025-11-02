@@ -30,6 +30,10 @@
       <FILE id="hT37kd" name="PlayerAudio.h" compile="0" resource="0" file="Source/PlayerAudio.h"/>
       <FILE id="nXnG5R" name="PlayerGUI.cpp" compile="1" resource="0" file="Source/PlayerGUI.cpp"/>
       <FILE id="kllc15" name="PlayerGUI.h" compile="0" resource="0" file="Source/PlayerGUI.h"/>
+      <FILE id="Lki1xd" name="SessionManager.cpp" compile="1" resource="0"
+            file="Source/SessionManager.cpp"/>
+      <FILE id="OrTdT6" name="SessionManager.h" compile="0" resource="0"
+            file="Source/SessionManager.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

@@ -8,13 +8,20 @@ BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 MainComponent::MainComponent()
 {
 	//Load saved session 
-    bool sessionLoaded = player.LoadLastSession();
+    //bool sessionLoaded = player.LoadLastSession();
+    bool sessionLoaded = sessionManager.loadSession(player, playerGUI);
+
+    player.readerSource2.reset(nullptr);
+    player.transportSource2.setSource(nullptr);
+    
+
   
     
  
 
     isStartWindow = true;
     addAndMakeVisible(playerGUI);
+
     playerGUI.setVisible(false);
     addAndMakeVisible(startButton);
     startButton.addListener(this);
@@ -22,14 +29,20 @@ MainComponent::MainComponent()
     singleTrackButton.setVisible(false);
     singleTrackButton.addListener(this);
     singleTrackButton.setColour(juce::TextButton::buttonColourId, juce::Colours::purple);
+	singleTrackButton.setColour(juce::TextButton::buttonColourId, juce::Colours::purple.withAlpha(0.2f));
+	singleTrackButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::purple.withAlpha(0.4f));
+	singleTrackButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+	singleTrackButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
     addAndMakeVisible(twoTracksButton);
     twoTracksButton.addListener(this);
     twoTracksButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumpurple);
+    twoTracksButton.setColour(juce::TextButton::buttonColourId, juce::Colours::mediumpurple.withAlpha(0.2f));
+    twoTracksButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::mediumpurple.withAlpha(0.4f));
+    twoTracksButton.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
+    twoTracksButton.setColour(juce::TextButton::textColourOnId, juce::Colours::white);
     twoTracksButton.setVisible(false);
-   /* addAndMakeVisible(homeButton);
-    homeButton.addListener(this);
-    homeButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue);
-    homeButton.setVisible(false);*/
+   
+
 
   
     playerGUI.loadButton.addListener(this);
@@ -96,65 +109,25 @@ MainComponent::MainComponent()
 
     
 
-    //setSize(500, 250);
+    
     setSize(900, 600);
     setAudioChannels(0, 2);
 
     startTimer(100);
 
-    if (sessionLoaded)
-    {
-        juce::File currentFile = player.getCurrentFile();
-        if (currentFile.existsAsFile())
-        {
-            double totalTime = player.getTotalLength();
-            playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
-            juce::String fileName = currentFile.getFileNameWithoutExtension();
-
-            
-            authorName = "Unknown"; 
-
-            playerGUI.metaData(fileName, totalTime, authorName);
-
-            
-            playerGUI.volumeSlider.setValue(player.getPreviousGain(), juce::dontSendNotification);
-
-            
-            playerGUI.speedSlider.setValue(1.0, juce::dontSendNotification);
-
-            
-            if (player.isLooping())
-            {
-                playerGUI.loopButton.setColour(
-                    juce::TextButton::buttonColourId,
-                    juce::Colours::orangered
-                );
-            }
-
-            // Update mute button
-            if (player.isMuted)
-            {
-                playerGUI.muteButton.setButtonText("Unmute");
-            }
-
-            
-            for (const auto& file : player.files)
-            {
-                double fileTime = 0.0; 
-                playerGUI.showFile(const_cast<juce::File&>(file), fileTime);
-            }
-        }
-    }
+    
     
 }
 
 MainComponent::~MainComponent()
 {
+    sessionManager.saveSession(player, playerGUI);
+	//PlayerGUI().~PlayerGUI();
     shutdownAudio();
 	
 
 }
-//----------------------------------------------------------------
+//----------------------------------------------------------------//NOTED
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     player.prepareToPlay(samplesPerBlockExpected, sampleRate);
@@ -225,7 +198,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             [this](const juce::FileChooser& fc)
             {
                 auto file = fc.getResult();
-                //player.loadFile(file);
+                
                 authorName = player.loadFile(file);
                 double totalTime = player.getTotalLength();
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
@@ -714,6 +687,8 @@ void MainComponent::buttonClicked(juce::Button* button)
         playerGUI.setVisible(true);
         playerGUI2.setVisible(false);
         playerGUI.setBounds(getLocalBounds());
+
+       
   
         repaint();
     }
@@ -723,8 +698,11 @@ void MainComponent::buttonClicked(juce::Button* button)
      twoTracksButton.setVisible(false);
      playerGUI.setVisible(true);
      playerGUI2.setVisible(true);
+     
+
      playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
      playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));
+	 
      repaint();
  }
  else if (button == &singleTrackButton) {
@@ -734,8 +712,12 @@ void MainComponent::buttonClicked(juce::Button* button)
      playerGUI2.setVisible(false);
      playerGUI.setBounds(getLocalBounds());
 
-    player.transportSource2.removeChangeListener(&player);
-    player.transportSource2.setSource(nullptr);
+
+     player.setTrackActive(2, false);
+
+    playerGUI2.progressSlider.setValue(0.0, juce::dontSendNotification);
+    playerGUI2.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+    
   
      repaint();
  }
