@@ -1,4 +1,4 @@
-﻿#include "MainComponent.h"
+#include "MainComponent.h"
 #include "BinaryData.h"
 /*
 Keep working on this project structure dont change without permision !
