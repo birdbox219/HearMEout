@@ -34,8 +34,8 @@ public:
     // Event handlers
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
- 
-
+    bool MainComponent::keyPressed(const juce::KeyPress& key)override;
+    bool isPlaying=false;
     void timerCallback() override;
 
 
