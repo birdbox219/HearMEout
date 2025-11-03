@@ -21,7 +21,7 @@ void SessionManager::saveSession(PlayerAudio& audio, PlayerGUI& gui)
 
     juce::XmlElement root("SESSION");
 
-    // ========== AUDIO STATE ==========
+    //  AUDIO STATE
     auto* audioElement = root.createNewChildElement("Audio");
 
     audioElement->setAttribute("filePath", audio.getCurrentFile().getFullPathName());
@@ -67,7 +67,7 @@ void SessionManager::saveSession(PlayerAudio& audio, PlayerGUI& gui)
     guiElement->setAttribute("startIconVisible", gui.startIcon.isVisible());
     guiElement->setAttribute("stopIconVisible", gui.stopButtonIcon.isVisible());
 
-    // ========== PLAYLIST STATE ==========
+    //PLAYLIST STATE 
     if (!audio.files.empty())
     {
         auto* playlistElement = root.createNewChildElement("Playlist");
@@ -112,7 +112,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
     if (xml == nullptr)
         return false;
 
-    // ========== LOAD AUDIO STATE ==========
+    //  LOAD AUDIO 
     auto* audioElement = xml->getChildByName("Audio");
     if (audioElement == nullptr)
         return false;
@@ -153,15 +153,15 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
         audio.setABLoop(true);
     }
 
-    // ========== LOAD GUI STATE ==========
+    //  LOAD GUI 
     auto* guiElement = xml->getChildByName("GUI");
     if (guiElement != nullptr)
     {
         // Theme
         gui.currentThemeIndex = guiElement->getIntAttribute("currentTheme", 0);
-        gui.ChangeTheme(gui.currentThemeIndex); // Apply the theme
+        gui.ChangeTheme(gui.currentThemeIndex); 
 
-        // Restore sliders
+        // sliders
         gui.volumeSlider.setValue(guiElement->getDoubleAttribute("volumeSlider", 0.5),
             juce::dontSendNotification);
         gui.speedSlider.setValue(guiElement->getDoubleAttribute("speedSlider", 1.0),
@@ -169,7 +169,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
         gui.progressSlider.setValue(guiElement->getDoubleAttribute("progressSlider", 0.0),
             juce::dontSendNotification);
 
-        // Restore labels
+        // labels
         gui.currentTimeLabel.setText(guiElement->getStringAttribute("currentTime", "0:00"),
             juce::dontSendNotification);
         gui.TotalTimeLabel.setText(guiElement->getStringAttribute("totalTime", "0:00"),
@@ -181,7 +181,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
         gui.author.setText(guiElement->getStringAttribute("author", ""),
             juce::dontSendNotification);
 
-        // A-B Loop GUI state
+        // A-B Loop 
         gui.abLoopActive = guiElement->getBoolAttribute("abLoopActive", false);
         gui.abControlsVisible = guiElement->getBoolAttribute("abControlsVisible", false);
 
@@ -190,7 +190,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
         gui.abEndLabel.setText(guiElement->getStringAttribute("abEndLabel", "0:00"),
             juce::dontSendNotification);
 
-        // Show/hide A-B controls
+        // Show&hide A-B 
         gui.abStartTimeLabel.setVisible(gui.abControlsVisible);
         gui.abEndTimeLabel.setVisible(gui.abControlsVisible);
         gui.abStartLabel.setVisible(gui.abControlsVisible);
@@ -204,7 +204,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
             gui.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
         }
 
-        // Button visibility
+		// Button start and Stop state
         gui.startIcon.setVisible(guiElement->getBoolAttribute("startIconVisible", true));
         gui.stopButtonIcon.setVisible(guiElement->getBoolAttribute("stopIconVisible", false));
 
@@ -224,7 +224,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
         }
     }
 
-    // ========== LOAD PLAYLIST ==========
+    //  LOAD PLAYLIST 
     audio.files.clear();
     gui.files.clear();
 

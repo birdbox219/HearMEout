@@ -3,9 +3,56 @@
 #include <vector>
 
 
-class PlayerGUI : public juce::Component, public juce::ListBoxModel
+class PlayerGUI : public juce::Component, public juce::ListBoxModel,
+	public juce::MouseListener
 {
 public:
+
+
+    class RoundedListBox : public juce::ListBox
+		
+    {
+    public:
+        RoundedListBox() : juce::ListBox() 
+        {
+            
+        }
+		
+        
+
+
+
+
+        void paint(juce::Graphics& g) override
+        {
+            g.setColour(juce::Colours::black.withAlpha(0.1f));
+            g.fillRoundedRectangle(getLocalBounds().toFloat(), 12.0f);
+
+
+            g.setColour(juce::Colours::white.withAlpha(0.5f));
+            g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(1.0f), 12.0f, 2.0f);
+        }
+
+       
+        
+
+        
+        
+
+    private:
+        
+
+
+
+
+
+
+
+
+    };
+
+
+
 	PlayerGUI();
 	~PlayerGUI() override;
 
@@ -13,8 +60,7 @@ public:
     void resized() override;
     void metaData(juce::String& fileName,double&totalTime , juce::String& authorName);
 
-    //void buttonClicked(juce::Button* button) override;
-    //void sliderValueChanged(juce::Slider* slider) override;
+    
     
     //juce::TextButton restartButton{ "Restart" };
     juce::TextButton playButton{ "Play" };
@@ -100,7 +146,12 @@ public:
     juce::TextButton selectButton{ "Select" };
     juce::ImageButton removeButton;
 
-    juce::ListBox playList;
+
+    
+
+
+
+    RoundedListBox playList;
     struct fileInfo {
         juce::File file;
         int time;
@@ -111,6 +162,11 @@ public:
     void paintListBoxItem(int rowNumber, juce::Graphics& g, int width, int height, bool rowIsSelected) override;
     void showFile(juce::File& file,double time);
     void selectedRowsChanged(int lastRowSelected);
+    void listBoxItemDoubleClicked(int row, const juce::MouseEvent&) override;
+
+    void mouseMove(const juce::MouseEvent& e) override;
+    void mouseExit(const juce::MouseEvent& e) override;
+
 	void ChangeTheme(int themeIndex = -1);
   
 
@@ -132,6 +188,7 @@ public:
     bool abLoopActive = false;
     bool abControlsVisible = false;
 
+    
 
 
 
@@ -145,11 +202,12 @@ public:
 
 
 private:
+    int hoveredRow = -1;
 
     
     
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI , RoundedListBox)
 
 
 };

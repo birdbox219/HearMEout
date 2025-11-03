@@ -1,4 +1,4 @@
-#include "MainComponent.h"
+﻿#include "MainComponent.h"
 #include "BinaryData.h"
 /*
 Keep working on this project structure dont change without permision !
@@ -8,7 +8,7 @@ BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 MainComponent::MainComponent()
 {
 	//Load saved session 
-    //bool sessionLoaded = player.LoadLastSession();
+    
     bool sessionLoaded = sessionManager.loadSession(player, playerGUI);
 
     player.readerSource2.reset(nullptr);
@@ -170,15 +170,50 @@ void MainComponent::paint(juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    if (isStartWindow){
+  /*  if (isStartWindow)
+    {
         startButton.setBounds(getWidth() / 2 - 50, getHeight() - 60, 100, 40);
-       
-}
+    }
 
-    singleTrackButton.setBounds(350, 200, 100, 40);
-    twoTracksButton.setBounds(350, 200, 100, 40);
+    singleTrackButton.setBounds(getWidth() - 400, 30, 100, 40);
+    
+    twoTracksButton.setBounds(getWidth() - 320, 30, 100, 40);
     playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
-    playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));
+    playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));*/
+
+
+
+
+    if (isStartWindow)
+    {
+        startButton.setBounds(getWidth() / 2 - 50, getHeight() - 60, 100, 40);
+    }
+    else
+    {
+        // Store the bounds before modifying them
+        auto bounds = getLocalBounds();
+
+        if (playerGUI2.isVisible())
+        {
+            // Two tracks mode - split the area
+            auto leftArea = bounds.removeFromLeft(bounds.getWidth() / 2);
+            auto rightArea = bounds;
+
+            playerGUI.setBounds(leftArea);
+            playerGUI2.setBounds(rightArea);
+
+            // Position buttons at the top of each track area
+            singleTrackButton.setBounds(leftArea.getWidth() - 320, 30, 100, 40);
+        }
+        else
+        {
+            // Single track mode - use full width
+            playerGUI.setBounds(bounds);
+
+            // Position button at the top-right of the full area
+            twoTracksButton.setBounds(getWidth() - 320, 30, 100, 40);
+        }
+    }
 }
 
 
@@ -215,7 +250,7 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI.abEndLabel.setVisible(false);
                 playerGUI.abStartButton.setVisible(false);
                 playerGUI.abLoopButton.setButtonText("Set A-B Loop");
-                playerGUI.abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+               
 
 
                 HideButtons(playerGUI.stopButtonIcon);
@@ -264,7 +299,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             playerGUI.abLoopActive = false;
             player.setABLoop(false);
             playerGUI.abStartButton.setButtonText("Start A-B");
-            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey.withAlpha(0.2f));
+            
         }
 
 
@@ -299,7 +334,7 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI.abLoopActive = false;
                 player.setABLoop(false);
                 playerGUI.abStartButton.setButtonText("Start A-B");
-                playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+                
             }
         }
     }
@@ -345,7 +380,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             }
 
             playerGUI.abStartButton.setButtonText("Stop A-B");
-            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
+            //playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
 
 
             player.setPosition(startTime);
@@ -355,7 +390,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             // Disable A-B loop
             player.setABLoop(false);
             playerGUI.abStartButton.setButtonText("Start A-B");
-            playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+            
         }
 
 
@@ -470,7 +505,7 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI2.abEndLabel.setVisible(false);
                 playerGUI2.abStartButton.setVisible(false);
                 playerGUI2.abLoopButton.setButtonText("Set A-B Loop");
-                playerGUI2.abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+                
 
 
                 HideButtons(playerGUI2.stopButtonIcon);
@@ -511,7 +546,7 @@ void MainComponent::buttonClicked(juce::Button* button)
 
         playerGUI2.loopButton.setColour(
             juce::TextButton::buttonColourId,
-            player.isLooping2() ? juce::Colours::orangered : juce::Colours::darkgrey.withAlpha(0.2f)
+            player.isLooping2() ? juce::Colours::orangered : juce::Colours::darkgrey.withAlpha(0.05f)
         );
 
         if (player.isLooping2() && playerGUI2.abLoopActive)
@@ -519,7 +554,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             playerGUI2.abLoopActive = false;
             player.setABLoop2(false);
             playerGUI2.abStartButton.setButtonText("Start A-B");
-            playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey.withAlpha(0.2f));
+            playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey.withAlpha(0.05f));
         }
 
 
@@ -554,7 +589,7 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI2.abLoopActive = false;
                 player.setABLoop2(false);
                 playerGUI2.abStartButton.setButtonText("Start A-B");
-                playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+                //playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
             }
         }
         }
@@ -600,7 +635,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             }
 
             playerGUI2.abStartButton.setButtonText("Stop A-B");
-            playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
+            //playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
 
 
             player.setPosition2(startTime);
@@ -610,7 +645,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             // Disable A-B loop
             player.setABLoop2(false);
             playerGUI2.abStartButton.setButtonText("Start A-B");
-            playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
+            //playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey);
         }
         }
 
@@ -698,6 +733,7 @@ void MainComponent::buttonClicked(juce::Button* button)
        
   
         repaint();
+
     }
 
  else if (button == &twoTracksButton) {
@@ -707,10 +743,11 @@ void MainComponent::buttonClicked(juce::Button* button)
      playerGUI2.setVisible(true);
      
 
-     playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
-     playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));
+     /*playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
+     playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));*/
 	 
      repaint();
+	 resized();
  }
  else if (button == &singleTrackButton) {
      singleTrackButton.setVisible(false);
@@ -729,6 +766,7 @@ void MainComponent::buttonClicked(juce::Button* button)
     
   
      repaint();
+	 resized();
  }
  /*else if (button == &homeButton) {
      isStartWindow = true;

@@ -4,6 +4,11 @@
 
 PlayerGUI::PlayerGUI()
 {
+
+   
+
+
+
     // Existing constructor code remains unchanged
     addAndMakeVisible(loadButton);
     addAndMakeVisible(changeThemeButton);
@@ -35,7 +40,12 @@ PlayerGUI::PlayerGUI()
     addAndMakeVisible(addToListButton);
     addAndMakeVisible(resetButton);
     addAndMakeVisible(playList);
+
+    
     playList.setModel(this);
+    playList.addMouseListener(this, true);
+    playList.setRowHeight(35);
+    
     addAndMakeVisible(removeButton);
     addAndMakeVisible(selectButton);
     speedSlider.setRange(0.1, 2.0, 0.01);
@@ -108,14 +118,14 @@ PlayerGUI::PlayerGUI()
 
     abStartLabel.setText("0:00", juce::dontSendNotification);
     abStartLabel.setEditable(true);
-    abStartLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkgrey);
+    abStartLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkgrey.withAlpha(0.2f));
     abStartLabel.setColour(juce::Label::outlineColourId, juce::Colours::orangered);
     abStartLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(abStartLabel);
 
     abEndLabel.setText("0:00", juce::dontSendNotification);
     abEndLabel.setEditable(true);
-    abEndLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkgrey);
+    abEndLabel.setColour(juce::Label::backgroundColourId, juce::Colours::darkgrey.withAlpha(0.2f));
     abEndLabel.setColour(juce::Label::outlineColourId, juce::Colours::orangered);
     abEndLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(abEndLabel);
@@ -140,19 +150,28 @@ PlayerGUI::PlayerGUI()
     styleButton(loopButton, juce::Colours::darkgrey);
     styleButton(abLoopButton, juce::Colours::darkgrey);
     styleButton(abStartButton, juce::Colours::darkgrey);
-    //styleButton(muteButton, juce::Colours::darkslategrey);
-    // styleButton(skipBackButton, juce::Colours::darkslategrey);
-    // styleButton(skipForwardButton, juce::Colours::darkslategrey);
     styleButton(addToListButton, juce::Colours::darkblue);
     styleButton(resetButton, juce::Colours::mediumvioletred);
     styleButton(selectButton, juce::Colours::green);
-    styleButton(changeThemeButton, juce::Colours::purple);
+    styleButton(changeThemeButton, juce::Colours::darkblue);
 
     playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::black.withAlpha(0.05f));
     playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.05f));
     playList.setColour(juce::ListBox::textColourId, juce::Colours::white);
 
+    /*playList.setColour(juce::ScrollBar::thumbColourId, juce::Colours::yellow.withAlpha(0.4f));
+    playList.setColour(juce::ScrollBar::trackColourId, juce::Colours::black.withAlpha(0.1f));*/
+
+    auto& scrollbar = playList.getVerticalScrollBar();
+    scrollbar.setColour(juce::ScrollBar::thumbColourId, juce::Colours::yellow.withAlpha(0.6f));
+    scrollbar.setColour(juce::ScrollBar::trackColourId, juce::Colours::black.withAlpha(0.2f));
+    scrollbar.setColour(juce::ScrollBar::backgroundColourId, juce::Colours::transparentBlack);
+
+
+
+
     playList.setOpaque(false);
+	playList.setRowHeight(40);
 }
 
 
@@ -161,7 +180,7 @@ PlayerGUI::~PlayerGUI() {}
  
 void PlayerGUI::paint(juce::Graphics& g)
 {
-    //g.fillAll(juce::Colours::blueviolet);
+    
     if (backgroundImage.isValid())
     {
         g.drawImage(backgroundImage,
@@ -435,20 +454,7 @@ void PlayerGUI::resized()
             remove, 1.0f, juce::Colours::yellow);
     }
 
-    //skipBackButton.setImages(false, true, true,
-    //    backward_10, 1.0f, juce::Colours::transparentWhite,
-    //    backward_10, 0.8f, juce::Colours::transparentWhite,
-    //    backward_10, 1.0f, juce::Colours::yellow);
-
-    //skipForwardButton.setImages(false, true, true,
-    //    forward_10, 1.0f, juce::Colours::transparentWhite,
-    //    forward_10, 0.8f, juce::Colours::transparentWhite,
-    //    forward_10, 1.0f, juce::Colours::yellow);
-
-    //muteButton.setImages(false, true, true,
-    //    muteimage, 1.0f, juce::Colours::transparentWhite,
-    //    muteimage, 1.0f, juce::Colours::transparentWhite,
-    //    muteimage, 1.0f, juce::Colours::transparentWhite);
+    
 }
 void PlayerGUI::metaData(juce::String& fileName, double& totalTime, juce::String& authorName)
 {
@@ -509,31 +515,106 @@ void PlayerGUI::paintListBoxItem(int rowNumber, juce::Graphics& g,
     int width, int height, bool rowIsSelected)
 {
 ;
-    if (rowNumber < files.size())
+    
+
+
+
+
+
+
+if (rowNumber < files.size())
+{
+    
+
+
+    bool isHovered = (rowNumber == hoveredRow);
+
+    
+    if (rowIsSelected)
     {
+        // Gradient for selected item
+        juce::ColourGradient selectedGradient(
+            juce::Colours::yellow.withAlpha(0.15f), 4, 2,
+            juce::Colours::yellow.withAlpha(0.25f), 4, height - 2,
+            false
+        );
+        g.setGradientFill(selectedGradient);
+        g.fillRoundedRectangle(4, 2, width - 8, height - 4, 8.0f);
 
-        if (rowIsSelected)
-        {
-            g.setColour(juce::Colours::white.withAlpha(0.2f));
-            g.fillRoundedRectangle(2, 2, width - 4, height - 4, 3.0f);
-        }
+        // Add a glowing accent line on the left
+        g.setColour(juce::Colours::yellow.withAlpha(0.9f));
+        g.fillRoundedRectangle(8, 8, 4, height - 16, 2.0f);
+    }
+    // Hover effect
+    else if (isHovered)
+    {
+        g.setColour(juce::Colours::white.withAlpha(0.08f));
+        g.fillRoundedRectangle(4, 2, width - 8, height - 4, 8.0f);
 
-        
-        g.setColour(juce::Colours::white);
-        g.drawText(files[rowNumber].file.getFileNameWithoutExtension(),
-            5, 0, width - 10, height,
-            juce::Justification::centredLeft, true);
+        // Subtle left accent on hover
+        g.setColour(juce::Colours::yellow.withAlpha(0.3f));
+        g.fillRoundedRectangle(8, 10, 2, height - 20, 1.0f);
+    }
 
-        
-        int h = 0;
-        int m = files[rowNumber].time / 60;
-        int s = files[rowNumber].time % 60;
+    // Draw track number
+    g.setColour(juce::Colours::white.withAlpha(0.4f));
+    g.setFont(juce::Font(11.0f, juce::Font::bold));
+    g.drawText(juce::String(rowNumber + 1),
+        16, 0, 20, height,
+        juce::Justification::centredLeft, true);
 
-        g.drawText(juce::String(h) + ":" + juce::String(m) + ":" + juce::String(s),
-            190, 0, width - 10, height,
-            juce::Justification::centredLeft, true);
+    // Song name with better spacing
+    g.setColour(rowIsSelected ? juce::Colours::white : juce::Colours::white.withAlpha(0.9f));
+    g.setFont(juce::Font(14.0f, rowIsSelected ? juce::Font::bold : juce::Font::plain));
+
+    juce::String songName = files[rowNumber].file.getFileNameWithoutExtension();
+    // Truncate long names
+    if (songName.length() > 30)
+        songName = songName.substring(0, 27) + "...";
+
+    g.drawText(songName,
+        40, 0, width - 140, height,
+        juce::Justification::centredLeft, true);
+
+    // Duration with icon-like styling
+    int m = files[rowNumber].time / 60;
+    int s = files[rowNumber].time % 60;
+
+    g.setColour(juce::Colours::white.withAlpha(0.5f));
+    g.setFont(juce::Font(12.0f, juce::Font::plain));
+
+    
+
+    g.drawText(juce::String(m) + ":" + juce::String(s).paddedLeft('0', 2),
+        width - 75, 0, 60, height,
+        juce::Justification::centredRight, true);
+
+    // Draw subtle separator line between items (not on last item)
+    if (rowNumber < files.size() - 1)
+    {
+        g.setColour(juce::Colours::white.withAlpha(0.05f));
+        g.drawLine(15, height - 1, width - 15, height - 1, 1.0f);
+    }
+
+    // Add play icon when hovering
+    if (isHovered && !rowIsSelected)
+    {
+        g.setColour(juce::Colours::yellow.withAlpha(0.6f));
+        g.setFont(juce::Font(16.0f));
         
     }
+}
+
+
+
+
+
+
+
+
+
+
+
 }
  
 
@@ -546,6 +627,61 @@ void PlayerGUI::selectedRowsChanged(int lastRowSelected)
         sendFile = file.file;
         sendRow = lastRowSelected;
     }                                                                                                                                                                    
+}
+
+void PlayerGUI::listBoxItemDoubleClicked(int row, const juce::MouseEvent&)
+{
+    if (row >= 0 && row < files.size())
+    {
+        sendFile = files[row].file;
+        sendRow = row;
+        
+        selectButton.triggerClick();
+    }
+}
+
+
+void PlayerGUI::mouseMove(const juce::MouseEvent& e)
+{
+    //// convert to list-local coords if necessary:
+    //auto posInList = playList.getLocalPoint(e.eventComponent, e.getPosition());
+    //int row = playList.getRowContainingPosition(posInList.x, posInList.y);
+
+    //DBG("PlayerGUI::mouseMove x=" << posInList.x << " y=" << posInList.y << " row=" << row);
+
+    //// call repaintRow(old) and repaintRow(new) like we discussed
+    //static int lastRow = -1;
+    //if (row != lastRow)
+    //{
+    //    if (lastRow >= 0) playList.repaintRow(lastRow);
+    //    if (row >= 0) playList.repaintRow(row);
+    //    lastRow = row;
+    //}
+
+
+
+    auto posInList = playList.getLocalPoint(e.eventComponent, e.getPosition());
+    int row = playList.getRowContainingPosition(posInList.x, posInList.y);
+
+    if (row != hoveredRow)
+    {
+        DBG("Hover changed to row " << row);
+
+        // repaint old and new rows
+        if (hoveredRow >= 0) playList.repaintRow(hoveredRow);
+        hoveredRow = row;
+        if (hoveredRow >= 0) playList.repaintRow(hoveredRow);
+    }
+}
+
+
+void PlayerGUI::mouseExit(const juce::MouseEvent&)
+{
+    if (hoveredRow >= 0)
+    {
+        playList.repaintRow(hoveredRow);
+        hoveredRow = -1;
+    }
 }
 
 void PlayerGUI::ChangeTheme(int themeIndex)
@@ -584,6 +720,8 @@ void PlayerGUI::ChangeTheme(int themeIndex)
 
     repaint();
 }
+
+
 
 
 
