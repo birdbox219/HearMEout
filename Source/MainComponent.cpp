@@ -228,7 +228,7 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     }
 
-    else if (button == &playerGUI.startIcon)
+    else if (button == &playerGUI.startIcon || juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey))
     {
         player.Start();
         HideButtons(playerGUI.startIcon);

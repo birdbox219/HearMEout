@@ -51,7 +51,7 @@
   </MODULES>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
-    <VS2022 targetFolder="Builds/VisualStudio2022">
+    <VS2022 targetFolder="Builds/VisualStudio2022" smallIcon="" bigIcon="">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="HearMEout"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="HearMEout"/>

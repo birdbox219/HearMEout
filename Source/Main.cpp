@@ -46,7 +46,7 @@ private:
                 juce::Colours::lightgrey,
                 DocumentWindow::allButtons)
         {
-            setUsingNativeTitleBar(true);
+            setUsingNativeTitleBar(false);
             setContentOwned(new MainComponent(), true); // MainComponent = our UI + logic
 
             setResizable(true, true);
