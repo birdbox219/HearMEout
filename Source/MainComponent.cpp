@@ -114,6 +114,7 @@ MainComponent::MainComponent()
     setAudioChannels(0, 2);
 
     startTimer(100);
+    setWantsKeyboardFocus(true);
 
     
     
@@ -215,7 +216,29 @@ void MainComponent::resized()
         }
     }
 }
-
+bool MainComponent::keyPressed(const juce::KeyPress& key) {
+    if (key == juce::KeyPress::spaceKey) {
+        if (isPlaying) {
+           playerGUI.startIcon.triggerClick();
+           isPlaying = false;
+        }
+        else {
+            playerGUI.stopButtonIcon.triggerClick();
+            isPlaying = true;
+        }
+       
+        return true;
+    }
+    else if (key == juce::KeyPress::leftKey) {
+        playerGUI.skipBackButton.triggerClick();
+        return true;
+    }
+    else if (key == juce::KeyPress::rightKey) {
+        playerGUI.skipForwardButton.triggerClick();
+        return true;
+    }
+    return false;
+}
 
 
 
