@@ -1,5 +1,6 @@
 ﻿#include "PlayerGUI.h"
 #include "BinaryData.h"
+#include <memory>
 
 
 PlayerGUI::PlayerGUI()
@@ -17,6 +18,20 @@ PlayerGUI::PlayerGUI()
     {
         ChangeTheme();
     };
+    // --- START: Ensure marker buttons belong to this PlayerGUI and are visible ---
+    addAndMakeVisible(addMarkerButton);
+    addAndMakeVisible(removeMarkerButton);
+
+    // Give them visible labels (optional but helpful)
+    addMarkerButton.setButtonText("Add Marker");
+    removeMarkerButton.setButtonText("Remove Marker");
+
+    // Basic style to match other buttons (adjust if you have a theme function)
+    addMarkerButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue.withAlpha(0.18f));
+    addMarkerButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::darkblue.withAlpha(0.36f));
+    removeMarkerButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue.withAlpha(0.18f));
+    removeMarkerButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::darkblue.withAlpha(0.36f));
+    // --- END marker button block ---
 
     addAndMakeVisible(goStartButton);
     addAndMakeVisible(goEndButton);
@@ -47,6 +62,17 @@ PlayerGUI::PlayerGUI()
     playList.setRowHeight(35);
     
     addAndMakeVisible(removeButton);
+    addAndMakeVisible(addMarkerButton);
+    addAndMakeVisible(removeMarkerButton);
+    addMarkerButton.setButtonText("Add Marker");
+    removeMarkerButton.setButtonText("Remove Marker");
+
+    addMarkerButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue.withAlpha(0.18f));
+    addMarkerButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::darkblue.withAlpha(0.36f));
+    removeMarkerButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkblue.withAlpha(0.18f));
+    removeMarkerButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::darkblue.withAlpha(0.36f));
+    // --- END marker button block ---
+
     addAndMakeVisible(selectButton);
     speedSlider.setRange(0.1, 2.0, 0.01);
     speedSlider.setValue(1.0);
@@ -268,6 +294,31 @@ void PlayerGUI::paint(juce::Graphics& g)
     g.setColour(juce::Colours::transparentBlack.withAlpha(0.1f)); 
 	
     g.fillRect(getLocalBounds());
+
+
+// === Marker visuals
+    int row = playList.getSelectedRow();
+    if (row < 0 || row >=static_cast<int>(files.size()))
+    {
+        return;
+    }
+
+    const auto& f = files[row];
+    double len = std::max((double)f.time, 0.001);
+    auto area = progressSlider.getBounds().toFloat();
+    float y1 = area.getY();
+    float y2 = area.getBottom();
+
+    g.setColour(juce::Colours::red);
+
+    for (double t : f.markersTime)
+    {
+        if (t < 0.0 || t > len)
+            continue;
+
+        float x = area.getX() + (float)(t / len) * area.getWidth();
+        g.drawLine(x, y1, x, y2, 3.0f);
+    }
 }
 
 void PlayerGUI::resized()
@@ -287,8 +338,10 @@ void PlayerGUI::resized()
     resetButton.setBounds(170, 20, 60, 40);
     selectButton.setBounds(230, 20, 60, 40);
     removeButton.setBounds(280, 20, 60, 40);
+    addMarkerButton.setBounds(345, 20, 100, 40);
+    removeMarkerButton.setBounds(455, 20, 100, 40);
 
-    
+
     changeThemeButton.setBounds(getWidth() - 210, 30, 100, 40);
 
     
@@ -387,7 +440,6 @@ void PlayerGUI::resized()
     currentTimeLabel.setBounds(20, progressY - 5, 60, 40);
     progressSlider.setBounds(progressLeft, progressY, progressRight - progressLeft, 30);
     TotalTimeLabel.setBounds(progressRight + 10, progressY - 5, 60, 40);
-
     
     int controlsY = getHeight() - 100;
     centerX = getWidth() / 2;
@@ -576,9 +628,11 @@ if (rowNumber < files.size())
         40, 0, width - 140, height,
         juce::Justification::centredLeft, true);
 
-    // Duration with icon-like styling
-    int m = files[rowNumber].time / 60;
-    int s = files[rowNumber].time % 60;
+        
+        int h = 0;
+        int m = files[rowNumber].time / 60;
+        int s = static_cast<int>(files[rowNumber].time) % 60;
+        
 
     g.setColour(juce::Colours::white.withAlpha(0.5f));
     g.setFont(juce::Font(12.0f, juce::Font::plain));
@@ -721,18 +775,65 @@ void PlayerGUI::ChangeTheme(int themeIndex)
     repaint();
 }
 
+void PlayerGUI::addmarker(double currentTime, int selectedRow )
+{
+
+    if (selectedRow < 0 || selectedRow >= files.size())
+        return;
+
+    // law fadya
+    if (files.empty())
+    {
+        return;
+    }
+
+    auto& song = files[selectedRow];
+    double songLen = std::max((double)song.time, 0.001);
+
+    double markerTime = std::clamp(currentTime,0.0, songLen);
+
+    const double eps = 0.05;//change this for closer lines.  bet5aly el lines gamb ba3d ka2enohom wa7ed.
+    for (double existing : song.markersTime)
+    {
+        if (std::abs(existing - markerTime) < eps)
+        {
+            return;
+        }
+    }
+
+    song.markersTime.push_back(markerTime);
+    std::sort(song.markersTime.begin(), song.markersTime.end());
 
 
+    progressSlider.repaint();
+    playList.updateContent();
+    playList.repaint();
+    repaint();
+}
+void PlayerGUI::deleteMarker(double currTime, int lastRowSelected){
 
+    if (lastRowSelected < 0 || lastRowSelected >= files.size())
+        return;
 
+        auto& markers = files[lastRowSelected].markersTime;
+    if (markers.empty())
+        return;
 
+    auto it = std::min_element(markers.begin(), markers.end(),
+        [&](double a, double b)
+        {
+            return std::abs(a - currTime) < std::abs(b - currTime);
+        });
 
+    if (it != markers.end())
+    {
+        markers.erase(it);
+        std::sort(markers.begin(), markers.end());
 
-
-
-
-
-
-
+        progressSlider.repaint();
+        playList.updateContent();
+        repaint();
+    }
+}
 
 

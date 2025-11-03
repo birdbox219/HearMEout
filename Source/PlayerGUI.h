@@ -48,6 +48,7 @@ public:
 
 
 
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RoundedListBox)
 
     };
 
@@ -75,12 +76,12 @@ public:
 
     juce::ImageButton goStartButton;
     juce::ImageButton goEndButton;
-   
+
     //skip buttons:
     juce::ImageButton skipBackButton;
     juce::ImageButton skipForwardButton;
 
- 
+
     // Text Buttons
     juce::TextButton loadButton{ "Load Files" };
     //juce::TextButton goStartButton{ "Go to start" };
@@ -109,7 +110,9 @@ public:
 
   
 
-
+    //marker_button
+    juce::TextButton addMarkerButton{ "Add Marker" };
+    juce::TextButton removeMarkerButton{"Remove Marker"};
 
 
     //Sliders
@@ -154,8 +157,8 @@ public:
     RoundedListBox playList;
     struct fileInfo {
         juce::File file;
-        int time;
-
+        double time = 0.0;//changes to float to get exact point for my markers MUST STAY AS IT'S.
+        std::vector<double> markersTime;
     };
     std::vector<fileInfo> files;
     int getNumRows() override;
@@ -168,7 +171,11 @@ public:
     void mouseExit(const juce::MouseEvent& e) override;
 
 	void ChangeTheme(int themeIndex = -1);
-  
+    
+    //adding marker.
+    void addmarker(double currTime,int lastRowSelected);
+    void deleteMarker(double currTime, int lastRowSelected);
+
 
     juce::File sendFile;
     int sendRow;
@@ -207,7 +214,7 @@ private:
     
     
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI , RoundedListBox)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 
 
 };
