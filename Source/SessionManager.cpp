@@ -83,6 +83,15 @@ void SessionManager::saveSession(PlayerAudio& audio, PlayerGUI& gui)
                 if (guiFile.file.getFullPathName() == file.getFullPathName())
                 {
                     fileElement->setAttribute("time", guiFile.time);
+                    for (double mtime : guiFile.markersTime)
+                    {
+                        if (mtime >= 0.0)
+                        {
+                            auto* markerEl = fileElement->createNewChildElement("Marker");
+                            markerEl->setAttribute("time", mtime);
+                        }
+                    }
+
                     break;
                 }
             }
@@ -229,28 +238,43 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
     gui.files.clear();
 
     if (auto* playlistElement = xml->getChildByName("Playlist"))
+{
+    for (auto* fileElement : playlistElement->getChildIterator())
     {
-        for (auto* fileElement : playlistElement->getChildIterator())
+        juce::String path = fileElement->getStringAttribute("path");
+        juce::File file(path);
+
+        if (!file.existsAsFile())
+            continue;
+
+        audio.files.push_back(file);
+
+        // Add to GUI playlist with time
+        PlayerGUI::fileInfo info;
+        info.file = file;
+        info.time = fileElement->getIntAttribute("time", 0);
+
+        // i hate my life wallahy so confusing. this is for loading markers.
+        for (auto* markerEl = fileElement->getFirstChildElement();
+            markerEl != nullptr;
+            markerEl = markerEl->getNextElement())
         {
-            juce::String path = fileElement->getStringAttribute("path");
-            juce::File file(path);
-
-            if (file.existsAsFile())
+            if (markerEl->hasTagName("Marker"))
             {
-                audio.files.push_back(file);
-
-                // Add to GUI playlist with time
-                int time = fileElement->getIntAttribute("time", 0);
-                PlayerGUI::fileInfo info;
-                info.file = file;
-                info.time = time;
-                gui.files.push_back(info);
+                double mtime = markerEl->getDoubleAttribute("time", -1.0);
+                if (mtime >= 0.0)
+                    info.markersTime.push_back(mtime);
             }
         }
 
-        gui.playList.updateContent();
-        gui.playList.repaint();
+        std::sort(info.markersTime.begin(), info.markersTime.end());
+        gui.files.push_back(info);
     }
+
+    gui.playList.updateContent();
+    gui.playList.repaint();
+}
+
 
     DBG("Session loaded successfully!");
     return true;

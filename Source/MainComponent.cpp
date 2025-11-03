@@ -18,12 +18,12 @@ MainComponent::MainComponent()
   
     
  
-
-    isStartWindow = true;
+    //i changed things here to make it work.
+    isStartWindow = true;//here
     addAndMakeVisible(playerGUI);
 
     playerGUI.setVisible(false);
-    addAndMakeVisible(startButton);
+    addAndMakeVisible(startButton);//here
     startButton.addListener(this);
     addAndMakeVisible(singleTrackButton);
     singleTrackButton.setVisible(false);
@@ -48,6 +48,8 @@ MainComponent::MainComponent()
     playerGUI.loadButton.addListener(this);
     playerGUI.selectButton.addListener(this);
     playerGUI.loopButton.addListener(this);
+
+    playerGUI.addMarkerButton.addListener(this);
     playerGUI.muteButton.addListener(this);
     playerGUI.startIcon.addListener(this);
     playerGUI.stopButtonIcon.addListener(this);
@@ -57,12 +59,43 @@ MainComponent::MainComponent()
     playerGUI.resetButton.addListener(this);
     playerGUI.removeButton.addListener(this);
     playerGUI.speedSlider.addListener(this);
+
     playerGUI.volumeSlider.addListener(this);
     playerGUI.progressSlider.addListener(this);
     playerGUI.progressSlider.addMouseListener(this, false);
     //NOTE: I FIGURED WE CAN DO THIS MUCH COOLER THAN IF ELSE DOWN ~amr.
     playerGUI.skipBackButton.onClick = [this] { player.skipBackward(10.0); };
     playerGUI.skipForwardButton.onClick = [this] { player.skipForward(10.0); }; 
+
+    //addmarker action
+    playerGUI.addMarkerButton.onClick = [this]
+    {
+        
+        playerGUI.addmarker(player.getCurrentPosition(),playerGUI.playList.getSelectedRow());
+        playerGUI.repaint();
+        
+    };
+    playerGUI.removeMarkerButton.onClick = [this]
+    {
+        int lastSelectedRow = playerGUI.playList.getSelectedRow();
+        playerGUI.deleteMarker(player.getCurrentPosition(), lastSelectedRow);
+        playerGUI.repaint();
+    };
+    //gui 2etnen 3shan add and remove.
+    playerGUI2.addMarkerButton.onClick = [this]
+    {
+        playerGUI2.addmarker(player.getCurrentPosition2(), playerGUI2.playList.getSelectedRow());
+        playerGUI2.repaint();
+    };
+
+    playerGUI2.removeMarkerButton.onClick = [this]
+    {
+        int lastSelectedRow = playerGUI2.playList.getSelectedRow();
+        playerGUI2.deleteMarker(player.getCurrentPosition2(), lastSelectedRow);
+        playerGUI2.repaint();
+    };
+
+    
     playerGUI.loopButton.setVisible(true);
     playerGUI.abLoopButton.addListener(this);
     playerGUI.abStartButton.addListener(this);
@@ -70,6 +103,8 @@ MainComponent::MainComponent()
     playerGUI.stopButtonIcon.setVisible(false);
     playerGUI.skipBackButton.setVisible(true);
     playerGUI.skipForwardButton.setVisible(true);
+    playerGUI.addMarkerButton.setVisible(true);
+    playerGUI.addMarkerButton.setButtonText("Add Marker");
 
     //================================================================== track2
     addAndMakeVisible(playerGUI2);
@@ -99,7 +134,8 @@ MainComponent::MainComponent()
     playerGUI2.stopButtonIcon.setVisible(false);
     playerGUI2.skipBackButton.setVisible(true);
     playerGUI2.skipForwardButton.setVisible(true);
-
+    playerGUI2.addMarkerButton.setVisible(true);
+    playerGUI2.removeMarkerButton.setVisible(true);   
     // Add buttons
    /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
     {
@@ -202,6 +238,7 @@ void MainComponent::resized()
 
             playerGUI.setBounds(leftArea);
             playerGUI2.setBounds(rightArea);
+            playerGUI2.resized();
 
             // Position buttons at the top of each track area
             singleTrackButton.setBounds(leftArea.getWidth() - 320, 30, 100, 40);
@@ -210,7 +247,7 @@ void MainComponent::resized()
         {
             // Single track mode - use full width
             playerGUI.setBounds(bounds);
-
+            playerGUI.resized();//amr-put-this.
             // Position button at the top-right of the full area
             twoTracksButton.setBounds(getWidth() - 320, 30, 100, 40);
         }
@@ -262,7 +299,8 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
                 juce::String fileName = file.getFileNameWithoutExtension();
                 playerGUI.metaData(fileName, totalTime, authorName);
-
+                player.addToList(file);               //fixing some issues and bugs-amr
+                playerGUI.showFile(file, totalTime);  //same i added those lines.
 
                 //reset A-B
                 playerGUI.abLoopActive = false;
@@ -484,15 +522,18 @@ void MainComponent::buttonClicked(juce::Button* button)
 
                 }
     else if (button == &playerGUI.selectButton) {
-                    player.loadFile(playerGUI.sendFile);
-                    double totalTime = player.getTotalLength();
-                    playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
-                    juce::String fileName = playerGUI.sendFile.getFileNameWithoutExtension();
-                    playerGUI.metaData(fileName, totalTime, authorName);
-                    HideButtons(playerGUI.stopButtonIcon);
-                    ShowButtons(playerGUI.startIcon);
-                    }
-
+        player.loadFile(playerGUI.sendFile);
+        double totalTime = player.getTotalLength();
+        playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+        juce::String fileName = playerGUI.sendFile.getFileNameWithoutExtension();
+        playerGUI.metaData(fileName, totalTime, authorName);
+        HideButtons(playerGUI.stopButtonIcon);
+        ShowButtons(playerGUI.startIcon);
+        playerGUI.playList.updateContent();
+        playerGUI.playList.repaint();
+        playerGUI.progressSlider.repaint();
+        playerGUI.repaint();
+    }
     else if (button == &playerGUI.removeButton) {
                         if (!playerGUI.files.empty()) {
                             playerGUI.files.erase(playerGUI.files.begin() + playerGUI.sendRow);
@@ -517,7 +558,8 @@ void MainComponent::buttonClicked(juce::Button* button)
                 playerGUI2.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
                 juce::String fileName = file.getFileNameWithoutExtension();
                 playerGUI2.metaData(fileName, totalTime, authorName);
-
+                player.addToList(file);
+                playerGUI2.showFile(file, totalTime);
 
                 //reset A-B
                 playerGUI2.abLoopActive = false;
@@ -751,21 +793,28 @@ void MainComponent::buttonClicked(juce::Button* button)
         twoTracksButton.setVisible(true);
         playerGUI.setVisible(true);
         playerGUI2.setVisible(false);
+        playerGUI.addMarkerButton.setVisible(true);
+        playerGUI.removeMarkerButton.setVisible(true);
+        //addAndMakeVisible(playerGUI.addMarkerButton);
+        //addAndMakeVisible(playerGUI.removeMarkerButton);
         playerGUI.setBounds(getLocalBounds());
 
        
-  
+        resized();
         repaint();
 
     }
 
  else if (button == &twoTracksButton) {
-     singleTrackButton.setVisible(true);
-     twoTracksButton.setVisible(false);
-     playerGUI.setVisible(true);
-     playerGUI2.setVisible(true);
-     
+        singleTrackButton.setVisible(true);
+        twoTracksButton.setVisible(false);
+        playerGUI.setVisible(true);
+        playerGUI2.setVisible(true);
+        playerGUI.resized();
+        playerGUI2.resized();
 
+        playerGUI2.addMarkerButton.setVisible(true);
+        playerGUI2.removeMarkerButton.setVisible(true);
      /*playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
      playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));*/
 	 
@@ -777,6 +826,9 @@ void MainComponent::buttonClicked(juce::Button* button)
      twoTracksButton.setVisible(true);
      playerGUI.setVisible(true);
      playerGUI2.setVisible(false);
+     playerGUI2.addMarkerButton.setVisible(false);
+    playerGUI2.removeMarkerButton.setVisible(false);
+
      playerGUI.setBounds(getLocalBounds());
 
 
