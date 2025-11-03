@@ -286,13 +286,13 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     }
 
-    else if (button == &playerGUI.startIcon || juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey))
+    else if (button == &playerGUI.startIcon /*|| juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey)*/)
     {
         player.Start();
         HideButtons(playerGUI.startIcon);
         ShowButtons(playerGUI.stopButtonIcon);
     }
-    else if (button == &playerGUI.stopButtonIcon)
+    else if (button == &playerGUI.stopButtonIcon /*|| juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey)*/)
     {
         player.Stop();
         HideButtons(playerGUI.stopButtonIcon);
