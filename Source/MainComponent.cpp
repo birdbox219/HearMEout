@@ -1,4 +1,4 @@
-﻿#include "MainComponent.h"
+#include "MainComponent.h"
 #include "BinaryData.h"
 /*
 Keep working on this project structure dont change without permision !
@@ -616,21 +616,28 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     else if (button == &playerGUI2.muteButton)
     {
-        player.toggleMute2();// tell PlayerAudio to toggle mute state
-        playerGUI2.volumeSlider.setValue(0.0); // update UI - mahmoud 
-
-        // Change the button text to show current state
+        player.toggleMute2();
         if (player.isMuted2)
         {
-            playerGUI2.muteButton.setButtonText("Unmute");
+            playerGUI2.volumeSlider.setValue(0.0);
+            playerGUI2.muteButton.setImages(
+                false, true, true,
+                playerGUI2.unmuteimage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI2.unmuteimage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI2.unmuteimage, 1.0f, juce::Colours::transparentWhite
+            );
         }
-
         else
         {
-            playerGUI2.muteButton.setButtonText("Mute");
-            playerGUI2.volumeSlider.setValue(player.getPreviousGain2()); // update UI - mahmoud 
-
+            playerGUI2.volumeSlider.setValue(player.lastGain2);// update UI - mahmoud 
+            playerGUI2.muteButton.setImages(
+                false, true, true,
+                playerGUI2.muteimage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI2.muteimage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI2.muteimage, 1.0f, juce::Colours::transparentWhite
+            );
         }
+
 
         }
 
@@ -717,6 +724,8 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     playerGUI2.progressSlider.setValue(0.0, juce::dontSendNotification);
     playerGUI2.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+    HideButtons(playerGUI2.stopButtonIcon);
+    ShowButtons(playerGUI2.startIcon);
     
   
      repaint();
