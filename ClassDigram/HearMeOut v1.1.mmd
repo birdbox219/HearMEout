@@ -1,0 +1,124 @@
+classDiagram
+    class SimpleAudioPlayer {
+        +getApplicationName() String
+        +getApplicationVersion() String
+        +initialise(String) void
+        +shutdown() void
+        -mainWindow : MainWindow*
+    }
+
+    class MainWindow {
+        +MainWindow(String)
+        +closeButtonPressed() void
+        -mainComponent : MainComponent
+    }
+
+    class MainComponent {
+        -player : PlayerAudio
+        -playerGUI : PlayerGUI
+        -playerGUI2 : PlayerGUI
+        -sessionManager : SessionManager
+        -fileChooser : FileChooser
+        -isStartWindow : bool
+        +MainComponent()
+        +~MainComponent()
+        +prepareToPlay(int, double) void
+        +getNextAudioBlock(AudioSourceChannelInfo) void
+        +releaseResources() void
+        +paint(Graphics) void
+        +resized() void
+        +buttonClicked(Button*) void
+        +sliderValueChanged(Slider*) void
+        +keyPressed(KeyPress) bool
+        +timerCallback() void
+    }
+
+    class PlayerAudio {
+        -transportSource : AudioTransportSource
+        -transportSource2 : AudioTransportSource
+        -respeeder : ResamplingAudioSource
+        -respeeder2 : ResamplingAudioSource
+        -mixer : MixerAudioSource
+        -formatManager : AudioFormatManager
+        -readerSource : AudioFormatReaderSource
+        -readerSource2 : AudioFormatReaderSource
+        -currentFile : File
+        -isLoopingEnabled : bool
+        -isMuted : bool
+        +loadFile(File) String
+        +loadFile2(File) String
+        +Start() void
+        +Start2() void
+        +Stop() void
+        +Stop2() void
+        +setGain(float) void
+        +setGain2(float) void
+        +setSpeed(double) void
+        +setSpeed2(double) void
+        +toggleMute() void
+        +toggleMute2() void
+        +setLooping(bool) void
+        +setLooping2(bool) void
+        +setABLoop(bool) void
+        +setABLoop2(bool) void
+        +setABPoints(double, double) void
+        +setABPoints2(double, double) void
+        +getCurrentPosition() double
+        +getTotalLength() double
+    }
+
+    class PlayerGUI {
+        -playList : RoundedListBox
+        -volumeSlider : Slider
+        -progressSlider : Slider
+        -speedSlider : Slider
+        -backgroundImage : Image
+        +loadButton : TextButton
+        +loopButton : TextButton
+        +abLoopButton : TextButton
+        +abStartButton : TextButton
+        +muteButton : ImageButton
+        +addMarkerButton : TextButton
+        +removeMarkerButton : TextButton
+        +metaData(String, double, String) void
+        +showFile(File, double) void
+        +addmarker(double, int) void
+        +deleteMarker(double, int) void
+        +ChangeTheme(int) void
+    }
+
+    class SessionManager {
+        +saveSession(PlayerAudio, PlayerGUI) void
+        +loadSession(PlayerAudio, PlayerGUI) bool
+        +getSessionFile() File
+    }
+
+    class AudioAppComponent
+    class ButtonListener
+    class SliderListener
+    class Timer
+    class MouseListener
+    class Component
+    class ListBoxModel
+    class ChangeListener
+
+    %% Relationships
+    SimpleAudioPlayer "1" --o "1" MainWindow : creates
+    MainWindow "1" --* "1" MainComponent : contains
+    MainComponent "1" --* "1" PlayerAudio : manages
+    MainComponent "1" --* "2" PlayerGUI : controls
+    MainComponent "1" --* "1" SessionManager : persists
+
+    %% Inheritance from JUCE
+    MainComponent --|> AudioAppComponent
+    MainComponent --|> ButtonListener
+    MainComponent --|> SliderListener
+    MainComponent --|> Timer
+    MainComponent --|> MouseListener
+
+    PlayerAudio --|> AudioAppComponent
+    PlayerAudio --|> ChangeListener
+
+    PlayerGUI --|> Component
+    PlayerGUI --|> ListBoxModel
+    PlayerGUI --|> MouseListener

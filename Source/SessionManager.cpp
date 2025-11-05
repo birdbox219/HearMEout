@@ -252,7 +252,7 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
         // Add to GUI playlist with time
         PlayerGUI::fileInfo info;
         info.file = file;
-        info.time = fileElement->getIntAttribute("time", 0);
+        info.time = fileElement->getDoubleAttribute("time", 0);
 
         // i hate my life wallahy so confusing. this is for loading markers.
         for (auto* markerEl = fileElement->getFirstChildElement();

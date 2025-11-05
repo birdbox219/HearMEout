@@ -1,10 +1,11 @@
-#include "PlayerAudio.h"
+﻿#include "PlayerAudio.h"
 
 PlayerAudio::PlayerAudio()
 
 {
 	formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
+	transportSource2.addChangeListener(this);
 
     respeeder.setResamplingRatio(1.0);
     respeeder2.setResamplingRatio(1.0);

@@ -770,6 +770,8 @@ void PlayerGUI::ChangeTheme(int themeIndex)
             BinaryData::DoctorXTheme3_png,
             BinaryData::DoctorXTheme3_pngSize);
         break;
+
+    
     }
 
     repaint();
