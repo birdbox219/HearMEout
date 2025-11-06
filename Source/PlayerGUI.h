@@ -86,7 +86,7 @@ public:
     juce::TextButton loadButton{ "Load Files" };
     //juce::TextButton goStartButton{ "Go to start" };
     //juce::TextButton goEndButton{ "Go to end" };
-    juce::TextButton loopButton{ "Loop" };
+    juce::ImageButton loopButton;
 
     juce::ArrowButton startIcon{ "Play" , 0.0f , juce::Colours::yellow.withAlpha(0.6f)};
     //juce::TextButton stopButton{ "Stop" };
@@ -107,7 +107,9 @@ public:
     juce::Image muteimage;
     juce::Image unmuteimage;
     juce::ImageButton stopButtonIcon;
-
+    juce::Image normalModeImage;
+    juce::Image shuffleModeImage;
+    juce::Image repeatModeImage;
   
 
     //marker_button

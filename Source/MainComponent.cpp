@@ -21,7 +21,10 @@ MainComponent::MainComponent()
     //i changed things here to make it work.
     isStartWindow = true;//here
     addAndMakeVisible(playerGUI);
-
+    playerGUI.loopButton.setImages(false, true, true,//you can remove it and put it somewhere else still test.
+                                    playerGUI.normalModeImage, 1.0f, juce::Colours::transparentWhite,
+                                    playerGUI.normalModeImage, 0.9f, juce::Colours::transparentWhite,
+                                    playerGUI.normalModeImage, 1.0f, juce::Colours::transparentWhite);
     playerGUI.setVisible(false);
     addAndMakeVisible(startButton);//here
     startButton.addListener(this);
@@ -67,6 +70,15 @@ MainComponent::MainComponent()
     playerGUI.skipBackButton.onClick = [this] { player.skipBackward(10.0); };
     playerGUI.skipForwardButton.onClick = [this] { player.skipForward(10.0); }; 
 
+
+    player.onTrackFinished = [this]()
+    {
+        juce::MessageManager::callAsync([this]()
+        {
+            buttonClicked(&playerGUI.goEndButton);
+        });
+    };
+
     //addmarker action
     playerGUI.addMarkerButton.onClick = [this]
     {
@@ -109,6 +121,10 @@ MainComponent::MainComponent()
     //================================================================== track2
     addAndMakeVisible(playerGUI2);
     playerGUI2.setVisible(false);
+    playerGUI2.loopButton.setImages(false, true, true,//same heree
+                                playerGUI2.normalModeImage, 1.0f, juce::Colours::transparentWhite,
+                                playerGUI2.normalModeImage, 0.9f, juce::Colours::transparentWhite,
+                                playerGUI2.normalModeImage, 1.0f, juce::Colours::transparentWhite);
 
     playerGUI2.loadButton.addListener(this);
     playerGUI2.selectButton.addListener(this);
@@ -170,6 +186,7 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
     player.prepareToPlay(samplesPerBlockExpected, sampleRate);
   
 }
+
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
@@ -382,27 +399,126 @@ void MainComponent::buttonClicked(juce::Button* button)
         playerGUI.progressSlider.setValue(0.0);
     }
     else if (button == &playerGUI.goEndButton) {
-        player.goEnd();
-        playerGUI.progressSlider.setValue(0.0);
+        if (playerGUI.files.empty())
+        {
+            player.goEnd();
+            playerGUI.progressSlider.setValue(0.0);
+            return;
+        }
+
+        int currentRow = playerGUI.playList.getSelectedRow();
+        if (currentRow < 0) currentRow = playerGUI.sendRow;
+        if (currentRow < 0) currentRow = 0;
+
+        int nextRow = currentRow;
+
+        if (playMode == normalMode)
+        {
+            nextRow = currentRow + 1;
+            if (nextRow >= static_cast<int>(playerGUI.files.size()))
+                nextRow = 0; 
+        }
+        else if (playMode == shuffleMode)
+        {
+        size_t n = playerGUI.files.size();
+        if (n <= 1)
+        {
+            nextRow = currentRow;
+        }
+        else
+        {
+            juce::Random r;
+            int candidate = currentRow;
+            int tries = 0;
+
+            do {
+                candidate = r.nextInt(static_cast<int>(n));
+                tries++;
+            } while (candidate == currentRow && tries < 50);
+            
+            if (candidate == currentRow)
+                candidate = (currentRow + 1) % static_cast<int>(n);
+
+            nextRow = candidate;
+        }
+        }
+        else if (playMode == loopMode)
+        {
+            player.goStart();
+            player.Start();
+            HideButtons(playerGUI.startIcon);
+            ShowButtons(playerGUI.stopButtonIcon);
+            isPlaying = true;
+            playerGUI.progressSlider.setValue(0.0);
+            playerGUI.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+            return;
+        }
+
+        if (nextRow >= 0 && nextRow < static_cast<int>(playerGUI.files.size()))
+        {
+            juce::File nextFile = playerGUI.files[nextRow].file;
+            juce::String author = player.loadFile(nextFile);
+            double totalTime = player.getTotalLength();
+
+            juce::String fileName = nextFile.getFileNameWithoutExtension();
+            playerGUI.metaData(fileName, totalTime, author);
+            playerGUI.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+
+            playerGUI.playList.selectRow(nextRow);
+            playerGUI.sendRow = nextRow;
+            playerGUI.sendFile = nextFile;
+
+            player.Start();
+            HideButtons(playerGUI.startIcon);
+            ShowButtons(playerGUI.stopButtonIcon);
+            isPlaying = true;
+
+            playerGUI.progressSlider.setValue(0.0);
+            playerGUI.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+        }
     }
 
     else if (button == &playerGUI.loopButton)
     {
-        bool currentlyLooping = player.isLooping();
-        player.setLooping(!currentlyLooping);
+    if (playMode == normalMode)
+        playMode = shuffleMode;
+    else if (playMode == shuffleMode)
+        playMode = loopMode;
+    else
+        playMode = normalMode;
 
-        playerGUI.loopButton.setColour(
-            juce::TextButton::buttonColourId,
-            player.isLooping() ? juce::Colours::orangered : juce::Colours::darkgrey.withAlpha(0.2f)
-        );
+    switch (playMode)
+    {
+        case normalMode:
+            playerGUI.loopButton.setImages(
+                false, true, true,
+                playerGUI.normalModeImage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI.normalModeImage, 0.9f, juce::Colours::transparentWhite,
+                playerGUI.normalModeImage, 1.0f, juce::Colours::transparentWhite
+            );
+            player.setLooping(false);
+            break;
 
-        if (player.isLooping() && playerGUI.abLoopActive)
-        {
-            playerGUI.abLoopActive = false;
-            player.setABLoop(false);
-            playerGUI.abStartButton.setButtonText("Start A-B");
-            
-        }
+        case shuffleMode:
+            playerGUI.loopButton.setImages(
+                false, true, true,
+                playerGUI.shuffleModeImage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI.shuffleModeImage, 0.9f, juce::Colours::transparentWhite,
+                playerGUI.shuffleModeImage, 1.0f, juce::Colours::transparentWhite
+            );
+            player.setLooping(false);
+            break;
+
+        case loopMode:
+            playerGUI.loopButton.setImages(
+                false, true, true,
+                playerGUI.repeatModeImage, 1.0f, juce::Colours::transparentWhite,
+                playerGUI.repeatModeImage, 0.9f, juce::Colours::transparentWhite,
+                playerGUI.repeatModeImage, 1.0f, juce::Colours::transparentWhite
+            );
+            player.setLooping(true);
+            break;
+    }
 
 
     }
@@ -521,6 +637,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite,
             playerGUI.unmuteimage, 1.0f, juce::Colours::transparentWhite
         );
+        
     }
     else
     {
@@ -640,31 +757,125 @@ void MainComponent::buttonClicked(juce::Button* button)
         player.goStart2();
             playerGUI2.progressSlider.setValue(0.0);
             }
-    else if (button == &playerGUI2.goEndButton) {
+    else if (button == &playerGUI2.goEndButton)
+{
+    if (playerGUI2.files.empty())
+    {
         player.goEnd2();
-                playerGUI2.progressSlider.setValue(0.0);
-                }
+        playerGUI2.progressSlider.setValue(0.0);
+        return;
+    }
+
+    int currentRow = playerGUI2.playList.getSelectedRow();
+    if (currentRow < 0) currentRow = playerGUI2.sendRow;
+    if (currentRow < 0) currentRow = 0;
+
+    int nextRow = currentRow;
+
+    if (playMode2 == normalMode)
+    {
+        nextRow = currentRow + 1;
+        if (nextRow >= static_cast<int>(playerGUI2.files.size()))
+            nextRow = 0;
+    }
+    else if (playMode2 == shuffleMode)
+    {
+        size_t n = playerGUI2.files.size();
+        if (n <= 1)
+        {
+            nextRow = currentRow;
+        }
+        else
+        {
+            juce::Random r;
+            int candidate = currentRow;
+            int tries = 0;
+            do {
+                candidate = r.nextInt(static_cast<int>(n));
+                tries++;
+            } while (candidate == currentRow && tries < 50);
+
+            if (candidate == currentRow)
+                candidate = (currentRow + 1) % static_cast<int>(n);
+
+            nextRow = candidate;
+        }
+    }
+    else if (playMode2 == loopMode)
+    {
+        player.goStart2();
+        player.Start2();
+        HideButtons(playerGUI2.startIcon);
+        ShowButtons(playerGUI2.stopButtonIcon);
+        playerGUI2.progressSlider.setValue(0.0);
+        playerGUI2.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+        return;
+    }
+
+    if (nextRow >= 0 && nextRow < static_cast<int>(playerGUI2.files.size()))
+    {
+        juce::File nextFile = playerGUI2.files[nextRow].file;
+        juce::String author = player.loadFile2(nextFile);
+        double totalTime = player.getTotalLength2();
+
+        juce::String fileName = nextFile.getFileNameWithoutExtension();
+        playerGUI2.metaData(fileName, totalTime, author);
+        playerGUI2.TotalTimeLabel.setText(formatTime(totalTime), juce::dontSendNotification);
+
+        playerGUI2.playList.selectRow(nextRow);
+        playerGUI2.sendRow = nextRow;
+        playerGUI2.sendFile = nextFile;
+
+        player.Start2();
+        HideButtons(playerGUI2.startIcon);
+        ShowButtons(playerGUI2.stopButtonIcon);
+
+        playerGUI2.progressSlider.setValue(0.0);
+        playerGUI2.currentTimeLabel.setText("0:00", juce::dontSendNotification);
+    }
+}
+
 
     else if (button == &playerGUI2.loopButton)
+{
+    if (playMode2 == normalMode)
+        playMode2 = shuffleMode;
+    else if (playMode2 == shuffleMode)
+        playMode2 = loopMode;
+    else
+        playMode2 = normalMode;
+
+    switch (playMode2)
     {
-        bool currentlyLooping = player.isLooping2();
-        player.setLooping2(!currentlyLooping);
+        case normalMode:
+            
+                playerGUI2.loopButton.setImages(false, true, true,
+                                                playerGUI2.normalModeImage, 1.0f, juce::Colours::transparentWhite,
+                                                playerGUI2.normalModeImage, 0.9f, juce::Colours::transparentWhite,
+                                                playerGUI2.normalModeImage, 1.0f, juce::Colours::transparentWhite);
+            player.setLooping2(false);
+            break;
 
-        playerGUI2.loopButton.setColour(
-            juce::TextButton::buttonColourId,
-            player.isLooping2() ? juce::Colours::orangered : juce::Colours::darkgrey.withAlpha(0.05f)
-        );
+        case shuffleMode:
+            
+                playerGUI2.loopButton.setImages(false, true, true,
+                                                playerGUI2.shuffleModeImage, 1.0f, juce::Colours::transparentWhite,
+                                                playerGUI2.shuffleModeImage, 0.9f, juce::Colours::transparentWhite,
+                                                playerGUI2.shuffleModeImage, 1.0f, juce::Colours::transparentWhite);
+            player.setLooping2(false);
+            break;
 
-        if (player.isLooping2() && playerGUI2.abLoopActive)
-        {
-            playerGUI2.abLoopActive = false;
-            player.setABLoop2(false);
-            playerGUI2.abStartButton.setButtonText("Start A-B");
-            playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::darkgrey.withAlpha(0.05f));
-        }
+        case loopMode:
+            
+                playerGUI2.loopButton.setImages(false, true, true,
+                                                playerGUI2.repeatModeImage, 1.0f, juce::Colours::transparentWhite,
+                                                playerGUI2.repeatModeImage, 0.9f, juce::Colours::transparentWhite,
+                                                playerGUI2.repeatModeImage, 1.0f, juce::Colours::transparentWhite);
+            player.setLooping2(true);
+            break;
+    }
+}
 
-
-        }
 
     else if (button == &playerGUI2.abLoopButton)
     {

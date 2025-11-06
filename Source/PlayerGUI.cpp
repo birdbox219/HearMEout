@@ -101,6 +101,10 @@ PlayerGUI::PlayerGUI()
     muteimage = juce::ImageFileFormat::loadFrom(BinaryData::volume_png,BinaryData::volume_pngSize);
     unmuteimage = juce::ImageFileFormat::loadFrom(BinaryData::no_volume_png,BinaryData::no_volume_pngSize);
 
+    normalModeImage  = juce::ImageFileFormat::loadFrom(BinaryData::normal_mode_png,  BinaryData::normal_mode_pngSize);
+    shuffleModeImage = juce::ImageFileFormat::loadFrom(BinaryData::shufle_mode_png, BinaryData::shufle_mode_pngSize);
+    repeatModeImage  = juce::ImageFileFormat::loadFrom(BinaryData::repeat_mode_png,  BinaryData::repeat_mode_pngSize);
+
 
 
     
@@ -181,7 +185,6 @@ PlayerGUI::PlayerGUI()
     };
 
     styleButton(loadButton, juce::Colours::darkblue);
-    styleButton(loopButton, juce::Colours::darkgrey);
     styleButton(abLoopButton, juce::Colours::darkgrey);
     styleButton(abStartButton, juce::Colours::darkgrey);
     styleButton(addToListButton, juce::Colours::darkblue);
@@ -329,7 +332,7 @@ void PlayerGUI::paint(juce::Graphics& g)
     }
 
     const auto& f = files[row];
-    double len = std::max((double)f.time, 0.001);
+    double len =std::max(f.time,0.001);
     auto area = progressSlider.getBounds().toFloat();
     float y1 = area.getY();
     float y2 = area.getBottom();
@@ -844,11 +847,11 @@ void PlayerGUI::addmarker(double currentTime, int selectedRow )
     }
 
     auto& song = files[selectedRow];
-    double songLen = std::max((double)song.time, 0.001);
+    double songLen = std::max(song.time, 0.001);
 
     double markerTime = std::clamp(currentTime,0.0, songLen);
 
-    const double eps = 0.05;//change this for closer lines.  bet5aly el lines gamb ba3d ka2enohom wa7ed.
+    const double eps = 0.01;//change this for closer lines.  bet5aly el lines gamb ba3d ka2enohom wa7ed.
     for (double existing : song.markersTime)
     {
         if (std::abs(existing - markerTime) < eps)
