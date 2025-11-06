@@ -36,11 +36,15 @@ void SessionManager::saveSession(PlayerAudio& audio, PlayerGUI& gui)
     audioElement->setAttribute("abStartPosition", audio.getABStart());
     audioElement->setAttribute("abEndPosition", audio.getABEnd());
 
-    // ========== GUI STATE ==========
+    // GUI STATE 
     auto* guiElement = root.createNewChildElement("GUI");
 
     // Theme
     guiElement->setAttribute("currentTheme", gui.currentThemeIndex);
+    if (gui.customThemePath.isNotEmpty())
+    {
+        guiElement->setAttribute("customThemePath", gui.customThemePath);
+    }
 
     // Slider positions
     guiElement->setAttribute("volumeSlider", gui.volumeSlider.getValue());
@@ -168,7 +172,39 @@ bool SessionManager::loadSession(PlayerAudio& audio, PlayerGUI& gui)
     {
         // Theme
         gui.currentThemeIndex = guiElement->getIntAttribute("currentTheme", 0);
-        gui.ChangeTheme(gui.currentThemeIndex); 
+        //gui.ChangeTheme(gui.currentThemeIndex);
+        juce::String customPath = guiElement->getStringAttribute("customThemePath", "");
+        if (customPath.isNotEmpty())
+        {
+            juce::File customThemeFile(customPath);
+            if (customThemeFile.existsAsFile())
+            {
+                juce::Image customImage = juce::ImageFileFormat::loadFrom(customThemeFile);
+                if (customImage.isValid())
+                {
+                    gui.backgroundImage = customImage;
+                    gui.customThemePath = customPath;
+                    DBG("Custom theme restored from: " + customPath);
+                }
+                else
+                {
+                    
+                    DBG("Custom theme file exists but couldn't be loaded, using default theme");
+                    gui.ChangeTheme(0);
+                }
+            }
+            else
+            {
+                
+                DBG("Custom theme file no longer exists, using default theme");
+                gui.ChangeTheme(0);
+            }
+        }
+        else
+        {
+            // No custom theme, load built-in theme
+            gui.ChangeTheme(gui.currentThemeIndex);
+        }
 
         // sliders
         gui.volumeSlider.setValue(guiElement->getDoubleAttribute("volumeSlider", 0.5),

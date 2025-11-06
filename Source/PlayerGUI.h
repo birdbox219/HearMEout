@@ -139,7 +139,10 @@ public:
 	//Theme Bground Image
 	juce::Image backgroundImage;
     juce::TextButton changeThemeButton{ "Theme" };
+    juce::TextButton loadCustomThemeButton{ "Custom" };
     int currentThemeIndex = 0;
+    juce::String customThemePath;
+
 
 
 
@@ -171,10 +174,13 @@ public:
     void mouseExit(const juce::MouseEvent& e) override;
 
 	void ChangeTheme(int themeIndex = -1);
+    void LoadCustomTheme();
     
     //adding marker.
     void addmarker(double currTime,int lastRowSelected);
     void deleteMarker(double currTime, int lastRowSelected);
+
+
 
 
     juce::File sendFile;
@@ -211,6 +217,7 @@ public:
 
 private:
     int hoveredRow = -1;
+    std::unique_ptr<juce::FileChooser> themeFileChooser;
 
     
     

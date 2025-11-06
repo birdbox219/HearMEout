@@ -18,6 +18,14 @@ PlayerGUI::PlayerGUI()
     {
         ChangeTheme();
     };
+
+    addAndMakeVisible(loadCustomThemeButton);
+    loadCustomThemeButton.setButtonText("Custom");
+    loadCustomThemeButton.onClick = [this]()
+        {
+            LoadCustomTheme();
+        };
+
     // --- START: Ensure marker buttons belong to this PlayerGUI and are visible ---
     addAndMakeVisible(addMarkerButton);
     addAndMakeVisible(removeMarkerButton);
@@ -180,6 +188,7 @@ PlayerGUI::PlayerGUI()
     styleButton(resetButton, juce::Colours::mediumvioletred);
     styleButton(selectButton, juce::Colours::green);
     styleButton(changeThemeButton, juce::Colours::darkblue);
+    styleButton(loadCustomThemeButton, juce::Colours::purple);
 
     playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::black.withAlpha(0.05f));
     playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.05f));
@@ -225,51 +234,64 @@ void PlayerGUI::paint(juce::Graphics& g)
 
         juce::ColourGradient gradient;
 
-        switch (currentThemeIndex)
+
+        if (currentThemeIndex == 3)
         {
-        case 0: // Makima Theme - Red/Pink gradient (power, intensity)
             gradient = juce::ColourGradient(
-                juce::Colour(0xffDC2626).withAlpha(0.4f),  // Red
+                juce::Colour(0xff1E1E1E).withAlpha(0.3f),
                 0.0f, 0.0f,
-                juce::Colour(0xff7C3AED).withAlpha(0.65f), // Purple
+                juce::Colour(0xff2D2D2D).withAlpha(0.4f),
                 0.0f, (float)getHeight(),
                 false);
-            gradient.addColour(0.5, juce::Colour(0xffDB2777).withAlpha(0.55f)); // Pink
-            break;
-
-        case 1: // Nier Automata Theme - Cool Blue/Teal gradient (sci-fi, melancholic)
-            gradient = juce::ColourGradient(
-                juce::Colour(0xff1E293B).withAlpha(0.5f),  // Dark slate
-                0.0f, 0.0f,
-                juce::Colour(0xff0891B2).withAlpha(0.6f),  // Cyan
-                0.0f, (float)getHeight(),
-                false);
-            gradient.addColour(0.5, juce::Colour(0xff0F172A).withAlpha(0.55f)); // Very dark blue
-            break;
-
-        case 2: // Doctor X Theme - Purple/Blue gradient (medical, professional)
-            gradient = juce::ColourGradient(
-                juce::Colour(0xff6B46C1).withAlpha(0.55f), // Deep purple
-                0.0f, 0.0f,
-                juce::Colour(0xff1E40AF).withAlpha(0.7f),  // Blue
-                0.0f, (float)getHeight(),
-                false);
-            gradient.addColour(0.5, juce::Colour(0xff4C1D95).withAlpha(0.6f)); // Mid purple
-            break;
-
-        default: // Fallback gradient
-            gradient = juce::ColourGradient(
-                juce::Colour(0xff6B46C1).withAlpha(0.6f),
-                0.0f, 0.0f,
-                juce::Colour(0xff1E3A8A).withAlpha(0.75f),
-                0.0f, (float)getHeight(),
-                false);
-            gradient.addColour(0.5, juce::Colour(0xff7C3AED).withAlpha(0.65f));
-            break;
         }
 
-        g.setGradientFill(gradient);
-        g.fillAll();
+        else
+        {
+            switch (currentThemeIndex)
+            {
+            case 0: // Makima Theme - Red/Pink gradient (power, intensity)
+                gradient = juce::ColourGradient(
+                    juce::Colour(0xffDC2626).withAlpha(0.4f),  // Red
+                    0.0f, 0.0f,
+                    juce::Colour(0xff7C3AED).withAlpha(0.65f), // Purple
+                    0.0f, (float)getHeight(),
+                    false);
+                gradient.addColour(0.5, juce::Colour(0xffDB2777).withAlpha(0.55f)); // Pink
+                break;
+
+            case 1: // Nier Automata Theme - Cool Blue/Teal gradient (sci-fi, melancholic)
+                gradient = juce::ColourGradient(
+                    juce::Colour(0xff1E293B).withAlpha(0.5f),  // Dark slate
+                    0.0f, 0.0f,
+                    juce::Colour(0xff0891B2).withAlpha(0.6f),  // Cyan
+                    0.0f, (float)getHeight(),
+                    false);
+                gradient.addColour(0.5, juce::Colour(0xff0F172A).withAlpha(0.55f)); // Very dark blue
+                break;
+
+            case 2: // Doctor X Theme - Purple/Blue gradient (medical, professional)
+                gradient = juce::ColourGradient(
+                    juce::Colour(0xff6B46C1).withAlpha(0.55f), // Deep purple
+                    0.0f, 0.0f,
+                    juce::Colour(0xff1E40AF).withAlpha(0.7f),  // Blue
+                    0.0f, (float)getHeight(),
+                    false);
+                gradient.addColour(0.5, juce::Colour(0xff4C1D95).withAlpha(0.6f)); // Mid purple
+                break;
+
+            default: // Fallback gradient
+                gradient = juce::ColourGradient(
+                    juce::Colour(0xff6B46C1).withAlpha(0.6f),
+                    0.0f, 0.0f,
+                    juce::Colour(0xff1E3A8A).withAlpha(0.75f),
+                    0.0f, (float)getHeight(),
+                    false);
+                gradient.addColour(0.5, juce::Colour(0xff7C3AED).withAlpha(0.65f));
+                break;
+            }
+
+            g.setGradientFill(gradient);
+            g.fillAll();
 
 
 
@@ -277,7 +299,10 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 
 
-    }
+        }
+        }
+
+        
     else
     {
         juce::ColourGradient gradient(
@@ -343,6 +368,7 @@ void PlayerGUI::resized()
 
 
     changeThemeButton.setBounds(getWidth() - 210, 30, 100, 40);
+    loadCustomThemeButton.setBounds(getWidth() - 210, 75, 100, 40);
 
     
     playList.setBounds(20, 70, 300, 300);
@@ -744,18 +770,21 @@ void PlayerGUI::ChangeTheme(int themeIndex)
         backgroundImage = juce::ImageFileFormat::loadFrom(
             BinaryData::MakimaTheme1_png,
             BinaryData::MakimaTheme1_pngSize);
+            customThemePath = "";
         break;
 
     case 1:
         backgroundImage = juce::ImageFileFormat::loadFrom(
             BinaryData::NierAutomataTheme2_png,
             BinaryData::NierAutomataTheme2_pngSize);
+            customThemePath = "";
         break;
 
     case 2:
         backgroundImage = juce::ImageFileFormat::loadFrom(
             BinaryData::DoctorXTheme3_png,
             BinaryData::DoctorXTheme3_pngSize);
+            customThemePath = "";
         break;
 
     
@@ -763,6 +792,44 @@ void PlayerGUI::ChangeTheme(int themeIndex)
 
     repaint();
 }
+
+
+void PlayerGUI::LoadCustomTheme()
+{
+    themeFileChooser = std::make_unique<juce::FileChooser>(
+        "Select a theme image...",
+        juce::File{},
+        "*.png;*.jpg;*.jpeg;*.bmp");
+
+    themeFileChooser->launchAsync(
+        juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
+        [this](const juce::FileChooser& fc)
+        {
+            auto file = fc.getResult();
+
+            if (file.existsAsFile())
+            {
+                // Try to load the image
+                juce::Image loadedImage = juce::ImageFileFormat::loadFrom(file);
+
+                if (loadedImage.isValid())
+                {
+                    backgroundImage = loadedImage;
+                    customThemePath = file.getFullPathName();
+                    currentThemeIndex = 3;  // Set to custom theme index
+
+                    DBG("Custom theme loaded: " + file.getFileName());
+                    repaint();
+                }
+                else
+                {
+                    DBG("Failed to load image file: " + file.getFileName());
+                    
+                }
+            }
+        });
+}
+
 
 void PlayerGUI::addmarker(double currentTime, int selectedRow )
 {
