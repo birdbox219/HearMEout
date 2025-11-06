@@ -697,20 +697,7 @@ void PlayerGUI::listBoxItemDoubleClicked(int row, const juce::MouseEvent&)
 
 void PlayerGUI::mouseMove(const juce::MouseEvent& e)
 {
-    //// convert to list-local coords if necessary:
-    //auto posInList = playList.getLocalPoint(e.eventComponent, e.getPosition());
-    //int row = playList.getRowContainingPosition(posInList.x, posInList.y);
-
-    //DBG("PlayerGUI::mouseMove x=" << posInList.x << " y=" << posInList.y << " row=" << row);
-
-    //// call repaintRow(old) and repaintRow(new) like we discussed
-    //static int lastRow = -1;
-    //if (row != lastRow)
-    //{
-    //    if (lastRow >= 0) playList.repaintRow(lastRow);
-    //    if (row >= 0) playList.repaintRow(row);
-    //    lastRow = row;
-    //}
+    
 
 
 

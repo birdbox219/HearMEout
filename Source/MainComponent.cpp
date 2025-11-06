@@ -274,6 +274,47 @@ bool MainComponent::keyPressed(const juce::KeyPress& key) {
         playerGUI.skipForwardButton.triggerClick();
         return true;
     }
+
+    else if (key == juce::KeyPress::upKey) {
+        float currentVolume = playerGUI.volumeSlider.getValue();
+        playerGUI.volumeSlider.setValue(juce::jmin(currentVolume + 0.1f, 1.0f));
+        return true;
+    }
+    else if (key == juce::KeyPress::downKey) {
+        float currentVolume = playerGUI.volumeSlider.getValue();
+        playerGUI.volumeSlider.setValue(juce::jmax(currentVolume - 0.1f, 0.0f));
+        return true;
+	}
+    else if (key == juce::KeyPress('m', 0, 0) || key == juce::KeyPress('M', 0, 0))
+    {
+		playerGUI.muteButton.triggerClick();
+		return true;
+    }
+
+    else if (key == juce::KeyPress('1', 0, 0))
+    {
+        // Switch to single track mode
+        if (!playerGUI2.isVisible())
+            return true; 
+
+        singleTrackButton.triggerClick();
+        return true;
+    }
+    else if (key == juce::KeyPress('2', 0, 0))
+    {
+        
+        if (playerGUI2.isVisible())
+            return true; 
+
+        twoTracksButton.triggerClick();
+        return true;
+    }
+
+	else if (key == juce::KeyPress('l', 0, 0) || key == juce::KeyPress('L', 0, 0))
+    {
+		playerGUI.loopButton.triggerClick();
+    }
+
     return false;
 }
 
