@@ -88,7 +88,7 @@ PlayerGUI::PlayerGUI()
 
     speedSlider.setTextValueSuffix("x");
     speedSlider.setTextBoxStyle(juce::Slider::TextBoxRight, false, 60, 20);
-    speedSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow);
+    speedSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow.withAlpha(0.6f));
     speedSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
 
     // Icon Manager
@@ -121,7 +121,7 @@ PlayerGUI::PlayerGUI()
     volumeSlider.setValue(0.5);
     volumeSlider.setSliderStyle(juce::Slider::LinearBarVertical);
     volumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    volumeSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow);
+    volumeSlider.setColour(juce::Slider::trackColourId, juce::Colours::yellow.withAlpha(0.6f));
     volumeSlider.setColour(juce::Slider::thumbColourId, juce::Colours::yellow);
 
     addAndMakeVisible(volumeSlider);
