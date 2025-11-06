@@ -78,8 +78,15 @@ private:
 
     juce::String authorName = "Unknown";
 
-    
-    
+    enum PlayMode
+    {
+        normalMode = 0,   
+        shuffleMode,      
+        loopMode          
+    };
+
+    PlayMode playMode = normalMode;
+    PlayMode playMode2 = normalMode;
  
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };

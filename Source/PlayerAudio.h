@@ -125,6 +125,9 @@ public:
 	bool abLoopEnabled2 = false;
 	double abStartPosition2 = 0.0;
 	double abEndPosition2 = 0.0;
+	//for calling that the song has ended.
+	std::function<void()> onTrackFinished;
+	
 
 	
 	

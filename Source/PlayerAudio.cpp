@@ -366,7 +366,7 @@ void PlayerAudio::setABLoop2(bool enabled)
     // If enabling A-B loop, disable regular loop
     if (enabled && isLoopingEnabled2)
     {
-        setLooping(false);
+        setLooping2(false);//fixed a bug here. it was setlooping(false) not setlooping2(false).
     }
 }
 
@@ -553,11 +553,11 @@ void PlayerAudio::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (source == &transportSource)
     {
-        if (transportSource.hasStreamFinished() && isLoopingEnabled)
-        {
-            transportSource.setPosition(0.0);
-            transportSource.start();
-        }
+        if (transportSource.hasStreamFinished())
+            {   
+                if (onTrackFinished != nullptr)
+                    onTrackFinished();
+            }
     }
     else if (source == &transportSource2)
     {
