@@ -188,7 +188,8 @@ PlayerGUI::PlayerGUI()
     styleButton(resetButton, juce::Colours::mediumvioletred);
     styleButton(selectButton, juce::Colours::green);
     styleButton(changeThemeButton, juce::Colours::darkblue);
-    styleButton(loadCustomThemeButton, juce::Colours::purple);
+    styleButton(loadCustomThemeButton, juce::Colours::darkgrey);
+
 
     playList.setColour(juce::ListBox::backgroundColourId, juce::Colours::black.withAlpha(0.05f));
     playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.05f));
