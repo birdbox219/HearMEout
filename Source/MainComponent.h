@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <JuceHeader.h>
 #include <vector>
@@ -41,7 +41,7 @@ public:
 
     // GUI MainWindow visuals 
     /*
-    * Dont touch them ! All effects and visuals will be refactored to PlayerUIvisuls.cpp & PlayerUIvisuals.h -Mahmod
+    * 
     * 
     */
     void mouseDown(const juce::MouseEvent& event) override;

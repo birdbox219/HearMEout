@@ -152,12 +152,7 @@ MainComponent::MainComponent()
     playerGUI2.skipForwardButton.setVisible(true);
     playerGUI2.addMarkerButton.setVisible(true);
     playerGUI2.removeMarkerButton.setVisible(true);   
-    // Add buttons
-   /* for (auto* btn : { &loadButton, &playButton , &stopButton  })
-    {
-        btn->addListener(this);
-        addAndMakeVisible(btn);
-    }*/
+   
 
     
 
@@ -175,7 +170,7 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     sessionManager.saveSession(player, playerGUI);
-	//PlayerGUI().~PlayerGUI();
+	
     shutdownAudio();
 	
 
@@ -224,16 +219,7 @@ void MainComponent::paint(juce::Graphics& g)
 
 void MainComponent::resized()
 {
-  /*  if (isStartWindow)
-    {
-        startButton.setBounds(getWidth() / 2 - 50, getHeight() - 60, 100, 40);
-    }
-
-    singleTrackButton.setBounds(getWidth() - 400, 30, 100, 40);
-    
-    twoTracksButton.setBounds(getWidth() - 320, 30, 100, 40);
-    playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
-    playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));*/
+  
 
 
 
@@ -265,7 +251,7 @@ void MainComponent::resized()
             // Single track mode - use full width
             playerGUI.setBounds(bounds);
             playerGUI.resized();//amr-put-this.
-            // Position button at the top-right of the full area
+            
             twoTracksButton.setBounds(getWidth() - 320, 30, 100, 40);
         }
     }
@@ -382,13 +368,13 @@ void MainComponent::buttonClicked(juce::Button* button)
 
     }
 
-    else if (button == &playerGUI.startIcon /*|| juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey)*/)
+    else if (button == &playerGUI.startIcon )
     {
         player.Start();
         HideButtons(playerGUI.startIcon);
         ShowButtons(playerGUI.stopButtonIcon);
     }
-    else if (button == &playerGUI.stopButtonIcon /*|| juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey)*/)
+    else if (button == &playerGUI.stopButtonIcon )
     {
         player.Stop();
         HideButtons(playerGUI.stopButtonIcon);
@@ -598,7 +584,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             }
 
             playerGUI.abStartButton.setButtonText("Stop A-B");
-            //playerGUI.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
+            
 
 
             player.setPosition(startTime);
@@ -952,7 +938,7 @@ void MainComponent::buttonClicked(juce::Button* button)
             }
 
             playerGUI2.abStartButton.setButtonText("Stop A-B");
-            //playerGUI2.abStartButton.setColour(juce::TextButton::buttonColourId, juce::Colours::cyan);
+            
 
 
             player.setPosition2(startTime);
@@ -1047,8 +1033,7 @@ void MainComponent::buttonClicked(juce::Button* button)
         playerGUI2.setVisible(false);
         playerGUI.addMarkerButton.setVisible(true);
         playerGUI.removeMarkerButton.setVisible(true);
-        //addAndMakeVisible(playerGUI.addMarkerButton);
-        //addAndMakeVisible(playerGUI.removeMarkerButton);
+        
         playerGUI.setBounds(getLocalBounds());
 
        
@@ -1067,8 +1052,7 @@ void MainComponent::buttonClicked(juce::Button* button)
 
         playerGUI2.addMarkerButton.setVisible(true);
         playerGUI2.removeMarkerButton.setVisible(true);
-     /*playerGUI.setBounds(getLocalBounds().removeFromLeft(getLocalBounds().getWidth() / 2));
-     playerGUI2.setBounds(getLocalBounds().removeFromRight(getLocalBounds().getWidth() / 2));*/
+    
 	 
      repaint();
 	 resized();
@@ -1095,18 +1079,7 @@ void MainComponent::buttonClicked(juce::Button* button)
      repaint();
 	 resized();
  }
- /*else if (button == &homeButton) {
-     isStartWindow = true;
-     singleTrackButton.setVisible(true);
-     twoTracksButton.setVisible(true);
-     playerGUI.setVisible(false);
-     playerGUI2.setVisible(false);
-     homeButton.setVisible(false);
-     player.Stop2();
-     player.Stop();
 
-     repaint();
-                            }*/
 
 }  
 

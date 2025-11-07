@@ -198,8 +198,7 @@ PlayerGUI::PlayerGUI()
     playList.setColour(juce::ListBox::outlineColourId, juce::Colours::white.withAlpha(0.05f));
     playList.setColour(juce::ListBox::textColourId, juce::Colours::white);
 
-    /*playList.setColour(juce::ScrollBar::thumbColourId, juce::Colours::yellow.withAlpha(0.4f));
-    playList.setColour(juce::ScrollBar::trackColourId, juce::Colours::black.withAlpha(0.1f));*/
+    
 
     auto& scrollbar = playList.getVerticalScrollBar();
     scrollbar.setColour(juce::ScrollBar::thumbColourId, juce::Colours::yellow.withAlpha(0.6f));
@@ -225,14 +224,7 @@ void PlayerGUI::paint(juce::Graphics& g)
         g.drawImage(backgroundImage,
             getLocalBounds().toFloat(),
             juce::RectanglePlacement::stretchToFit);
-     /*   juce::ColourGradient gradient(
-            juce::Colour(0xffDB2777).withAlpha(0.5f),
-            0.0f, 0.0f,
-            juce::Colour(0xff7C3AED).withAlpha(0.65f),
-            0.0f, (float)getHeight(),
-            false);
-        g.setGradientFill(gradient);
-        g.fillAll();*/
+     
 
 		//you can change as you want :)))))))))))))))))))))))))
 
@@ -253,7 +245,7 @@ void PlayerGUI::paint(juce::Graphics& g)
         {
             switch (currentThemeIndex)
             {
-            case 0: // Makima Theme - Red/Pink gradient (power, intensity)
+            case 0: // Makima Theme - Red/Pink gradient
                 gradient = juce::ColourGradient(
                     juce::Colour(0xffDC2626).withAlpha(0.4f),  // Red
                     0.0f, 0.0f,
@@ -263,7 +255,7 @@ void PlayerGUI::paint(juce::Graphics& g)
                 gradient.addColour(0.5, juce::Colour(0xffDB2777).withAlpha(0.55f)); // Pink
                 break;
 
-            case 1: // Nier Automata Theme - Cool Blue/Teal gradient (sci-fi, melancholic)
+            case 1: // Nier Automata Theme - Cool Blue/Teal gradient 
                 gradient = juce::ColourGradient(
                     juce::Colour(0xff1E293B).withAlpha(0.5f),  // Dark slate
                     0.0f, 0.0f,
@@ -273,7 +265,7 @@ void PlayerGUI::paint(juce::Graphics& g)
                 gradient.addColour(0.5, juce::Colour(0xff0F172A).withAlpha(0.55f)); // Very dark blue
                 break;
 
-            case 2: // Doctor X Theme - Purple/Blue gradient (medical, professional)
+            case 2: // Doctor X Theme - Purple/Blue gradient 
                 gradient = juce::ColourGradient(
                     juce::Colour(0xff6B46C1).withAlpha(0.55f), // Deep purple
                     0.0f, 0.0f,
@@ -283,7 +275,7 @@ void PlayerGUI::paint(juce::Graphics& g)
                 gradient.addColour(0.5, juce::Colour(0xff4C1D95).withAlpha(0.6f)); // Mid purple
                 break;
 
-            default: // Fallback gradient
+            default: 
                 gradient = juce::ColourGradient(
                     juce::Colour(0xff6B46C1).withAlpha(0.6f),
                     0.0f, 0.0f,
@@ -633,12 +625,12 @@ if (rowNumber < files.size())
         g.setColour(juce::Colours::white.withAlpha(0.08f));
         g.fillRoundedRectangle(4, 2, width - 8, height - 4, 8.0f);
 
-        // Subtle left accent on hover
+        
         g.setColour(juce::Colours::yellow.withAlpha(0.3f));
         g.fillRoundedRectangle(8, 10, 2, height - 20, 1.0f);
     }
 
-    // Draw track number
+    
     g.setColour(juce::Colours::white.withAlpha(0.4f));
     g.setFont(juce::Font(11.0f, juce::Font::bold));
     g.drawText(juce::String(rowNumber + 1),
@@ -673,7 +665,7 @@ if (rowNumber < files.size())
         width - 75, 0, 60, height,
         juce::Justification::centredRight, true);
 
-    // Draw subtle separator line between items (not on last item)
+    // Draw subtle separator line between items 
     if (rowNumber < files.size() - 1)
     {
         g.setColour(juce::Colours::white.withAlpha(0.05f));
@@ -813,7 +805,7 @@ void PlayerGUI::LoadCustomTheme()
 
             if (file.existsAsFile())
             {
-                // Try to load the image
+                
                 juce::Image loadedImage = juce::ImageFileFormat::loadFrom(file);
 
                 if (loadedImage.isValid())

@@ -11,10 +11,10 @@ public:
     SessionManager() = default;
     ~SessionManager() = default;
 
-    // Save complete application state
+    // Save 
     void saveSession(PlayerAudio& audio, PlayerGUI& gui);
 
-    // Load complete application state
+    // Load 
     bool loadSession(PlayerAudio& audio, PlayerGUI& gui);
 
     // Get session file location

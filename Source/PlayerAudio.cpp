@@ -1,4 +1,4 @@
-#include "PlayerAudio.h"
+﻿#include "PlayerAudio.h"
 
 PlayerAudio::PlayerAudio()
 
@@ -13,7 +13,7 @@ PlayerAudio::PlayerAudio()
     mixer.addInputSource(&respeeder, false);
     mixer.addInputSource(&respeeder2, false);
 
-    //setAudioChannels(0, 2); // no inputs, 2 outputs
+    
 
 
 
