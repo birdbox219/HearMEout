@@ -47,7 +47,7 @@ The HearMeOut Audio Player is built using the JUCE framework, a powerful cross-p
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/HearMeOut.git
+   git clone https://github.com/birdbox219/HearMEout
    cd HearMeOut
    ```
 
